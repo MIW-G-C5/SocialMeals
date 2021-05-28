@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="NL-nl" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
+<head th:replace="fragments/general :: baseHeader(~{:: title})">
+    <title></title>
+</head>
+<body>
+<div>
+    <h1>Recipe Overview</h1>
+    <table>
+        <tr>
+            <th>Recipe Name</th>
+        </tr>
+        <tr th:each="recipe : ${allRecipes}">
+            <td><a th:text="${recipe.recipeName}"></a></td>
+        </tr>
+    </table>
+</div>
+
+<div th:replace="fragments/general :: bottomScripts"></div>
+</body>
+</html>

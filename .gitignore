@@ -2,7 +2,6 @@
 mvnw
 mvnw.cmd
 .mvn/wrapper/mavenwrapperdowloader.java
-src/main/resources/application.properties
 
 HELP.md
 target/
