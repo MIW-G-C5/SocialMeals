@@ -1,0 +1,15 @@
+body {
+    background-color: khaki;
+    font-size: 15px;
+}
+
+.container {
+    background-color: white;
+    width: 70%;
+    height: 90vh;
+    margin-left: 15%;
+    text-align: center;
+    padding: 20px;
+}
+
+
