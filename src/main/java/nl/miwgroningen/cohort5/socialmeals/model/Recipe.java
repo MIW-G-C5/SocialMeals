@@ -17,6 +17,7 @@ public class Recipe {
     private Long recipeId;
 
     private String recipeName;
+    private String description;
 
     public String getRecipeName() {
         return recipeName;
@@ -24,5 +25,13 @@ public class Recipe {
 
     public void setRecipeName(String recipeName) {
         this.recipeName = recipeName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

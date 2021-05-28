@@ -11,7 +11,7 @@
             <th>Recipe Name</th>
         </tr>
         <tr th:each="recipe : ${allRecipes}">
-            <td><a th:text="${recipe.recipeName}"></a></td>
+            <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a></td>
         </tr>
     </table>
 </div>
