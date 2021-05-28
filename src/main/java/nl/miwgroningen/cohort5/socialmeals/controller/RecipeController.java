@@ -1,5 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.controller;
 
+import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -34,10 +36,7 @@ public class RecipeController {
         if (recipes.isEmpty()) {
             return "redirect:/recipes";
         }
-
         model.addAttribute("recipe", recipes.get());
         return "recipeDetails";
     }
-
-
 }

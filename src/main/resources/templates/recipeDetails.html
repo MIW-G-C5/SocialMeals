@@ -11,6 +11,15 @@
 
     <p><span th:text="${recipe.description}"></span></p>
 
+    <table class="table">
+        <tr>
+            <th> Ingredients </th>
+        </tr>
+        <tr th:each="ingredient : ${recipe.likes}">
+            <td th:text="${ingredient.ingredientName}"></td>
+        </tr>
+    </table>
+
 </div>
 
 <div th:replace="fragments/general :: bottomScripts"></div>

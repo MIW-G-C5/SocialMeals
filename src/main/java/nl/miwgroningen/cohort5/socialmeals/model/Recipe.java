@@ -1,8 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -19,8 +18,15 @@ public class Recipe {
     private String recipeName;
     private String description;
 
+    @ManyToMany(mappedBy = "likedRecipes")
+    private Set<Ingredient> likes;
+
     public String getRecipeName() {
         return recipeName;
+    }
+
+    public Set<Ingredient> getLikes() {
+        return likes;
     }
 
     public void setRecipeName(String recipeName) {
