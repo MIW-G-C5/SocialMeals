@@ -1,15 +1,11 @@
 package nl.miwgroningen.cohort5.socialmeals.controller;
 
-import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
-import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
-import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
+import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
+import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -18,25 +14,25 @@ import java.util.Set;
 @Controller
 public class RecipeController {
 
-    private RecipeRepository recipeRepository;
+    private RecipeService recipeService;
 
-    public RecipeController(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 
     @GetMapping("/recipes")
     protected String showRecipes(Model model) {
-        model.addAttribute("allRecipes", recipeRepository.findAll());
+        model.addAttribute("allRecipes", recipeService.getAll());
         return "recipeOverview";
     }
 
     @GetMapping("/recipes/{recipeName}")
     protected String showRecipeDetails(@PathVariable("recipeName") String recipeName, Model model) {
-        Optional<Recipe> recipes = recipeRepository.findByRecipeName(recipeName);
-        if (recipes.isEmpty()) {
+        RecipeDTO recipe = recipeService.findByRecipeName(recipeName);
+        if (recipe == null) {
             return "redirect:/recipes";
         }
-        model.addAttribute("recipe", recipes.get());
+        model.addAttribute("recipe", recipe);
         return "recipeDetails";
     }
 }

@@ -21,6 +21,14 @@ public class Recipe {
     @ManyToMany(mappedBy = "likedRecipes")
     private Set<Ingredient> likes;
 
+    public Recipe(String recipeName, String description) {
+        this.recipeName = recipeName;
+        this.description = description;
+    }
+
+    public Recipe() {
+    }
+
     public String getRecipeName() {
         return recipeName;
     }
