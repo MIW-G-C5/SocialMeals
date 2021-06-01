@@ -18,8 +18,8 @@ public class Recipe {
     private String recipeName;
     private String description;
 
-    @ManyToMany(mappedBy = "likedRecipes")
-    private Set<Ingredient> likes;
+    @OneToMany(mappedBy = "recipe")
+    private Set<IngredientRecipe> ingredientQuantities;
 
     public Recipe(String recipeName, String description) {
         this.recipeName = recipeName;
@@ -33,10 +33,6 @@ public class Recipe {
         return recipeName;
     }
 
-    public Set<Ingredient> getLikes() {
-        return likes;
-    }
-
     public void setRecipeName(String recipeName) {
         this.recipeName = recipeName;
     }
@@ -47,5 +43,9 @@ public class Recipe {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<IngredientRecipe> getIngredientQuantities() {
+        return ingredientQuantities;
     }
 }

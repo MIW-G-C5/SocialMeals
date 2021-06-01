@@ -18,11 +18,15 @@ public class Ingredient {
 
     private String ingredientName;
 
-    @ManyToMany
-    @JoinTable(name = "recipe_like",
-            joinColumns = @JoinColumn(name = "ingredient_Id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_Id"))
-    private Set<Recipe> likedRecipes;
+    @OneToMany(mappedBy = "ingredient")
+    private Set<IngredientRecipe> ingredientQuantities;
+
+    public Ingredient(String ingredientName) {
+        this.ingredientName = ingredientName;
+    }
+
+    public Ingredient() {
+    }
 
     public String getIngredientName() {
         return ingredientName;
