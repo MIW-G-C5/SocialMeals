@@ -7,6 +7,7 @@ import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
+import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -22,20 +23,32 @@ import java.util.List;
 
 @Component
 public class Seeder {
+
     private RecipeService recipeService;
     private IngredientService ingredientService;
+    private SocialMealsUserDetailService socialMealsUserDetailService;
 
     @Autowired
-    public Seeder(RecipeService recipeService, IngredientService ingredientService) {
+    public Seeder(RecipeService recipeService,
+                  IngredientService ingredientService,
+                  SocialMealsUserDetailService socialMealsUserDetailService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
+        this.socialMealsUserDetailService = socialMealsUserDetailService;
     }
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
+        seedUser();
         seedIngredients();
         seedRecipes();
         seedIngredientRecipes();
+    }
+
+    private void seedUser() {
+        if (socialMealsUserDetailService.getAll().size() == 0) {
+            socialMealsUserDetailService.addSocialMealsUser("admin", "admin");
+        }
     }
 
     private void seedRecipes() {
