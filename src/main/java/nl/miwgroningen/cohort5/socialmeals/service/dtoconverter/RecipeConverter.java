@@ -1,16 +1,27 @@
 package nl.miwgroningen.cohort5.socialmeals.service.dtoconverter;
 
+import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
+import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
+import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author A.H. van Zessen
  */
 
 public class RecipeConverter {
+
+    private RecipeRepository recipeRepository;
+
+    public RecipeConverter(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
+    }
+
     public RecipeDTO toDTO(Recipe recipe) {
         return new RecipeDTO(recipe.getRecipeName(), recipe.getDescription());
     }
@@ -27,5 +38,16 @@ public class RecipeConverter {
 
     public Recipe fromDTO(RecipeDTO recipeDTO) {
         return new Recipe(recipeDTO.getRecipeName(), recipeDTO.getDescription());
+    }
+
+    public Recipe fromDTOToDatabaseRecipe(RecipeDTO recipeDTO){
+
+            Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeDTO.getRecipeName());
+            if(recipe.isPresent()){
+                return recipe.get();
+            } else {
+                return null;
+            }
+
     }
 }

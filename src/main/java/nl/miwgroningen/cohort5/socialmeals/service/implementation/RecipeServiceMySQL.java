@@ -10,6 +10,7 @@ import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientConverter;
+import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientRecipeConverter;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.RecipeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author A.H. van Zessen
@@ -30,8 +30,8 @@ public class RecipeServiceMySQL implements RecipeService {
     private final IngredientRepository ingredientRepository;
     private final IngredientRecipeRepository ingredientRecipeRepository;
 
-    RecipeConverter recipeConverter = new RecipeConverter();
-    IngredientConverter ingredientConverter = new IngredientConverter();
+    private RecipeConverter recipeConverter;
+    private IngredientRecipeConverter ingredientRecipeConverter;
 
     @Autowired
     public RecipeServiceMySQL(RecipeRepository recipeRepository,
@@ -40,6 +40,8 @@ public class RecipeServiceMySQL implements RecipeService {
         this.recipeRepository = recipeRepository;
         this.ingredientRecipeRepository = ingredientRecipeRepository;
         this.ingredientRepository = ingredientRepository;
+        recipeConverter = new RecipeConverter(recipeRepository);
+        ingredientRecipeConverter = new IngredientRecipeConverter(recipeRepository, ingredientRepository);
     }
 
     @Override
@@ -70,26 +72,7 @@ public class RecipeServiceMySQL implements RecipeService {
     @Transactional
     public void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeDTOS) {
         for (IngredientRecipeDTO ingredientRecipeDTO : ingredientRecipeDTOS) {
-
-            Optional<Recipe> recipe =
-                    recipeRepository.findByRecipeName(ingredientRecipeDTO.getRecipeDTO().getRecipeName());
-            Optional<Ingredient> ingredient =
-                    ingredientRepository.findByIngredientName(ingredientRecipeDTO.getIngredientDTO().getIngredientName());
-
-            if (recipe.isPresent() && ingredient.isPresent()) {
-
-                Recipe realRecipe = recipe.get();
-                Ingredient realIngredient = ingredient.get();
-
-                IngredientRecipe ingredientRecipe = new IngredientRecipe(
-                        realIngredient,
-                        realRecipe,
-                        ingredientRecipeDTO.getQuantity(),
-                        ingredientRecipeDTO.getQuantityType()
-                );
-
-                ingredientRecipeRepository.save(ingredientRecipe);
-            }
+            ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO));
         }
     }
 }

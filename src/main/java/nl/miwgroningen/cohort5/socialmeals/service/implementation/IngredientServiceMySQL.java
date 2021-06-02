@@ -21,11 +21,12 @@ public class IngredientServiceMySQL implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
 
-    IngredientConverter ingredientConverter = new IngredientConverter();
+    IngredientConverter ingredientConverter;
 
     @Autowired
     public IngredientServiceMySQL(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
+        ingredientConverter = new IngredientConverter(ingredientRepository);
     }
 
     @Override
