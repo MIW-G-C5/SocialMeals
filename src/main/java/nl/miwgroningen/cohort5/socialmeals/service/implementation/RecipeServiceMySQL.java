@@ -2,14 +2,12 @@ package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
-import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
-import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientConverter;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientRecipeConverter;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.RecipeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +73,20 @@ public class RecipeServiceMySQL implements RecipeService {
             ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO));
         }
     }
+
+    @Override
+    public List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName){
+
+        Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
+
+        if(recipe.isEmpty()){
+           return null;
+        }
+
+        List<IngredientRecipe> ingredientRecipeList = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
+        List<IngredientRecipeDTO> ingredientRecipeDTOList = ingredientRecipeConverter.toListDTO(ingredientRecipeList);
+
+        return ingredientRecipeDTOList;
+    }
+
 }

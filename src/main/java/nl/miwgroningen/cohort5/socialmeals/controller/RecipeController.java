@@ -33,6 +33,7 @@ public class RecipeController {
             return "redirect:/recipes";
         }
         model.addAttribute("recipe", recipe);
+        model.addAttribute("ingredientRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
         return "recipeDetails";
     }
 }

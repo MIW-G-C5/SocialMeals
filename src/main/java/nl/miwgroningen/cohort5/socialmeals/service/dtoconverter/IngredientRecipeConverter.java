@@ -7,7 +7,8 @@ import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Britt van Mourik
@@ -45,5 +46,25 @@ public class IngredientRecipeConverter {
         );
 
         return ingredientRecipe;
+    }
+
+    public IngredientRecipeDTO toDTO(IngredientRecipe ingredientRecipe){
+
+        return new IngredientRecipeDTO(
+                ingredientConverter.toDTO(ingredientRecipe.getIngredient()),
+                recipeConverter.toDTO(ingredientRecipe.getRecipe()),
+                ingredientRecipe.getQuantity(),
+                ingredientRecipe.getQuantityType());
+
+    }
+
+    public List<IngredientRecipeDTO> toListDTO(List<IngredientRecipe> ingredientRecipeList){
+       List<IngredientRecipeDTO> ingredientRecipeDTOList = new ArrayList<>();
+
+        for (IngredientRecipe ingredientRecipe : ingredientRecipeList) {
+            ingredientRecipeDTOList.add(toDTO(ingredientRecipe));
+        }
+
+        return ingredientRecipeDTOList;
     }
 }

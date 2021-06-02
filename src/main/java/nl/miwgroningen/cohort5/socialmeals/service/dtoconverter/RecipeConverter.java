@@ -1,8 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.service.dtoconverter;
 
-import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
-import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 

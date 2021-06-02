@@ -15,11 +15,13 @@
 
     <table class="table">
         <tr>
-            <th> Ingredients </th>
+            <th> Quantity </th>
+            <th> Ingredient </th>
         </tr>
-<!--        <tr th:each="ingredientQuantity : ${recipe.ingredientQuantities}">-->
-<!--            <td th:text="${ingredientQuantity.ingredient.ingredientName}"></td>-->
-<!--        </tr>-->
+        <tr th:each="ingredientRecipe : ${ingredientRecipes}">
+            <td th:text="${ingredientRecipe.quantity + ' ' + ingredientRecipe.quantityType}" ></td>
+            <td th:text="${ingredientRecipe.ingredientDTO.ingredientName}"></td>
+        </tr>
     </table>
 
 </div>
