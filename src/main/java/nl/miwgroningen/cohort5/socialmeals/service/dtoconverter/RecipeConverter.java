@@ -24,4 +24,8 @@ public class RecipeConverter {
 
         return returnList;
     }
+
+    public Recipe fromDTO(RecipeDTO recipeDTO) {
+        return new Recipe(recipeDTO.getRecipeName(), recipeDTO.getDescription());
+    }
 }

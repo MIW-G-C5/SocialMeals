@@ -1,15 +1,23 @@
 package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
+import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
+import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
+import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
+import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository;
+import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
+import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientConverter;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.RecipeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author A.H. van Zessen
@@ -19,12 +27,19 @@ import java.util.Optional;
 public class RecipeServiceMySQL implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
+    private final IngredientRecipeRepository ingredientRecipeRepository;
 
     RecipeConverter recipeConverter = new RecipeConverter();
+    IngredientConverter ingredientConverter = new IngredientConverter();
 
     @Autowired
-    public RecipeServiceMySQL(RecipeRepository recipeRepository) {
+    public RecipeServiceMySQL(RecipeRepository recipeRepository,
+                              IngredientRecipeRepository ingredientRecipeRepository,
+                              IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
+        this.ingredientRecipeRepository = ingredientRecipeRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @Override
@@ -49,5 +64,32 @@ public class RecipeServiceMySQL implements RecipeService {
         }
 
         return recipeDTO;
+    }
+
+    @Override
+    @Transactional
+    public void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeDTOS) {
+        for (IngredientRecipeDTO ingredientRecipeDTO : ingredientRecipeDTOS) {
+
+            Optional<Recipe> recipe =
+                    recipeRepository.findByRecipeName(ingredientRecipeDTO.getRecipeDTO().getRecipeName());
+            Optional<Ingredient> ingredient =
+                    ingredientRepository.findByIngredientName(ingredientRecipeDTO.getIngredientDTO().getIngredientName());
+
+            if (recipe.isPresent() && ingredient.isPresent()) {
+
+                Recipe realRecipe = recipe.get();
+                Ingredient realIngredient = ingredient.get();
+
+                IngredientRecipe ingredientRecipe = new IngredientRecipe(
+                        realIngredient,
+                        realRecipe,
+                        ingredientRecipeDTO.getQuantity(),
+                        ingredientRecipeDTO.getQuantityType()
+                );
+
+                ingredientRecipeRepository.save(ingredientRecipe);
+            }
+        }
     }
 }

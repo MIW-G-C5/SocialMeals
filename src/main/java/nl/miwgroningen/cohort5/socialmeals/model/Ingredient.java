@@ -13,13 +13,13 @@ import java.util.Set;
 public class Ingredient {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ingredientId;
 
     private String ingredientName;
 
-    @OneToMany(mappedBy = "ingredient")
-    private Set<IngredientRecipe> ingredientQuantities;
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<IngredientRecipe> ingredientRecipes;
 
     public Ingredient(String ingredientName) {
         this.ingredientName = ingredientName;
@@ -28,7 +28,28 @@ public class Ingredient {
     public Ingredient() {
     }
 
+    public Long getIngredientId() {
+        return ingredientId;
+    }
+
+    public void setIngredientId(Long ingredientId) {
+        this.ingredientId = ingredientId;
+    }
+
     public String getIngredientName() {
         return ingredientName;
     }
+
+    public void setIngredientName(String ingredientName) {
+        this.ingredientName = ingredientName;
+    }
+
+    public Set<IngredientRecipe> getIngredientRecipes() {
+        return ingredientRecipes;
+    }
+
+    public void setIngredientRecipes(Set<IngredientRecipe> ingredientQuantities) {
+        this.ingredientRecipes = ingredientQuantities;
+    }
+
 }

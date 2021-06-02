@@ -12,14 +12,14 @@ import java.util.Set;
 public class Recipe {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recipeId;
 
     private String recipeName;
     private String description;
 
-    @OneToMany(mappedBy = "recipe")
-    private Set<IngredientRecipe> ingredientQuantities;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<IngredientRecipe> ingredientRecipes;
 
     public Recipe(String recipeName, String description) {
         this.recipeName = recipeName;
@@ -27,6 +27,14 @@ public class Recipe {
     }
 
     public Recipe() {
+    }
+
+    public void setRecipeId(Long recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public Long getRecipeId() {
+        return recipeId;
     }
 
     public String getRecipeName() {
@@ -45,7 +53,11 @@ public class Recipe {
         this.description = description;
     }
 
-    public Set<IngredientRecipe> getIngredientQuantities() {
-        return ingredientQuantities;
+    public Set<IngredientRecipe> getIngredientRecipes() {
+        return ingredientRecipes;
+    }
+
+    public void setIngredientRecipes(Set<IngredientRecipe> ingredientQuantities) {
+        this.ingredientRecipes = ingredientQuantities;
     }
 }

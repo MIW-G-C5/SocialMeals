@@ -28,4 +28,8 @@ public class IngredientConverter {
         return returnList;
     }
 
+    public Ingredient fromDTO(IngredientDTO ingredientDTO) {
+        return new Ingredient(ingredientDTO.getIngredientName());
+    }
+
 }
