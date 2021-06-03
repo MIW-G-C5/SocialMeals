@@ -4,6 +4,7 @@ import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
+import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
@@ -94,6 +95,18 @@ public class RecipeServiceMySQL implements RecipeService {
         List<IngredientRecipeDTO> ingredientRecipeDTOList = ingredientRecipeConverter.toListDTO(ingredientRecipeList);
 
         return ingredientRecipeDTOList;
+    }
+
+    @Override
+    public List<RecipeDTO> getRecipesByUsername(String username){
+        Optional<SocialMealsUser> user = socialMealsUserRepository.findByUsername(username);
+
+        if(user.isEmpty()){
+            return null;
+        }
+
+        List<Recipe> recipes = recipeRepository.findRecipesBySocialMealsUser(user.get());
+        return recipeConverter.toListDTO(recipes);
     }
 
 }
