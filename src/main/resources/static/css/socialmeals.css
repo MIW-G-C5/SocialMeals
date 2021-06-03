@@ -12,4 +12,12 @@ body {
     padding: 20px;
 }
 
+.form-group {
+    margin-left: 25%;
+}
+
+.form-control {
+    width: 40%;
+}
+
 
