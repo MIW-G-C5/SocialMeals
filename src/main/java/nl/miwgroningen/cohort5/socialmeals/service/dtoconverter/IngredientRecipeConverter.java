@@ -6,6 +6,7 @@ import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
+import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +19,20 @@ public class IngredientRecipeConverter {
 
     private RecipeRepository recipeRepository;
     private IngredientRepository ingredientRepository;
+    private SocialMealsUserRepository socialMealsUserRepository;
 
     private RecipeConverter recipeConverter;
     private IngredientConverter ingredientConverter;
 
-    public IngredientRecipeConverter(RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
+    public IngredientRecipeConverter(RecipeRepository recipeRepository,
+                                     IngredientRepository ingredientRepository,
+                                     SocialMealsUserRepository socialMealsUserRepository) {
+
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
-        recipeConverter = new RecipeConverter(recipeRepository);
+        this.socialMealsUserRepository = socialMealsUserRepository;
+
+        recipeConverter = new RecipeConverter(recipeRepository, socialMealsUserRepository);
         ingredientConverter = new IngredientConverter(ingredientRepository);
     }
 

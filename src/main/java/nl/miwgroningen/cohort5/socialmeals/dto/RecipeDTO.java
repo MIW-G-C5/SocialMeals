@@ -10,10 +10,20 @@ import java.util.List;
 public class RecipeDTO {
     private String recipeName;
     private List<String> steps;
+    private SocialMealsUserDTO socialMealsUserDTO;
 
-    public RecipeDTO(String recipeName, List<String> steps) {
+    public RecipeDTO(String recipeName, List<String> steps, SocialMealsUserDTO socialMealsUserDTO) {
         this.recipeName = recipeName;
         this.steps = steps;
+        this.socialMealsUserDTO = socialMealsUserDTO;
+    }
+
+    public SocialMealsUserDTO getSocialMealsUserDTO() {
+        return socialMealsUserDTO;
+    }
+
+    public void setSocialMealsUserDTO(SocialMealsUserDTO socialMealsUserDTO) {
+        this.socialMealsUserDTO = socialMealsUserDTO;
     }
 
     public String getRecipeName() {
@@ -28,7 +38,7 @@ public class RecipeDTO {
         return steps;
     }
 
-    public void setSteps(ArrayList<String> steps) {
+    public void setSteps(List<String> steps) {
         this.steps = steps;
     }
 }

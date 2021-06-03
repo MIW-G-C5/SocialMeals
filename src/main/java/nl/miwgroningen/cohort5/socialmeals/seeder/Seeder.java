@@ -1,6 +1,8 @@
 package nl.miwgroningen.cohort5.socialmeals.seeder;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
+import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
+import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
@@ -48,6 +50,7 @@ public class Seeder {
     private void seedUser() {
         if (socialMealsUserDetailService.getAll().size() == 0) {
             socialMealsUserDetailService.addSocialMealsUser("admin", "admin");
+            socialMealsUserDetailService.addSocialMealsUser("dummieChef", "123");
         }
     }
 
@@ -55,8 +58,10 @@ public class Seeder {
         List<String> steps = new ArrayList<>(List.of("Vies", "jakkie", "bah"));
         List<String> steps2 = new ArrayList<>(List.of("Knoflook bakken", "ui erbij", "paprika"));
 
-        recipeService.addNew(new Recipe("Poep", steps));
-        recipeService.addNew(new Recipe("Lasagna", steps2));
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
+
+        recipeService.addNew(new RecipeDTO("Poep", steps, socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Lasagna", steps2, socialMealsUserDTO));
     }
 
     private void seedIngredients() {

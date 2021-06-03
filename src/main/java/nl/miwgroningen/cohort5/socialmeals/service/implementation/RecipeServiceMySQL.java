@@ -7,6 +7,7 @@ import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
+import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientRecipeConverter;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.RecipeConverter;
@@ -27,6 +28,7 @@ public class RecipeServiceMySQL implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
     private final IngredientRecipeRepository ingredientRecipeRepository;
+    private SocialMealsUserRepository socialMealsUserRepository;
 
     private RecipeConverter recipeConverter;
     private IngredientRecipeConverter ingredientRecipeConverter;
@@ -34,12 +36,16 @@ public class RecipeServiceMySQL implements RecipeService {
     @Autowired
     public RecipeServiceMySQL(RecipeRepository recipeRepository,
                               IngredientRecipeRepository ingredientRecipeRepository,
-                              IngredientRepository ingredientRepository) {
+                              IngredientRepository ingredientRepository,
+                              SocialMealsUserRepository socialMealsUserRepository) {
         this.recipeRepository = recipeRepository;
         this.ingredientRecipeRepository = ingredientRecipeRepository;
         this.ingredientRepository = ingredientRepository;
-        recipeConverter = new RecipeConverter(recipeRepository);
-        ingredientRecipeConverter = new IngredientRecipeConverter(recipeRepository, ingredientRepository);
+        this.socialMealsUserRepository = socialMealsUserRepository;
+
+        recipeConverter = new RecipeConverter(recipeRepository, socialMealsUserRepository);
+        ingredientRecipeConverter =
+                new IngredientRecipeConverter(recipeRepository, ingredientRepository, socialMealsUserRepository);
     }
 
     @Override
@@ -49,9 +55,10 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public Recipe addNew(Recipe recipe) {
+    public RecipeDTO addNew(RecipeDTO recipeDTO) {
+        Recipe recipe = recipeConverter.fromDTO(recipeDTO);
         recipeRepository.save(recipe);
-        return recipe;
+        return recipeDTO;
     }
 
     @Override

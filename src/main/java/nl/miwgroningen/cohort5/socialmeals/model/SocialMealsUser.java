@@ -4,13 +4,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -28,12 +26,23 @@ public class SocialMealsUser implements UserDetails {
 
     private String password;
 
+    @OneToMany(mappedBy = "socialMealsUser")
+    private Set<Recipe> userRecipes;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
 
         return authorityList;
+    }
+
+    public Set<Recipe> getUserRecipes() {
+        return userRecipes;
+    }
+
+    public void setUserRecipes(Set<Recipe> userRecipes) {
+        this.userRecipes = userRecipes;
     }
 
     @Override

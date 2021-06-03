@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -18,13 +19,13 @@ import java.util.List;
 
 @Service
 public class SocialMealsUserDetailService implements UserDetailsService {
-
-    SocialMealsUserConverter socialMealsUserConverter = new SocialMealsUserConverter();
-
+    
     private SocialMealsUserRepository socialMealsUserRepository;
-
+    private SocialMealsUserConverter socialMealsUserConverter;
+    
     public SocialMealsUserDetailService(SocialMealsUserRepository socialMealsUserRepository) {
         this.socialMealsUserRepository = socialMealsUserRepository;
+        socialMealsUserConverter = new SocialMealsUserConverter(socialMealsUserRepository);
     }
 
     @Override
@@ -38,6 +39,14 @@ public class SocialMealsUserDetailService implements UserDetailsService {
         return socialMealsUserConverter.toListSocialMealsUserDTOs(socialMealsUsers);
     }
 
+    public SocialMealsUserDTO getUserByUsername(String username) {
+        Optional<SocialMealsUser> socialMealsUser = socialMealsUserRepository.findByUsername(username);
+        if (socialMealsUser.isEmpty()) {
+            return null;
+        }
+        return socialMealsUserConverter.toDTO(socialMealsUser.get());
+    }
+    
     public void addSocialMealsUser(String username, String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(password);

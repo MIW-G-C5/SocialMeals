@@ -15,7 +15,7 @@ import java.util.List;
 public interface RecipeService {
     List<RecipeDTO> getAll();
 
-    Recipe addNew(Recipe recipe);
+    RecipeDTO addNew(RecipeDTO recipeDTO);
 
     RecipeDTO findByRecipeName(String recipeName);
 

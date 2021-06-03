@@ -25,12 +25,32 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<IngredientRecipe> ingredientRecipes;
 
-    public Recipe(String recipeName, List<String> steps) {
+    @ManyToOne
+    private SocialMealsUser socialMealsUser;
+
+    public Recipe(String recipeName, List<String> steps, SocialMealsUser socialMealsUser) {
         this.recipeName = recipeName;
         this.steps = steps;
+        this.socialMealsUser = socialMealsUser;
     }
 
     public Recipe() {
+    }
+
+    public void setSteps(List<String> steps) {
+        this.steps = steps;
+    }
+
+    public List<String> getSteps() {
+        return steps;
+    }
+
+    public SocialMealsUser getSocialMealsUser() {
+        return socialMealsUser;
+    }
+
+    public void setSocialMealsUser(SocialMealsUser socialMealsUser) {
+        this.socialMealsUser = socialMealsUser;
     }
 
     public void setRecipeId(Long recipeId) {
@@ -47,14 +67,6 @@ public class Recipe {
 
     public void setRecipeName(String recipeName) {
         this.recipeName = recipeName;
-    }
-
-    public List<String> getSteps() {
-        return steps;
-    }
-
-    public void setSteps(ArrayList<String> steps) {
-        this.steps = steps;
     }
 
     public Set<IngredientRecipe> getIngredientRecipes() {
