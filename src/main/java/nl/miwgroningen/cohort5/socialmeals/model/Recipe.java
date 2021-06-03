@@ -1,6 +1,8 @@
 package nl.miwgroningen.cohort5.socialmeals.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,14 +18,16 @@ public class Recipe {
     private Long recipeId;
 
     private String recipeName;
-    private String description;
+
+    @ElementCollection
+    private List<String> steps = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<IngredientRecipe> ingredientRecipes;
 
-    public Recipe(String recipeName, String description) {
+    public Recipe(String recipeName, List<String> steps) {
         this.recipeName = recipeName;
-        this.description = description;
+        this.steps = steps;
     }
 
     public Recipe() {
@@ -45,12 +49,12 @@ public class Recipe {
         this.recipeName = recipeName;
     }
 
-    public String getDescription() {
-        return description;
+    public List<String> getSteps() {
+        return steps;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSteps(ArrayList<String> steps) {
+        this.steps = steps;
     }
 
     public Set<IngredientRecipe> getIngredientRecipes() {

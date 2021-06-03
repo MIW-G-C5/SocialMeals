@@ -21,7 +21,7 @@ public class RecipeConverter {
     }
 
     public RecipeDTO toDTO(Recipe recipe) {
-        return new RecipeDTO(recipe.getRecipeName(), recipe.getDescription());
+        return new RecipeDTO(recipe.getRecipeName(), recipe.getSteps());
     }
 
     public List<RecipeDTO> toListDTO(List<Recipe> recipeList) {
@@ -35,7 +35,7 @@ public class RecipeConverter {
     }
 
     public Recipe fromDTO(RecipeDTO recipeDTO) {
-        return new Recipe(recipeDTO.getRecipeName(), recipeDTO.getDescription());
+        return new Recipe(recipeDTO.getRecipeName(), recipeDTO.getSteps());
     }
 
     public Recipe fromDTOToDatabaseRecipe(RecipeDTO recipeDTO){

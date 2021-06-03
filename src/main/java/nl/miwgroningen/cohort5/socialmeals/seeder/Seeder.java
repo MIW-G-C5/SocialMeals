@@ -52,8 +52,11 @@ public class Seeder {
     }
 
     private void seedRecipes() {
-        recipeService.addNew(new Recipe("Poep", "Vies"));
-        recipeService.addNew(new Recipe("Lasagna", "Lekker"));
+        List<String> steps = new ArrayList<>(List.of("Vies", "jakkie", "bah"));
+        List<String> steps2 = new ArrayList<>(List.of("Knoflook bakken", "ui erbij", "paprika"));
+
+        recipeService.addNew(new Recipe("Poep", steps));
+        recipeService.addNew(new Recipe("Lasagna", steps2));
     }
 
     private void seedIngredients() {

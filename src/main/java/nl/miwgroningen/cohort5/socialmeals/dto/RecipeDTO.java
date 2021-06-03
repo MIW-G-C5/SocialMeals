@@ -1,16 +1,19 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author A.H. van Zessen
  */
 
 public class RecipeDTO {
     private String recipeName;
-    private String description;
+    private List<String> steps;
 
-    public RecipeDTO(String recipeName, String description) {
+    public RecipeDTO(String recipeName, List<String> steps) {
         this.recipeName = recipeName;
-        this.description = description;
+        this.steps = steps;
     }
 
     public String getRecipeName() {
@@ -21,11 +24,11 @@ public class RecipeDTO {
         this.recipeName = recipeName;
     }
 
-    public String getDescription() {
-        return description;
+    public List<String> getSteps() {
+        return steps;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSteps(ArrayList<String> steps) {
+        this.steps = steps;
     }
 }

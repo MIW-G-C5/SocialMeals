@@ -11,7 +11,12 @@
 
     <h1><span th:text="${recipe.recipeName}"></span></h1>
 
-    <p><span th:text="${recipe.description}"></span></p>
+    <p><span text="Cooking instruction"></span></p>
+    <ol >
+        <li th:each="step, iterStep : ${recipe.steps}">
+            <a th:text="${step}"></a>
+        </li>
+    </ol>
 
     <table class="table">
         <tr>
