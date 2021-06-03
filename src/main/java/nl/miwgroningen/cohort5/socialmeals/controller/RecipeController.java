@@ -20,7 +20,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/recipes")
+    @GetMapping({"/", "/recipes"})
     protected String showRecipes(Model model) {
         model.addAttribute("allRecipes", recipeService.getAll());
         return "recipeOverview";
