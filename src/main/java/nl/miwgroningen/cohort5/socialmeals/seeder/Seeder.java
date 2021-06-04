@@ -57,28 +57,51 @@ public class Seeder {
     }
 
     private void seedRecipes() {
-        List<String> steps = new ArrayList<>(List.of("Vies", "jakkie", "bah"));
-        List<String> steps2 = new ArrayList<>(List.of("Knoflook bakken", "ui erbij", "paprika"));
+        List<String> steps = new ArrayList<>(List.of("Roast eggplant", "add all ingredients", "blend"));
+        List<String> steps2 = new ArrayList<>(List.of("Fry garlic", "and onion", "add everything and put in oven"));
 
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
 
-        recipeService.addNew(new RecipeDTO("Poep", steps, socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Baba ganoush", steps, socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Lasagna", steps2, socialMealsUserDTO));
     }
 
     private void seedIngredients() {
-        ingredientService.addNew(new Ingredient("tomaat"));
-        ingredientService.addNew(new Ingredient("aubergine"));
-        ingredientService.addNew(new Ingredient("feces"));
+        ingredientService.addNew(new Ingredient("tomato"));
+        ingredientService.addNew(new Ingredient("eggplant"));
+        ingredientService.addNew(new Ingredient("garlic"));
+        ingredientService.addNew(new Ingredient("tahini"));
+        ingredientService.addNew(new Ingredient("lemon"));
+        ingredientService.addNew(new Ingredient("cumin"));
     }
 
     private void seedIngredientRecipes() {
         List<IngredientRecipeDTO> ingredientRecipeList = new ArrayList<>();
         ingredientRecipeList.add(
-                new IngredientRecipeDTO(ingredientService.findByIngredientName("tomaat"),
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("tomato"),
                 recipeService.findByRecipeName("Lasagna"),
-                5,
-                "stuks"));
+                        5,
+                        "units"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("eggplant"),
+                recipeService.findByRecipeName("Baba ganoush"),
+                        6,
+                        "units"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("tahini"),
+                        recipeService.findByRecipeName("Baba ganoush"),
+                        2,
+                        "tablespoons"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("cumin"),
+                        recipeService.findByRecipeName("Baba ganoush"),
+                        10,
+                        "grams"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("lemon"),
+                        recipeService.findByRecipeName("Baba ganoush"),
+                        5,
+                        "squeezes"));
 
         recipeService.addIngredientsToRecipe(ingredientRecipeList);
 
