@@ -26,7 +26,7 @@ public class SocialMealsUser implements UserDetails {
 
     private String password;
 
-    @OneToMany(mappedBy = "socialMealsUser")
+    @OneToMany(mappedBy = "socialMealsUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Recipe> userRecipes;
 
     @Override

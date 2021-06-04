@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="NL-nl" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
+<head th:replace="fragments/general :: baseHeader(~{:: title})">
+    <title>Add new recipe</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/general :: navbar"></div>
+
+    <form class="has-validation" th:action="@{/recipes/new}" method="post" th:object="${recipeDTO}">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input class="form-control" type="text" id="name" th:field="*{recipeName}" required>
+        </div>
+        <div>
+            <label for="step1">Step 1</label>
+            <input type="text" th:field="*{steps[0]}" id="step1" />
+            <label for="step1">Step 2</label>
+            <input type="text" th:field="*{steps[1]}" id="step2"/>
+            <label for="step1">Step 3</label>
+            <input type="text" th:field="*{steps[2]}" id="step3" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" th:action="@{/recipes}" class="btn btn-succes">Save</button>
+        </div>
+    </form>
+</div>
+
+<div th:replace="fragments/general :: bottomScripts"></div>
+</body>
+</html>

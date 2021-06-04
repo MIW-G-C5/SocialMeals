@@ -18,6 +18,9 @@ public class RecipeDTO {
         this.socialMealsUserDTO = socialMealsUserDTO;
     }
 
+    public RecipeDTO() {
+    }
+
     public SocialMealsUserDTO getSocialMealsUserDTO() {
         return socialMealsUserDTO;
     }
