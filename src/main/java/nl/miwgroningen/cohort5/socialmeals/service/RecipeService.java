@@ -22,4 +22,6 @@ public interface RecipeService {
     void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeList);
 
     List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName);
+
+    List<RecipeDTO> getRecipesByUsername(String username);
 }

@@ -35,7 +35,7 @@ public class SocialMealsUserConverter {
 
     public SocialMealsUser fromDTO(SocialMealsUserDTO socialMealsUserDTO) {
         Optional<SocialMealsUser> socialMealsUser =
-                socialMealsUserRepository.findByUsername(socialMealsUserDTO.getUserName());
+                socialMealsUserRepository.findByUsername(socialMealsUserDTO.getUsername());
         if (socialMealsUser.isEmpty()) {
             return null;
         }
