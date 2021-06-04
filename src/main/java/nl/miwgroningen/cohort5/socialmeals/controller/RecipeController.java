@@ -54,7 +54,7 @@ public class RecipeController {
 
     @PostMapping("/recipes/new")
     protected String saveOrUpdateRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO, BindingResult result, Principal principal) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "redirect:/";
         }
 
@@ -62,7 +62,12 @@ public class RecipeController {
         if (socialMealsUserDTO != null) {
             recipeDTO.setSocialMealsUserDTO(socialMealsUserDTO);
         }
-        recipeService.addNew(recipeDTO);
+
+        try {
+            recipeService.addNew(recipeDTO);
+        } catch (Exception error) {
+            System.err.println("Recipe already exists");
+        }
         return "redirect:/";
     }
 }

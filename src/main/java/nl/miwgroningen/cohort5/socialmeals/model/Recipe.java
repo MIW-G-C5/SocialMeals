@@ -17,6 +17,7 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recipeId;
 
+    @Column(unique = true, nullable = false)
     private String recipeName;
 
     @ElementCollection
