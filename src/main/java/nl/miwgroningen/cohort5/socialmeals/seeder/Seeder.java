@@ -16,6 +16,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class Seeder {
         seedIngredients();
         seedRecipes();
         seedIngredientRecipes();
+
     }
 
     private void seedUser() {

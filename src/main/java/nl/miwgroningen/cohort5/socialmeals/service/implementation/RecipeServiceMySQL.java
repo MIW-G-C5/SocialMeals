@@ -100,12 +100,12 @@ public class RecipeServiceMySQL implements RecipeService {
     @Override
     public List<RecipeDTO> getRecipesByUsername(String username){
         Optional<SocialMealsUser> user = socialMealsUserRepository.findByUsername(username);
+        List<Recipe> recipes = recipeRepository.findRecipesBySocialMealsUser(user.get());
 
-        if(user.isEmpty()){
+        if(user.isEmpty() || recipes.isEmpty()){
             return null;
         }
 
-        List<Recipe> recipes = recipeRepository.findRecipesBySocialMealsUser(user.get());
         return recipeConverter.toListDTO(recipes);
     }
 

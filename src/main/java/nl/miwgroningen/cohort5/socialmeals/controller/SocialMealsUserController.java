@@ -33,12 +33,9 @@ public class SocialMealsUserController {
 
 
     private SocialMealsUserDetailService socialMealsUserDetailService;
-    private RecipeService recipeService;
 
-    public SocialMealsUserController(SocialMealsUserDetailService socialMealsUserDetailService,
-                                     RecipeService recipeService) {
+    public SocialMealsUserController(SocialMealsUserDetailService socialMealsUserDetailService) {
         this.socialMealsUserDetailService = socialMealsUserDetailService;
-        this.recipeService = recipeService;
     }
 
     @GetMapping("/user/new")
@@ -55,18 +52,6 @@ public class SocialMealsUserController {
         return "redirect:/";
     }
 
-    @GetMapping("/MyKitchen/{username}")
-    protected String showUserRecipes(@PathVariable("username") String username, Model model) {
 
-        SocialMealsUserDTO userDTO = socialMealsUserDetailService.getUserByUsername(username);
-
-        if (userDTO == null) {
-            return "redirect:/";
-        }
-
-        model.addAttribute("user", userDTO);
-        model.addAttribute("userRecipes", recipeService.getRecipesByUsername(username));
-        return "myKitchen";
-    }
 
 }

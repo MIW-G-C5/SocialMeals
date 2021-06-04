@@ -17,8 +17,8 @@
       <li class="nav-item active">
         <a class="nav-link" th:href="@{/recipes}">All recipes</a>
       </li>
-      <li>
-        <a class="nav-link" th:href="@{/MyKitchen/dummieChef}">My Kitchen</a>
+      <li class="nav-item active">
+        <a class="nav-link" th:href="@{/MyKitchen}" sec:authorize="isAuthenticated()">My Kitchen</a>
       </li>
 
       <li class="nav-item active">
