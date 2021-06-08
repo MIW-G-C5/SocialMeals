@@ -13,7 +13,8 @@ body {
 }
 
 .form-group {
-    margin-left: 25%;
+    text-align: left;
+    padding: 20px;
 }
 
 .form-control {

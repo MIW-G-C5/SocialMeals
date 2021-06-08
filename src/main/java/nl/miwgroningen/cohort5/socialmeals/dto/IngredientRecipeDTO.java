@@ -18,6 +18,9 @@ public class IngredientRecipeDTO {
         this.quantityType = quantityType;
     }
 
+    public IngredientRecipeDTO() {
+    }
+
     public IngredientDTO getIngredientDTO() {
         return ingredientDTO;
     }

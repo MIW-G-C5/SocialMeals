@@ -17,9 +17,13 @@ public interface RecipeService {
 
     RecipeDTO addNew(RecipeDTO recipeDTO);
 
+    void updateRecipe(RecipeDTO oldRecipeDTO, RecipeDTO updatedRecipeDTO);
+
     RecipeDTO findByRecipeName(String recipeName);
 
     void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeList);
+
+    void addIngredientToRecipe(IngredientRecipeDTO ingredientRecipeDTO);
 
     List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName);
 

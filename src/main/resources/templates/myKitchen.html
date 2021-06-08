@@ -16,10 +16,13 @@
     <table class="table">
         <tr>
             <th>Recipe Name</th>
+            <th></th>
         </tr>
         <tr th:each="recipe : ${userRecipes}">
             <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a></td>
+            <td><a th:href="@{/recipes/update/{recipeName}(recipeName=${recipe.recipeName})}">Update</a></td>
         </tr>
+
     </table>
 
 </div>

@@ -1,7 +1,9 @@
 package nl.miwgroningen.cohort5.socialmeals.controller;
 
+import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
+import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 import org.springframework.stereotype.Controller;
@@ -22,10 +24,13 @@ import java.security.Principal;
 public class RecipeController {
 
     private RecipeService recipeService;
+    private IngredientService ingredientService;
     private SocialMealsUserDetailService socialMealsUserDetailService;
 
-    public RecipeController(RecipeService recipeService, SocialMealsUserDetailService socialMealsUserDetailService) {
+    public RecipeController(RecipeService recipeService, IngredientService ingredientService,
+                            SocialMealsUserDetailService socialMealsUserDetailService) {
         this.recipeService = recipeService;
+        this.ingredientService = ingredientService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
     }
 
@@ -53,7 +58,7 @@ public class RecipeController {
     }
 
     @PostMapping("/recipes/new")
-    protected String saveOrUpdateRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO, BindingResult result, Principal principal) {
+    protected String saveRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO, BindingResult result, Principal principal) {
         if (result.hasErrors()) {
             return "redirect:/";
         }
@@ -68,6 +73,49 @@ public class RecipeController {
         } catch (Exception error) {
             System.err.println("Recipe already exists");
         }
-        return "redirect:/";
+        return "redirect:/recipes/update/" + stringURLify(recipeDTO.getRecipeName());
+    }
+
+    @GetMapping("/recipes/update/{recipeName}")
+    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model) {
+        RecipeDTO recipe = recipeService.findByRecipeName(recipeName);
+        if (recipe == null) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("recipeDTO", recipe);
+        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
+        model.addAttribute("allIngredients", ingredientService.getAll()); // TODO of alleen remainingIngredients?
+        return "updateRecipeForm";
+    }
+
+    @PostMapping("/recipes/update/{recipeName}")
+    protected String updateRecipe(@PathVariable("recipeName") String recipeName,
+                                  @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+                                  BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/";
+        }
+
+        try {
+            recipeService.updateRecipe(recipeService.findByRecipeName(recipeName), recipeDTO);
+        } catch (Exception error) {
+            System.err.println("Recipe already exists");
+        }
+
+        return "redirect:/recipes/update/" + stringURLify(recipeName);
+    }
+
+    public String stringURLify(String name) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < name.length(); i++) {
+            char c = name.charAt(i);
+            if (c == ' ') {
+                stringBuilder.append("%20");
+            } else {
+                stringBuilder.append(c);
+            }
+        }
+        return stringBuilder.toString();
     }
 }

@@ -72,6 +72,14 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
+    public void updateRecipe(RecipeDTO oldRecipeDTO, RecipeDTO updatedRecipeDTO) {
+        Recipe oldRecipe = getRecipeByRecipeDTO(oldRecipeDTO);
+        Recipe newRecipe = recipeConverter.fromDTO(oldRecipe, updatedRecipeDTO);
+
+        recipeRepository.save(newRecipe);
+    }
+
+    @Override
     public RecipeDTO findByRecipeName(String recipeName) {
         Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
         RecipeDTO recipeDTO = null;
@@ -84,11 +92,15 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    @Transactional
     public void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeDTOS) {
         for (IngredientRecipeDTO ingredientRecipeDTO : ingredientRecipeDTOS) {
             ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO));
         }
+    }
+
+    @Override
+    public void addIngredientToRecipe(IngredientRecipeDTO ingredientRecipeDTO) {
+        ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO));
     }
 
     @Override

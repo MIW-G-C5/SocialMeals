@@ -7,7 +7,7 @@
 <div class="container">
     <div th:replace="fragments/general :: navbar"></div>
 
-    <form class="has-validation" th:action="@{/recipes/new}" method="post" th:object="${recipeDTO}">
+    <form class="has-validation" th:action="@{/recipes/update/{recipeName}(recipeName=${recipeDTO.recipeName})}" method="post" th:object="${recipeDTO}">
         <div th:replace="fragments/forms :: recipeForm"></div>
     </form>
 </div>
