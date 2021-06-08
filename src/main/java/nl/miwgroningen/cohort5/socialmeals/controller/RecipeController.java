@@ -18,6 +18,8 @@ import java.security.Principal;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
+ *
+ *  Controls the view of allrecipes page and creating and updating pages
  */
 
 @Controller
@@ -84,8 +86,6 @@ public class RecipeController {
         }
 
         model.addAttribute("recipeDTO", recipe);
-        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
-        model.addAttribute("allIngredients", ingredientService.getAll()); // TODO of alleen remainingIngredients?
         return "updateRecipeForm";
     }
 
