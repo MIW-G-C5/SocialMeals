@@ -15,6 +15,8 @@ import java.util.Optional;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
+ *
+ * Collects and stores Userdetails in the MySQL Database
  */
 
 @Service
@@ -25,7 +27,7 @@ public class SocialMealsUserDetailService implements UserDetailsService {
     
     public SocialMealsUserDetailService(SocialMealsUserRepository socialMealsUserRepository) {
         this.socialMealsUserRepository = socialMealsUserRepository;
-        socialMealsUserConverter = new SocialMealsUserConverter(socialMealsUserRepository);
+        socialMealsUserConverter = new SocialMealsUserConverter();
     }
 
     @Override
@@ -56,6 +58,15 @@ public class SocialMealsUserDetailService implements UserDetailsService {
         user.setPassword(encodedPassword);
 
         socialMealsUserRepository.save(user);
+    }
+
+    public SocialMealsUser getUserByDTO(SocialMealsUserDTO socialMealsUserDTO) {
+        Optional<SocialMealsUser> socialMealsUser =
+                socialMealsUserRepository.findByUsername(socialMealsUserDTO.getUsername());
+        if (socialMealsUser.isEmpty()) {
+            return null;
+        }
+        return socialMealsUser.get();
     }
 
 

@@ -6,9 +6,9 @@ import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository;
-import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
+import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientRecipeConverter;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.RecipeConverter;
@@ -21,15 +21,19 @@ import java.util.Optional;
 
 /**
  * @author A.H. van Zessen
+ *
+ * Collects and stores Recipes in the MySQL Database.
  */
 
 @Service
 public class RecipeServiceMySQL implements RecipeService {
 
     private final RecipeRepository recipeRepository;
-    private final IngredientRepository ingredientRepository;
     private final IngredientRecipeRepository ingredientRecipeRepository;
     private SocialMealsUserRepository socialMealsUserRepository;
+
+    private IngredientService ingredientService;
+    private SocialMealsUserDetailService socialMealsUserDetailService;
 
     private RecipeConverter recipeConverter;
     private IngredientRecipeConverter ingredientRecipeConverter;
@@ -37,16 +41,21 @@ public class RecipeServiceMySQL implements RecipeService {
     @Autowired
     public RecipeServiceMySQL(RecipeRepository recipeRepository,
                               IngredientRecipeRepository ingredientRecipeRepository,
-                              IngredientRepository ingredientRepository,
-                              SocialMealsUserRepository socialMealsUserRepository) {
+                              SocialMealsUserRepository socialMealsUserRepository,
+
+                              IngredientService ingredientService,
+                              SocialMealsUserDetailService socialMealsUserDetailService) {
         this.recipeRepository = recipeRepository;
         this.ingredientRecipeRepository = ingredientRecipeRepository;
-        this.ingredientRepository = ingredientRepository;
         this.socialMealsUserRepository = socialMealsUserRepository;
 
-        recipeConverter = new RecipeConverter(recipeRepository, socialMealsUserRepository);
+
+        this.ingredientService = ingredientService;
+        this.socialMealsUserDetailService = socialMealsUserDetailService;
+
+        recipeConverter = new RecipeConverter(socialMealsUserDetailService);
         ingredientRecipeConverter =
-                new IngredientRecipeConverter(recipeRepository, ingredientRepository, socialMealsUserRepository);
+                new IngredientRecipeConverter(this, ingredientService, socialMealsUserDetailService);
     }
 
     @Override
@@ -100,13 +109,22 @@ public class RecipeServiceMySQL implements RecipeService {
     @Override
     public List<RecipeDTO> getRecipesByUsername(String username){
         Optional<SocialMealsUser> user = socialMealsUserRepository.findByUsername(username);
-        List<Recipe> recipes = recipeRepository.findRecipesBySocialMealsUser(user.get());
+        List<Recipe> recipes = null;
 
-        if(user.isEmpty() || recipes.isEmpty()){
-            return null;
+        if(user.isPresent()){
+            recipes = recipeRepository.findRecipesBySocialMealsUser(user.get());
         }
 
         return recipeConverter.toListDTO(recipes);
+    }
+
+    public Recipe getRecipeByRecipeDTO(RecipeDTO recipeDTO) {
+        Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeDTO.getRecipeName());
+        if(recipe.isPresent()){
+            return recipe.get();
+        } else {
+            return null;
+        }
     }
 
 }

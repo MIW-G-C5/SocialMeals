@@ -4,6 +4,7 @@ import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
+import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,19 +12,19 @@ import java.util.Optional;
 
 /**
  * @author A.H. van Zessen
+ *
+ * Converts Recipes into RecipeDTO's and vice versa
  */
 
 public class RecipeConverter {
 
-    private RecipeRepository recipeRepository;
-    private SocialMealsUserRepository socialMealsUserRepository;
+    private SocialMealsUserDetailService socialMealsUserDetailService;
 
     private SocialMealsUserConverter socialMealsUserConverter;
 
-    public RecipeConverter(RecipeRepository recipeRepository, SocialMealsUserRepository socialMealsUserRepository) {
-        this.recipeRepository = recipeRepository;
-        this.socialMealsUserRepository = socialMealsUserRepository;
-        socialMealsUserConverter = new SocialMealsUserConverter(socialMealsUserRepository);
+    public RecipeConverter(SocialMealsUserDetailService socialMealsUserDetailService) {
+        this.socialMealsUserDetailService = socialMealsUserDetailService;
+        socialMealsUserConverter = new SocialMealsUserConverter();
     }
 
     public RecipeDTO toDTO(Recipe recipe) {
@@ -42,18 +43,8 @@ public class RecipeConverter {
     }
 
     public Recipe fromDTO(RecipeDTO recipeDTO) {
-        return new Recipe(recipeDTO.getRecipeName(), recipeDTO.getSteps(),
-                socialMealsUserConverter.fromDTO(recipeDTO.getSocialMealsUserDTO()));
-    }
-
-    public Recipe fromDTOToDatabaseRecipe(RecipeDTO recipeDTO){
-
-            Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeDTO.getRecipeName());
-            if(recipe.isPresent()){
-                return recipe.get();
-            } else {
-                return null;
-            }
-
+        return new Recipe(recipeDTO.getRecipeName(),
+                recipeDTO.getSteps(),
+                socialMealsUserDetailService.getUserByDTO(recipeDTO.getSocialMealsUserDTO()));
     }
 }

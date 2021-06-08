@@ -10,15 +10,11 @@ import java.util.Optional;
 
 /**
  * Britt van Mourik
+ *
+ * Converts Ingredients to IngredientDTO's
  */
 
 public class IngredientConverter {
-
-    private IngredientRepository ingredientRepository;
-
-    public IngredientConverter(IngredientRepository ingredientRepository) {
-        this.ingredientRepository = ingredientRepository;
-    }
 
     public IngredientDTO toDTO(Ingredient ingredient) {
         return new IngredientDTO(ingredient.getIngredientName());
@@ -32,18 +28,5 @@ public class IngredientConverter {
         }
 
         return returnList;
-    }
-
-    public Ingredient fromDTO(IngredientDTO ingredientDTO) {
-        return new Ingredient(ingredientDTO.getIngredientName());
-    }
-
-    public Ingredient fromDTOToDatabaseIngredient(IngredientDTO ingredientDTO){
-        Optional<Ingredient> ingredient = ingredientRepository.findByIngredientName(ingredientDTO.getIngredientName());
-        if(ingredient.isPresent()){
-            return ingredient.get();
-        } else {
-            return null;
-        }
     }
 }

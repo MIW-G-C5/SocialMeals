@@ -7,39 +7,43 @@ import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
+import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
+import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
+import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Britt van Mourik
+ *
+ * Converts IngredientRecipes into IngredientRecipeDTO's and vice versa
  */
 
 public class IngredientRecipeConverter {
 
-    private RecipeRepository recipeRepository;
-    private IngredientRepository ingredientRepository;
-    private SocialMealsUserRepository socialMealsUserRepository;
+    private RecipeService recipeService;
+    private IngredientService ingredientService;
+    private SocialMealsUserDetailService socialMealsUserDetailService;
 
     private RecipeConverter recipeConverter;
     private IngredientConverter ingredientConverter;
 
-    public IngredientRecipeConverter(RecipeRepository recipeRepository,
-                                     IngredientRepository ingredientRepository,
-                                     SocialMealsUserRepository socialMealsUserRepository) {
+    public IngredientRecipeConverter(RecipeService recipeService,
+                                     IngredientService ingredientService,
+                                     SocialMealsUserDetailService socialMealsUserDetailService) {
+        this.recipeService = recipeService;
+        this.ingredientService = ingredientService;
+        this.socialMealsUserDetailService = socialMealsUserDetailService;
 
-        this.recipeRepository = recipeRepository;
-        this.ingredientRepository = ingredientRepository;
-        this.socialMealsUserRepository = socialMealsUserRepository;
-
-        recipeConverter = new RecipeConverter(recipeRepository, socialMealsUserRepository);
-        ingredientConverter = new IngredientConverter(ingredientRepository);
+        ingredientConverter = new IngredientConverter();
+        recipeConverter = new RecipeConverter(socialMealsUserDetailService);
     }
 
     public IngredientRecipe fromDTO(IngredientRecipeDTO ingredientRecipeDTO){
 
-        Recipe recipe = recipeConverter.fromDTOToDatabaseRecipe(ingredientRecipeDTO.getRecipeDTO());
-        Ingredient ingredient = ingredientConverter.fromDTOToDatabaseIngredient(ingredientRecipeDTO.getIngredientDTO());
+        Recipe recipe = recipeService.getRecipeByRecipeDTO(ingredientRecipeDTO.getRecipeDTO());
+        Ingredient ingredient = ingredientService.getIngredientByIngredientDTO(ingredientRecipeDTO.getIngredientDTO());
 
         if (recipe == null || ingredient == null) {
             return null;

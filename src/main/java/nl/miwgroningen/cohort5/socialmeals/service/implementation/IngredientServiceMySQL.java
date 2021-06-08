@@ -14,6 +14,8 @@ import java.util.Optional;
 
 /**
  * Britt van Mourik
+ *
+ *  Collects and stores Ingredients in the MySQL Database
  */
 
 @Service
@@ -26,7 +28,7 @@ public class IngredientServiceMySQL implements IngredientService {
     @Autowired
     public IngredientServiceMySQL(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
-        ingredientConverter = new IngredientConverter(ingredientRepository);
+        ingredientConverter = new IngredientConverter();
     }
 
     @Override
@@ -52,5 +54,16 @@ public class IngredientServiceMySQL implements IngredientService {
         }
 
         return ingredientDTO;
+    }
+
+    public Ingredient getIngredientByIngredientDTO(IngredientDTO ingredientDTO) {
+
+        Optional<Ingredient> ingredient = ingredientRepository.findByIngredientName(ingredientDTO.getIngredientName());
+
+        if(ingredient.isPresent()){
+            return ingredient.get();
+        } else {
+            return null;
+        }
     }
 }
