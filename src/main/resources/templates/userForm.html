@@ -22,9 +22,14 @@
             <input type="password" id="password" th:field="*{password}" class="form-control">
         </div>
         <div >
-            <input type="submit" value="Log in"  class="btn btn-primary"/>
+            <input type="submit" value="Register"  class="btn btn-primary"/>
         </div>
     </form>
+
+    <div th:if="${existingUsername != null}" class="alert alert-danger notification" role="alert">
+        <p th:text="${existingUsername} + ' already exists'"></p>
+    </div>
+
 </div>
 
 <div th:replace="fragments/general :: bottomScripts"></div>
