@@ -8,10 +8,7 @@ import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUse
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -87,6 +84,9 @@ public class RecipeController {
             return "redirect:/";
         }
 
+        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
+        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
+        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
         model.addAttribute("recipeDTO", recipe);
         return "updateRecipeForm";
     }
@@ -103,6 +103,26 @@ public class RecipeController {
             recipeService.updateRecipe(recipeService.findByRecipeName(recipeName), recipeDTO);
         } catch (Exception error) {
             System.err.println("Recipe already exists");
+        }
+
+        return "redirect:/recipes/update/" + stringURLify(recipeName);
+    }
+
+    @PostMapping("/recipes/{recipeName}/addingredient")
+    protected String addIngredient(@PathVariable("recipeName") String recipeName,
+                                   @ModelAttribute("ingredientRecipeDTO") IngredientRecipeDTO ingredientRecipeDTO,
+                                   @RequestParam("ingredientName") String ingredientName,
+                                   BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/";
+        }
+
+        try {
+            ingredientRecipeDTO.setRecipeDTO(recipeService.findByRecipeName(recipeName));
+            ingredientRecipeDTO.setIngredientDTO(ingredientService.findByIngredientName(ingredientName));
+            recipeService.addIngredientToRecipe(ingredientRecipeDTO);
+        } catch (Exception error) {
+            System.err.println(error.getMessage());
         }
 
         return "redirect:/recipes/update/" + stringURLify(recipeName);

@@ -1,5 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
+import java.util.Objects;
+
 /**
  * Britt van Mourik
  */
@@ -10,6 +12,14 @@ public class IngredientDTO {
 
     public IngredientDTO(String ingredientName) {
         this.ingredientName = ingredientName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IngredientDTO that = (IngredientDTO) o;
+        return ingredientName.equals(that.ingredientName);
     }
 
     public String getIngredientName() {

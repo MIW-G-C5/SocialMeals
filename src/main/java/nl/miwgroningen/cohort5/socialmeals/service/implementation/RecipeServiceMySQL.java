@@ -1,5 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
+import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,7 +110,7 @@ public class RecipeServiceMySQL implements RecipeService {
 
         Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
 
-        if(recipe.isEmpty()){
+        if (recipe.isEmpty()){
            return null;
         }
 
@@ -119,11 +121,27 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
+    public List<IngredientDTO> getRemainingIngredientsByRecipeName(String recipeName) {
+        List<IngredientDTO> allIngredients = ingredientService.getAll();
+        List<IngredientRecipeDTO> presentIngredientRecipes = getIngredientRecipesByRecipeName(recipeName);
+        List<IngredientDTO> presentIngredients = getIngredientsByIngredientRecipes(presentIngredientRecipes);
+        List<IngredientDTO> remainingIngredients = new ArrayList<>();
+
+        for (IngredientDTO ingredient : allIngredients) {
+            if (!presentIngredients.contains(ingredient)) {
+                remainingIngredients.add(ingredient);
+            }
+        }
+
+        return remainingIngredients;
+    }
+
+    @Override
     public List<RecipeDTO> getRecipesByUsername(String username){
         Optional<SocialMealsUser> user = socialMealsUserRepository.findByUsername(username);
         List<Recipe> recipes = null;
 
-        if(user.isPresent()){
+        if (user.isPresent()){
             recipes = recipeRepository.findRecipesBySocialMealsUser(user.get());
         }
 
@@ -132,11 +150,19 @@ public class RecipeServiceMySQL implements RecipeService {
 
     public Recipe getRecipeByRecipeDTO(RecipeDTO recipeDTO) {
         Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeDTO.getRecipeName());
-        if(recipe.isPresent()){
+        if (recipe.isPresent()){
             return recipe.get();
         } else {
             return null;
         }
+    }
+
+    private List<IngredientDTO> getIngredientsByIngredientRecipes(List<IngredientRecipeDTO> ingredientRecipes) {
+        List<IngredientDTO> ingredients = new ArrayList<>();
+        for (IngredientRecipeDTO ingredientRecipeDTO : ingredientRecipes) {
+            ingredients.add(ingredientRecipeDTO.getIngredientDTO());
+        }
+        return ingredients;
     }
 
 }
