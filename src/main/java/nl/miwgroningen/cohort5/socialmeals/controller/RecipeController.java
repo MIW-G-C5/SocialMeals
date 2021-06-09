@@ -6,12 +6,15 @@ import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -57,7 +60,10 @@ public class RecipeController {
     }
 
     @PostMapping("/recipes/new")
-    protected String saveRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO, BindingResult result, Principal principal) {
+    protected String saveRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+                                Model model,
+                                BindingResult result,
+                                Principal principal) {
         if (result.hasErrors()) {
             return "redirect:/";
         }
@@ -69,9 +75,8 @@ public class RecipeController {
 
         try {
             recipeService.addNew(recipeDTO);
-        } catch (Exception error) {
-            System.err.println("Recipe already exists");
-            return "redirect:/MyKitchen";
+        } catch (DataIntegrityViolationException error) {
+            return showRecipeFormWithNotificationRecipeExists(model, recipeDTO);
         }
 
         return "redirect:/recipes/update/" + stringURLify(recipeDTO.getRecipeName());
@@ -81,6 +86,7 @@ public class RecipeController {
     @PostMapping("/recipes/update/{recipeName}")
     protected String updateRecipe(@PathVariable("recipeName") String recipeName,
                                   @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+                                  Model model,
                                   BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/MyKitchen";
@@ -88,8 +94,8 @@ public class RecipeController {
 
         try {
             recipeService.updateRecipe(recipeService.findByRecipeName(recipeName), recipeDTO);
-        } catch (Exception error) {
-            System.err.println("Recipe already exists");
+        } catch (DataIntegrityViolationException error) {
+            return showRecipeUpdateFormWithNotificationRecipeExists(model, recipeDTO, recipeName);
         }
 
         return "redirect:/recipes/update/" + stringURLify(recipeName);
@@ -128,6 +134,24 @@ public class RecipeController {
             }
         }
         return stringBuilder.toString();
+    }
+
+    private String showRecipeFormWithNotificationRecipeExists(Model model, RecipeDTO recipeDTO) {
+        model.addAttribute("recipeDTO", new RecipeDTO());
+        model.addAttribute("existingRecipe", recipeDTO);
+        return "recipeForm";
+    }
+
+    private String showRecipeUpdateFormWithNotificationRecipeExists(Model model, RecipeDTO duplicateRecipeDTO, String recipeName) {
+        model.addAttribute("existingRecipe", duplicateRecipeDTO);
+
+        RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
+        model.addAttribute("recipeDTO", recipeDTO);
+        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
+        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
+        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
+
+        return "updateRecipeForm";
     }
 
 

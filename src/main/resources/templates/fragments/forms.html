@@ -29,6 +29,10 @@
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
+
+        <div th:if="${existingRecipe != null}" class="alert alert-danger notification" role="alert">
+            <p th:text="${existingRecipe.recipeName} + ' already exists'"></p>
+        </div>
     </div>
 
 

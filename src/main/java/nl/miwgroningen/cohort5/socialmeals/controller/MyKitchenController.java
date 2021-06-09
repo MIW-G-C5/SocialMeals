@@ -42,8 +42,8 @@ public class MyKitchenController {
         return "myKitchen";
     }
 
-    @RequestMapping(value = "deleteRecipe")
-    protected String deleteRecipe(@RequestParam("recipeName") String recipeName,
+    @GetMapping("/recipes/delete/{recipeName}")
+    protected String deleteRecipe(@PathVariable("recipeName") String recipeName,
                                   Principal principal) {
         RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
         if (recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
