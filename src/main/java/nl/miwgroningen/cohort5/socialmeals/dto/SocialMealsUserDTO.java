@@ -1,9 +1,10 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
-import java.util.Objects;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
+ *
+ *     Describes the details of a SocialMealsUserDTO
  */
 public class SocialMealsUserDTO {
 

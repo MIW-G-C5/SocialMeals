@@ -78,21 +78,6 @@ public class RecipeController {
 
     }
 
-    @GetMapping("/recipes/update/{recipeName}")
-    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model, Principal principal) {
-        RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
-        if (recipeDTO == null || recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
-            return "redirect:/MyKitchen";
-        }
-
-        model.addAttribute("recipeDTO", recipeDTO);
-        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
-        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
-        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
-
-        return "updateRecipeForm";
-    }
-
     @PostMapping("/recipes/update/{recipeName}")
     protected String updateRecipe(@PathVariable("recipeName") String recipeName,
                                   @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
@@ -110,19 +95,7 @@ public class RecipeController {
         return "redirect:/recipes/update/" + stringURLify(recipeName);
     }
 
-    @GetMapping("/recipes/delete/{recipeName}")
-    protected String deleteRecipe(@PathVariable("recipeName") String recipeName,
-                                  @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
-                                  BindingResult result,
-                                  Principal principal) {
-        recipeDTO = recipeService.findByRecipeName(recipeDTO.getRecipeName());
-        if (result.hasErrors() || recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
-            return "redirect:/MyKitchen";
-        }
 
-        recipeService.deleteRecipe(recipeDTO);
-        return "redirect:/MyKitchen";
-    }
 
     @PostMapping("/recipes/{recipeName}/addingredient")
     protected String addIngredient(@PathVariable("recipeName") String recipeName,
@@ -157,8 +130,5 @@ public class RecipeController {
         return stringBuilder.toString();
     }
 
-    private boolean recipeUserDoesNotMatchCurrentUser(Principal principal, RecipeDTO recipeDTO) {
-        SocialMealsUserDTO currentUser = socialMealsUserDetailService.getUserByUsername(principal.getName());
-        return !currentUser.equals(recipeDTO.getSocialMealsUserDTO());
-    }
+
 }
