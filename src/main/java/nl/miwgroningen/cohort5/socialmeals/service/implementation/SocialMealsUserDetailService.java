@@ -21,10 +21,10 @@ import java.util.Optional;
 
 @Service
 public class SocialMealsUserDetailService implements UserDetailsService {
-    
+
     private SocialMealsUserRepository socialMealsUserRepository;
     private SocialMealsUserConverter socialMealsUserConverter;
-    
+
     public SocialMealsUserDetailService(SocialMealsUserRepository socialMealsUserRepository) {
         this.socialMealsUserRepository = socialMealsUserRepository;
         socialMealsUserConverter = new SocialMealsUserConverter();
@@ -33,7 +33,7 @@ public class SocialMealsUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return socialMealsUserRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("User " + username + " not found")) ;
+                () -> new UsernameNotFoundException("User " + username + " not found"));
     }
 
     public List<SocialMealsUserDTO> getAll() {
@@ -48,7 +48,7 @@ public class SocialMealsUserDetailService implements UserDetailsService {
         }
         return socialMealsUserConverter.toDTO(socialMealsUser.get());
     }
-    
+
     public void addSocialMealsUser(String username, String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(password);
@@ -68,8 +68,6 @@ public class SocialMealsUserDetailService implements UserDetailsService {
         }
         return socialMealsUser.get();
     }
-
-
 
 
 }

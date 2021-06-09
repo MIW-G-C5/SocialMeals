@@ -1,6 +1,5 @@
 package nl.miwgroningen.cohort5.socialmeals.controller;
 
-import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
@@ -19,7 +18,7 @@ import java.security.Principal;
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
  *
- *  Controls the view of allrecipes page and creating and updating pages
+ * Controls the view of allrecipes page and creating and updating pages
  */
 
 @Controller
@@ -74,8 +73,11 @@ public class RecipeController {
             recipeService.addNew(recipeDTO);
         } catch (Exception error) {
             System.err.println("Recipe already exists");
+            return "redirect:/MyKitchen";
         }
+
         return "redirect:/recipes/update/" + stringURLify(recipeDTO.getRecipeName());
+
     }
 
     @GetMapping("/recipes/update/{recipeName}")
