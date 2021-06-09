@@ -1,5 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.service;
 
+import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
@@ -26,6 +27,8 @@ public interface RecipeService {
     void addIngredientToRecipe(IngredientRecipeDTO ingredientRecipeDTO);
 
     List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName);
+
+    List<IngredientDTO> getRemainingIngredientsByRecipeName(String recipeName);
 
     List<RecipeDTO> getRecipesByUsername(String username);
 
