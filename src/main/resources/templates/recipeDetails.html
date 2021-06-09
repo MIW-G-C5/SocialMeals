@@ -5,30 +5,40 @@
 </head>
 <body>
 
+<div th:replace="fragments/general :: headerPhoto"></div>
 <div class="container">
 
     <div th:replace="fragments/general :: navbar"></div>
 
     <h1><span th:text="${recipe.recipeName}"></span></h1>
 
-    <p><span text="Cooking instruction"></span></p>
-    <ol >
-        <li th:each="step, iterStep : ${recipe.steps}">
-            <a th:text="${step}"></a>
-        </li>
-    </ol>
+    <div class="flex">
 
-    <table class="table">
-        <tr>
-            <th> Quantity </th>
-            <th> Ingredient </th>
-        </tr>
-        <tr th:each="ingredientRecipe : ${ingredientRecipes}">
-            <td th:text="${ingredientRecipe.quantity + ' ' + ingredientRecipe.quantityType}" ></td>
-            <td th:text="${ingredientRecipe.ingredientDTO.ingredientName}"></td>
-        </tr>
-    </table>
 
+        <div class="recipeSteps">
+            <p><span text="Cooking instruction"></span></p>
+            <ol>
+                <li th:each="step, iterStep : ${recipe.steps}">
+                    <a th:text="${step}"></a>
+                </li>
+            </ol>
+        </div>
+
+        <div class="recipeIngredients">
+            <table class="table">
+                <tr>
+                    <th> Quantity</th>
+                    <th> Ingredient</th>
+                </tr>
+                <tr th:each="ingredientRecipe : ${ingredientRecipes}">
+                    <td th:text="${ingredientRecipe.quantity + ' ' + ingredientRecipe.quantityType}"></td>
+                    <td th:text="${ingredientRecipe.ingredientDTO.ingredientName}"></td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
 </div>
 
 <div th:replace="fragments/general :: bottomScripts"></div>

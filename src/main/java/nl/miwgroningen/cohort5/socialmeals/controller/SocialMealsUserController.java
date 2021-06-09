@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
-
 /**
  * Britt van Mourik
  *
@@ -27,14 +26,14 @@ public class SocialMealsUserController {
     }
 
     @GetMapping("/user/new")
-    protected  String showUserForm(Model model){
+    protected String showUserForm(Model model) {
         model.addAttribute("user", new SocialMealsUser());
         return "userForm";
     }
 
     @PostMapping("/user/new")
-    protected String saveOrUpdateUser(@ModelAttribute("user") SocialMealsUser user, BindingResult result, Model model){
-        if (result.hasErrors()){
+    protected String saveOrUpdateUser(@ModelAttribute("user") SocialMealsUser user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             return "redirect:/user/new";
         }
 
@@ -52,7 +51,6 @@ public class SocialMealsUserController {
         model.addAttribute("existingUsername", socialMealsUserDTO.getUsername());
         return "userForm";
     }
-
 
 
 }

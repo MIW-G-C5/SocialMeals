@@ -5,6 +5,7 @@
 </head>
 <body>
 
+<div th:replace="fragments/general :: headerPhoto"></div>
 <div class="container">
     <div th:replace="fragments/general :: navbar"></div>
 
@@ -21,8 +22,8 @@
             <label for="password" class="col-sm-2 col-form-label">Password:</label>
             <input type="password" id="password" th:field="*{password}" class="form-control">
         </div>
-        <div >
-            <input type="submit" value="Register"  class="btn btn-primary"/>
+        <div>
+            <input type="submit" value="Register" class="btn btn-primary"/>
         </div>
     </form>
 
