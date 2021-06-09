@@ -22,7 +22,7 @@
         </tr>
     </table>
 
-    <form class="has-validation" th:action="@{/recipes/{recipeName}/addingredient(recipeName=${recipeDTO.recipeName})}" method="post" th:object="${ingredientRecipeDTO}">
+    <form class="has-validation" th:action="@{/addingredient(recipeName=${recipeDTO.recipeName})}" method="post" th:object="${ingredientRecipeDTO}">
         <div class="form-group">
             <label for="quantity">Quantity</label>
             <input class = form-control type="number" id="quantity" th:field="*{quantity}">

@@ -157,6 +157,11 @@ public class RecipeServiceMySQL implements RecipeService {
         }
     }
 
+    @Override
+    public List<String> search(String keyword) {
+        return recipeRepository.search(keyword);
+    }
+
     private List<IngredientDTO> getIngredientsByIngredientRecipes(List<IngredientRecipeDTO> ingredientRecipes) {
         List<IngredientDTO> ingredients = new ArrayList<>();
         for (IngredientRecipeDTO ingredientRecipeDTO : ingredientRecipes) {
