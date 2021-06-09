@@ -4,7 +4,6 @@
     <title></title>
 </head>
 <body>
-
 <div class="container">
     <div th:replace="fragments/general :: navbar"></div>
 
@@ -17,10 +16,12 @@
         <tr>
             <th>Recipe Name</th>
             <th></th>
+            <th></th>
         </tr>
         <tr th:each="recipe : ${userRecipes}">
             <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a></td>
             <td><a th:href="@{/recipes/update/{recipeName}(recipeName=${recipe.recipeName})}">Update</a></td>
+            <td><a onclick="return confirm('Are you sure?')" th:href="@{/recipes/delete/{recipeName}(recipeName=${recipe.recipeName})}">Delete</a></td>
         </tr>
 
     </table>

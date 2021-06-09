@@ -1,6 +1,5 @@
 package nl.miwgroningen.cohort5.socialmeals.controller;
 
-import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
@@ -79,13 +78,13 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/update/{recipeName}")
-    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model) {
-        RecipeDTO recipe = recipeService.findByRecipeName(recipeName);
-        if (recipe == null) {
-            return "redirect:/";
+    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model, Principal principal) {
+        RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
+        if (recipeDTO == null || recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
+            return "redirect:/MyKitchen";
         }
 
-        model.addAttribute("recipeDTO", recipe);
+        model.addAttribute("recipeDTO", recipeDTO);
         return "updateRecipeForm";
     }
 
@@ -94,7 +93,7 @@ public class RecipeController {
                                   @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
                                   BindingResult result) {
         if (result.hasErrors()) {
-            return "redirect:/";
+            return "redirect:/MyKitchen";
         }
 
         try {
@@ -106,7 +105,21 @@ public class RecipeController {
         return "redirect:/recipes/update/" + stringURLify(recipeName);
     }
 
-    public String stringURLify(String name) {
+    @GetMapping("/recipes/delete/{recipeName}")
+    protected String deleteRecipe(@PathVariable("recipeName") String recipeName,
+                                  @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+                                  BindingResult result,
+                                  Principal principal) {
+        recipeDTO = recipeService.findByRecipeName(recipeDTO.getRecipeName());
+        if (result.hasErrors() || recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
+            return "redirect:/MyKitchen";
+        }
+
+        recipeService.deleteRecipe(recipeDTO);
+        return "redirect:/MyKitchen";
+    }
+
+    private String stringURLify(String name) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < name.length(); i++) {
             char c = name.charAt(i);
@@ -117,5 +130,10 @@ public class RecipeController {
             }
         }
         return stringBuilder.toString();
+    }
+
+    private boolean recipeUserDoesNotMatchCurrentUser(Principal principal, RecipeDTO recipeDTO) {
+        SocialMealsUserDTO currentUser = socialMealsUserDetailService.getUserByUsername(principal.getName());
+        return !currentUser.equals(recipeDTO.getSocialMealsUserDTO());
     }
 }
