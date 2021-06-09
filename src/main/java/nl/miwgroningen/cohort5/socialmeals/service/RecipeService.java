@@ -35,4 +35,6 @@ public interface RecipeService {
     List<RecipeDTO> getRecipesByUsername(String username);
 
     Recipe getRecipeByRecipeDTO(RecipeDTO recipeDTO);
+
+    List<String> search(String keyword);
 }

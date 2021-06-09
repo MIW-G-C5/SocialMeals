@@ -46,7 +46,6 @@ public class Seeder {
         seedIngredients();
         seedRecipes();
         seedIngredientRecipes();
-
     }
 
     private void seedUser() {

@@ -13,8 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -80,7 +80,6 @@ public class RecipeController {
         }
 
         return "redirect:/recipes/update/" + stringURLify(recipeDTO.getRecipeName());
-
     }
 
     @PostMapping("/recipes/update/{recipeName}")
@@ -101,11 +100,9 @@ public class RecipeController {
         return "redirect:/recipes/update/" + stringURLify(recipeName);
     }
 
-
-
-    @PostMapping("/recipes/{recipeName}/addingredient")
-    protected String addIngredient(@PathVariable("recipeName") String recipeName,
-                                   @ModelAttribute("ingredientRecipeDTO") IngredientRecipeDTO ingredientRecipeDTO,
+    @RequestMapping(value = "addingredient")
+    protected String addIngredient(@ModelAttribute("ingredientRecipeDTO") IngredientRecipeDTO ingredientRecipeDTO,
+                                   @RequestParam("recipeName") String recipeName,
                                    @RequestParam("ingredientName") String ingredientName,
                                    BindingResult result) {
         if (result.hasErrors()) {
@@ -121,6 +118,17 @@ public class RecipeController {
         }
 
         return "redirect:/recipes/update/" + stringURLify(recipeName);
+    }
+
+    @RequestMapping(value = "/recipes/")
+    protected String searchRecipe(Model model, @RequestParam String search) {
+        List<String> searchResults = recipeService.search(search);
+        List<RecipeDTO> recipeResults = new ArrayList<>();
+        for (String searchResult : searchResults) {
+            recipeResults.add(recipeService.findByRecipeName(searchResult));
+        }
+        model.addAttribute("allRecipes", recipeResults);
+        return "recipeOverview";
     }
 
     public String stringURLify(String name) {

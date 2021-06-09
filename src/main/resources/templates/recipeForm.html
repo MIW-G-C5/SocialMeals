@@ -5,8 +5,10 @@
 </head>
 <body>
 
-<div th:replace="fragments/general :: headerPhoto"></div>
+
 <div class="container">
+
+    <div th:replace="fragments/general :: headerPhoto"></div>
     <div th:replace="fragments/general :: navbar"></div>
 
     <form class="has-validation" th:action="@{/recipes/new}" method="post" th:object="${recipeDTO}">
