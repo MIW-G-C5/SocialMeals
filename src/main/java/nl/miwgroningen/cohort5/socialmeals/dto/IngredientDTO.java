@@ -4,6 +4,8 @@ import java.util.Objects;
 
 /**
  * Britt van Mourik
+ *
+ * Describes the details of an IngredientDTO
  */
 
 public class IngredientDTO {

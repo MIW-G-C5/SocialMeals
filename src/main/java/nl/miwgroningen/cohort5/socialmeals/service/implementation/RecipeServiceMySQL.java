@@ -82,6 +82,16 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
+    public RecipeDTO deleteRecipe(RecipeDTO recipeDTO) {
+        Recipe recipe = getRecipeByRecipeDTO(recipeDTO);
+
+        if (recipe != null) {
+            recipeRepository.delete(recipe);
+        }
+        return recipeDTO;
+    }
+
+    @Override
     public RecipeDTO findByRecipeName(String recipeName) {
         Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
         RecipeDTO recipeDTO = null;
@@ -106,12 +116,12 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName){
+    public List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName) {
 
         Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
 
-        if (recipe.isEmpty()){
-           return null;
+        if (recipe.isEmpty()) {
+            return null;
         }
 
         List<IngredientRecipe> ingredientRecipeList = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
@@ -137,11 +147,11 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public List<RecipeDTO> getRecipesByUsername(String username){
+    public List<RecipeDTO> getRecipesByUsername(String username) {
         Optional<SocialMealsUser> user = socialMealsUserRepository.findByUsername(username);
         List<Recipe> recipes = null;
 
-        if (user.isPresent()){
+        if (user.isPresent()) {
             recipes = recipeRepository.findRecipesBySocialMealsUser(user.get());
         }
 
@@ -150,7 +160,7 @@ public class RecipeServiceMySQL implements RecipeService {
 
     public Recipe getRecipeByRecipeDTO(RecipeDTO recipeDTO) {
         Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeDTO.getRecipeName());
-        if (recipe.isPresent()){
+        if (recipe.isPresent()) {
             return recipe.get();
         } else {
             return null;

@@ -20,6 +20,8 @@ public interface RecipeService {
 
     void updateRecipe(RecipeDTO oldRecipeDTO, RecipeDTO updatedRecipeDTO);
 
+    RecipeDTO deleteRecipe(RecipeDTO recipeDTO);
+
     RecipeDTO findByRecipeName(String recipeName);
 
     void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeList);

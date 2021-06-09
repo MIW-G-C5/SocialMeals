@@ -2,6 +2,8 @@ package nl.miwgroningen.cohort5.socialmeals.dto;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
+ *
+ *  Describes the details of a IngredientRecipeDTO
  */
 public class IngredientRecipeDTO {
 
