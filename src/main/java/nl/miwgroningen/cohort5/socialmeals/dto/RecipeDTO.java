@@ -1,10 +1,12 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
  * @author A.H. van Zessen
+ *
+ * Describes the details of a RecipeDTO
  */
 
 public class RecipeDTO {

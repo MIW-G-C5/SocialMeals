@@ -82,6 +82,16 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
+    public RecipeDTO deleteRecipe(RecipeDTO recipeDTO) {
+        Recipe recipe = getRecipeByRecipeDTO(recipeDTO);
+
+        if (recipe != null) {
+            recipeRepository.delete(recipe);
+        }
+        return recipeDTO;
+    }
+
+    @Override
     public RecipeDTO findByRecipeName(String recipeName) {
         Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
         RecipeDTO recipeDTO = null;

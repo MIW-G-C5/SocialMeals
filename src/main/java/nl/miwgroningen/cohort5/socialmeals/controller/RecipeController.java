@@ -78,26 +78,12 @@ public class RecipeController {
 
     }
 
-    @GetMapping("/recipes/update/{recipeName}")
-    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model) {
-        RecipeDTO recipe = recipeService.findByRecipeName(recipeName);
-        if (recipe == null) {
-            return "redirect:/";
-        }
-
-        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
-        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
-        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
-        model.addAttribute("recipeDTO", recipe);
-        return "updateRecipeForm";
-    }
-
     @PostMapping("/recipes/update/{recipeName}")
     protected String updateRecipe(@PathVariable("recipeName") String recipeName,
                                   @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
                                   BindingResult result) {
         if (result.hasErrors()) {
-            return "redirect:/";
+            return "redirect:/MyKitchen";
         }
 
         try {
@@ -108,6 +94,8 @@ public class RecipeController {
 
         return "redirect:/recipes/update/" + stringURLify(recipeName);
     }
+
+
 
     @PostMapping("/recipes/{recipeName}/addingredient")
     protected String addIngredient(@PathVariable("recipeName") String recipeName,
@@ -141,4 +129,6 @@ public class RecipeController {
         }
         return stringBuilder.toString();
     }
+
+
 }
