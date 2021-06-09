@@ -76,7 +76,7 @@ public class RecipeController {
         try {
             recipeService.addNew(recipeDTO);
         } catch (DataIntegrityViolationException error) {
-            return showRecipeFormWithNotificationRecipeExists(model, recipeDTO);
+            return createRecipeFormWithNotificationRecipeExists(model, recipeDTO);
         }
 
         return "redirect:/recipes/update/" + stringURLify(recipeDTO.getRecipeName());
@@ -94,7 +94,7 @@ public class RecipeController {
         try {
             recipeService.updateRecipe(recipeService.findByRecipeName(recipeName), recipeDTO);
         } catch (DataIntegrityViolationException error) {
-            return showRecipeUpdateFormWithNotificationRecipeExists(model, recipeDTO, recipeName);
+            return createRecipeUpdateFormWithNotificationRecipeExists(model, recipeDTO, recipeName);
         }
 
         return "redirect:/recipes/update/" + stringURLify(recipeName);
@@ -144,13 +144,13 @@ public class RecipeController {
         return stringBuilder.toString();
     }
 
-    private String showRecipeFormWithNotificationRecipeExists(Model model, RecipeDTO recipeDTO) {
+    private String createRecipeFormWithNotificationRecipeExists(Model model, RecipeDTO recipeDTO) {
         model.addAttribute("recipeDTO", new RecipeDTO());
         model.addAttribute("existingRecipe", recipeDTO);
         return "recipeForm";
     }
 
-    private String showRecipeUpdateFormWithNotificationRecipeExists(Model model, RecipeDTO duplicateRecipeDTO, String recipeName) {
+    private String createRecipeUpdateFormWithNotificationRecipeExists(Model model, RecipeDTO duplicateRecipeDTO, String recipeName) {
         model.addAttribute("existingRecipe", duplicateRecipeDTO);
 
         RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
