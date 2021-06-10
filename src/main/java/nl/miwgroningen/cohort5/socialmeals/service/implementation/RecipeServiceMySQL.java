@@ -125,9 +125,8 @@ public class RecipeServiceMySQL implements RecipeService {
         }
 
         List<IngredientRecipe> ingredientRecipeList = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
-        List<IngredientRecipeDTO> ingredientRecipeDTOList = ingredientRecipeConverter.toListDTO(ingredientRecipeList);
 
-        return ingredientRecipeDTOList;
+        return ingredientRecipeConverter.toListDTO(ingredientRecipeList);
     }
 
     @Override
@@ -160,11 +159,12 @@ public class RecipeServiceMySQL implements RecipeService {
 
     public Recipe getRecipeByRecipeDTO(RecipeDTO recipeDTO) {
         Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeDTO.getRecipeName());
-        if (recipe.isPresent()) {
-            return recipe.get();
-        } else {
-            return null;
-        }
+        return recipe.orElse(null);
+    }
+
+    @Override
+    public List<String> search(String keyword) {
+        return recipeRepository.search(keyword);
     }
 
     private List<IngredientDTO> getIngredientsByIngredientRecipes(List<IngredientRecipeDTO> ingredientRecipes) {

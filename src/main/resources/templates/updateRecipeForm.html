@@ -40,7 +40,7 @@
                 </tr>
                 <tr th:each="ingredientRecipe : ${presentIngredientsRecipes}">
                     <td th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' '
-                    + ${ingredientRecipe.quantity + ' ' + ingredientRecipe.quantityType}"></td>
+                    + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></td>
                 </tr>
             </table>
         </div>
@@ -60,11 +60,11 @@
 
         <div class="updateIngredients">
             <form class="has-validation"
-                  th:action="@{/recipes/{recipeName}/addingredient(recipeName=${recipeDTO.recipeName})}" method="post"
+                  th:action="@{/recipes/update/{recipeName}/addingredient(recipeName=${recipeDTO.recipeName})}" method="post"
                   th:object="${ingredientRecipeDTO}">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
-                    <input class=form-control type="number" id="quantity" th:field="*{quantity}">
+                    <input class=form-control type="number" step="0.1" id="quantity" th:field="*{quantity}">
                 </div>
 
                 <div class="form-group">

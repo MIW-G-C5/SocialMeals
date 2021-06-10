@@ -18,6 +18,12 @@
             <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a></td>
         </tr>
     </table>
+
+    <h2>Search recipe</h2>
+    <form th:action="@{/recipes/search}">
+        <input class="form-group" type="text" name="keyword"/>
+        <input type="submit" class="btn btn-primary" value="Search"/>
+    </form>
 </div>
 
 <div th:replace="fragments/general :: bottomScripts"></div>

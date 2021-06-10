@@ -37,7 +37,7 @@
                     <th>Shoppinglist</th>
                 </tr>
                 <tr th:each="ingredientRecipe : ${ingredientRecipes}">
-                    <td th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' ' + ${ingredientRecipe.quantity + ' ' + ingredientRecipe.quantityType}"></td>
+                    <td th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' ' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></td>
                 </tr>
             </table>
 

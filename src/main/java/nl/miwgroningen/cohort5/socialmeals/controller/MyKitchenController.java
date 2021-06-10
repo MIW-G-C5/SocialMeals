@@ -47,8 +47,8 @@ public class MyKitchenController {
 
     @GetMapping("/Cookbook/{username}")
     protected String showPublicCookbook(@PathVariable("username") String username, Model model, Principal principal) {
-       List<RecipeDTO> recipeDTOList = recipeService.getRecipesByUsername(username);
-       SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(username);
+        List<RecipeDTO> recipeDTOList = recipeService.getRecipesByUsername(username);
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(username);
 
         if (recipeDTOList == null ) {
             return "redirect:/";
@@ -62,8 +62,8 @@ public class MyKitchenController {
         return "myCookbook";
     }
 
-    @RequestMapping(value = "deleteRecipe")
-    protected String deleteRecipe(@RequestParam("recipeName") String recipeName,
+    @GetMapping("/recipes/delete/{recipeName}")
+    protected String deleteRecipe(@PathVariable("recipeName") String recipeName,
                                   Principal principal) {
         RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
         if (recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
