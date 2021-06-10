@@ -60,7 +60,7 @@
 
         <div class="updateIngredients">
             <form class="has-validation"
-                  th:action="@{/addingredient(recipeName=${recipeDTO.recipeName})}" method="post"
+                  th:action="@{/recipes/update/{recipeName}/addingredient(recipeName=${recipeDTO.recipeName})}" method="post"
                   th:object="${ingredientRecipeDTO}">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
