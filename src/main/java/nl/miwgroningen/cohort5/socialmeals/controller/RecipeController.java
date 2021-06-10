@@ -113,7 +113,7 @@ public class RecipeController {
             ingredientRecipeDTO.setRecipeDTO(recipeService.findByRecipeName(recipeName));
             ingredientRecipeDTO.setIngredientDTO(ingredientService.findByIngredientName(ingredientName));
             recipeService.addIngredientToRecipe(ingredientRecipeDTO);
-        } catch (Exception error) {
+        } catch (NullPointerException error) {
             System.err.println(error.getMessage());
         }
 
