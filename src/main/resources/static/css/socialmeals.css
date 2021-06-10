@@ -90,4 +90,10 @@ h1 {
     width: 40%;
 }
 
+.searchRecipe {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: minmax(25%, 75%) auto;
+}
+
 
