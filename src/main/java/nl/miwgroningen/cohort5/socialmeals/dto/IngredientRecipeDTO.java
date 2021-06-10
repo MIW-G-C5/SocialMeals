@@ -23,6 +23,15 @@ public class IngredientRecipeDTO {
     public IngredientRecipeDTO() {
     }
 
+    public String getQuantityAsString() {
+        if (quantity % 1 == 0) {
+            return String.valueOf((int) quantity);
+        }
+        return String.valueOf(quantity);
+    }
+
+
+
     public IngredientDTO getIngredientDTO() {
         return ingredientDTO;
     }
