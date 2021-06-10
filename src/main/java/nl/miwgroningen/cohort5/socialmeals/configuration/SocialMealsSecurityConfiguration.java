@@ -33,7 +33,7 @@ public class SocialMealsSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers("/", "/recipes", "/recipes/*").permitAll()
                 .antMatchers("/user/new", "/MyKitchen").permitAll()
                 .anyRequest().authenticated().and()
-             .formLogin().and()
+                .formLogin().and()
                 .logout().logoutSuccessUrl("/recipes");
     }
 

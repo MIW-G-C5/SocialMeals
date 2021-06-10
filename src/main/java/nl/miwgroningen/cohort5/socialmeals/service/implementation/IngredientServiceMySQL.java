@@ -60,7 +60,7 @@ public class IngredientServiceMySQL implements IngredientService {
 
         Optional<Ingredient> ingredient = ingredientRepository.findByIngredientName(ingredientDTO.getIngredientName());
 
-        if(ingredient.isPresent()){
+        if (ingredient.isPresent()) {
             return ingredient.get();
         } else {
             return null;
