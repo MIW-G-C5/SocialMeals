@@ -69,7 +69,7 @@ public class RecipeController {
         recipeDTOSessionObject.setSteps(new ArrayList<>());
 
         recipeDTOSessionObject.getSteps().add("");
-        model.addAttribute("recipeDTOSessionObject", recipeDTOSessionObject);
+        model.addAttribute("recipeDTO", recipeDTOSessionObject);
         return "recipeForm";
     }
 
@@ -82,11 +82,11 @@ public class RecipeController {
             return "redirect:/";
         }
         recipeDTOSessionObject.getSteps().add("");
-        model.addAttribute("recipeDTOSessionObject", recipeDTOSessionObject);
+        model.addAttribute("recipeDTO", recipeDTOSessionObject);
         return "recipeForm";
     }
 
-    @PostMapping(value = "/recipes/new/newRecipe", params = "submit")
+    @PostMapping(value = "/recipes/new/newRecipe", params = "save")
     protected String saveRecipe(Model model,
                                 @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTO,
                                 @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,

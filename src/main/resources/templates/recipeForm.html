@@ -11,25 +11,8 @@
     <div th:replace="fragments/general :: navbar"></div>
 
     <form class="has-validation" th:action="@{/recipes/new/newRecipe}" method="post" th:object="${recipeDTOSessionObject}">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" th:field="*{recipeName}" required>
-        </div>
-        <div class="form-group" th:each="step, iter : ${recipeDTOSessionObject.steps}">
-            <label for="step1" th:text="'Step ' + ${iter.index + 1}"></label>
-            <input type="text" class="form-control" th:field="*{steps[__${iter.index}__]}" id="step1" />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" name="add">Add Step</button>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-        </div>
-        <div th:if="${existingRecipe != null}" class="alert alert-danger notification" role="alert">
-            <p th:text="${existingRecipe.recipeName} + ' already exists'"></p>
-        </div>
         
-<!--        <div th:replace="fragments/forms :: recipeForm"></div>-->
+        <div th:replace="fragments/forms :: recipeForm"></div>
 
     </form>
 </div>
