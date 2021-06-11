@@ -48,11 +48,11 @@
                   method="post" th:object="${recipeDTO}">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" th:field="*{recipeName}" required>
+                    <input type="text" class="form-control form-control-with" id="name" th:field="*{recipeName}" required>
                 </div>
                 <div class="form-group" th:each="step, iter : ${recipeDTO.steps}">
                     <label for="step1" th:text="'Step ' + ${iter.index + 1}"></label>
-                    <input type="text" class="form-control" th:field="*{steps[__${iter.index}__]}" id="step1" />
+                    <input type="text" class="form-control form-control-with" th:field="*{steps[__${iter.index}__]}" id="step1" />
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary" name="add">Add Step</button>
@@ -82,7 +82,7 @@
 
                 <div class="form-group">
                     <label for="ingredientAuto">Ingredient</label>
-                    <input class=form-control name="ingredientName" id="ingredientAuto">
+                    <input class="form-control form-control-with" name="ingredientName" id="ingredientAuto">
                 </div>
 
                 <div class="form-group">
