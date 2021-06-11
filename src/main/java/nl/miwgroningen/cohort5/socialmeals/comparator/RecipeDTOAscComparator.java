@@ -6,13 +6,13 @@ import java.util.Comparator;
 
 /**
  * Britt van Mourik
+ * sorts RecipeDTOs in ascending order
  */
 
-public class RecipeDTOComparator implements Comparator<RecipeDTO> {
-
+public class RecipeDTOAscComparator implements Comparator<RecipeDTO> {
 
     @Override
-    public int compare(RecipeDTO recipeDTO, RecipeDTO otherRecipeDTO){
+    public int compare(RecipeDTO recipeDTO, RecipeDTO otherRecipeDTO) {
         return recipeDTO.getRecipeName().compareTo(otherRecipeDTO.getRecipeName());
     }
 
