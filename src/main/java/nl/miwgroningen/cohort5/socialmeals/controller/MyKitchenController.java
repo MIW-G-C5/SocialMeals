@@ -5,11 +5,14 @@ import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Britt van Mourik
@@ -40,6 +43,23 @@ public class MyKitchenController {
         model.addAttribute("user", userDTO);
         model.addAttribute("userRecipes", recipeService.getRecipesByUsername(principal.getName()));
         return "myKitchen";
+    }
+
+    @GetMapping("/Cookbook/{username}")
+    protected String showPublicCookbook(@PathVariable("username") String username, Model model, Principal principal) {
+        List<RecipeDTO> recipeDTOList = recipeService.getRecipesByUsername(username);
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(username);
+
+        if (recipeDTOList == null ) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("ownRecipe", isItYourRecipe(principal, socialMealsUserDTO));
+        model.addAttribute("socialMealsUserDTO", socialMealsUserDTO);
+        model.addAttribute("recipeDTOList", recipeDTOList);
+        model.addAttribute("principal", principal);
+
+        return "myCookbook";
     }
 
     @GetMapping("/recipes/delete/{recipeName}")
@@ -73,4 +93,15 @@ public class MyKitchenController {
         SocialMealsUserDTO currentUser = socialMealsUserDetailService.getUserByUsername(principal.getName());
         return !currentUser.equals(recipeDTO.getSocialMealsUserDTO());
     }
+
+    private boolean isItYourRecipe(Principal principal, SocialMealsUserDTO socialMealsUserDTO){
+
+        boolean ownRecipe = true;
+        if(!principal.getName().equals(socialMealsUserDTO.getUsername())){
+            ownRecipe = false;
+        }
+
+        return ownRecipe;
+    }
+
 }

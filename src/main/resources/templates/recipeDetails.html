@@ -13,8 +13,14 @@
 
     <h1><span th:text="${recipe.recipeName}"></span></h1>
 
-    <div class="flex">
+    <p>
+        made by
+        <a th:href="@{/Cookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}" th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
+        <span th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
+        <br>
+    </p>
 
+    <div class="flex">
 
         <div class="recipeSteps">
             <p><span text="Cooking instruction"></span></p>
