@@ -16,12 +16,12 @@
     <form th:action="@{/user/new}" th:object="${user}" method="post">
         <div class="form-group row">
             <label for="username" class="col-sm-2 col-form-label">Username:</label>
-            <input type="text" id="username" th:field="*{username}" class="form-control">
+            <input type="text" id="username" th:field="*{username}" class="form-control form-control-with">
         </div>
 
         <div class="form-group row">
             <label for="password" class="col-sm-2 col-form-label">Password:</label>
-            <input type="password" id="password" th:field="*{password}" class="form-control">
+            <input type="password" id="password" th:field="*{password}" class="form-control form-control-with">
         </div>
         <div>
             <input type="submit" value="Register" class="btn btn-primary"/>

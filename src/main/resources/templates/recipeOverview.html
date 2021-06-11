@@ -10,20 +10,26 @@
     <div th:replace="fragments/general :: headerPhoto"></div>
     <div th:replace="fragments/general :: navbar"></div>
     <h1>Recipes</h1>
+
+
+    <form class="searchRecipe" th:action="@{/recipes/search}">
+        <input type="text" class="form-control" name="keyword"/>
+        <input type="submit" class="btn btn-primary" value="Search"/>
+    </form>
+
+    <br>
+
     <table class="table">
         <tr>
             <th>Recipe Name</th>
         </tr>
         <tr th:each="recipe : ${allRecipes}">
-            <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a></td>
+            <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}"
+                   th:text="${recipe.recipeName}"></a></td>
         </tr>
     </table>
 
-    <h2>Search recipe</h2>
-    <form class="searchRecipe" th:action="@{/recipes/search}">
-        <input type="text" name="keyword"/>
-        <input type="submit" class="btn btn-primary" value="Search"/>
-    </form>
+
 </div>
 
 <div th:replace="fragments/general :: bottomScripts"></div>
