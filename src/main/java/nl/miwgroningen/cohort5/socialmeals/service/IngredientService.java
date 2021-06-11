@@ -20,4 +20,6 @@ public interface IngredientService {
     IngredientDTO findByIngredientName(String ingredientName);
 
     Ingredient getIngredientByIngredientDTO(IngredientDTO ingredientDTO);
+
+    List<String> search(String keyword);
 }

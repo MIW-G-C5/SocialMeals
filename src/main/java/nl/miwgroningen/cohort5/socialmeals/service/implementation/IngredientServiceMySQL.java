@@ -66,4 +66,9 @@ public class IngredientServiceMySQL implements IngredientService {
             return null;
         }
     }
+
+    @Override
+    public List<String> search(String keyword) {
+        return ingredientRepository.search(keyword);
+    }
 }
