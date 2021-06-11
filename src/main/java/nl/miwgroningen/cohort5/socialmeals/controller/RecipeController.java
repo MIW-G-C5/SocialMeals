@@ -1,5 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.controller;
 
+
+import nl.miwgroningen.cohort5.socialmeals.comparator.RecipeDTOAscComparator;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
@@ -14,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +43,11 @@ public class RecipeController {
 
     @GetMapping({"/", "/recipes"})
     protected String showRecipes(Model model) {
-        model.addAttribute("allRecipes", recipeService.getAll());
+        List<RecipeDTO> recipeDTOS = recipeService.getAll();
+        Collections.sort(recipeDTOS, new RecipeDTOAscComparator());
+
+        model.addAttribute("allRecipes", recipeDTOS);
+        model.addAttribute("comparator", new RecipeDTOAscComparator());
         return "recipeOverview";
     }
 

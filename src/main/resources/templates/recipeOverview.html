@@ -19,6 +19,8 @@
 
     <br>
 
+    <span class="navbar-push" th:text="'results: ' + ${allRecipes.size()}"></span>
+
     <table class="table">
         <tr>
             <th>Recipe Name</th>
@@ -28,7 +30,6 @@
                    th:text="${recipe.recipeName}"></a></td>
         </tr>
     </table>
-
 
 </div>
 
