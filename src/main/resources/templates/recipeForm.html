@@ -11,27 +11,26 @@
     <div th:replace="fragments/general :: headerPhoto"></div>
     <div th:replace="fragments/general :: navbar"></div>
 
-    <form class="has-validation" th:action="@{/recipes/new}" method="post" th:object="${recipeDTOSessionObject}">
+    <form class="has-validation" th:action="@{/recipes/new/newRecipe}" method="post" th:object="${recipeDTOSessionObject}">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" th:field="*{recipeName}" required>
         </div>
         <div class="form-group" th:each="step, iter : ${recipeDTOSessionObject.steps}">
-            <label for="step1" th:text="Step"></label>
+            <label for="step1" th:text="'Step ' + ${iter.index + 1}"></label>
             <input type="text" class="form-control" th:field="*{steps[__${iter.index}__]}" id="step1" />
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save Step and Add New</button>
+            <button type="submit" class="btn btn-primary" name="add">Add New</button>
         </div>
-        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+        </div>
 
 
 
 <!--        <div th:replace="fragments/forms :: recipeForm"></div>-->
     </form>
-    <div class="form-group">
-        <a type="button" class="btn btn-primary" th:href="@{/recipes/save}">submit</a></td>
-    </div>
 </div>
 
 <div th:replace="fragments/general :: bottomScripts"></div>

@@ -63,12 +63,15 @@ public class RecipeController {
 
     @GetMapping("/recipes/new")
     protected String showRecipeForm(Model model, @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject) {
+        recipeDTOSessionObject.setRecipeName("");
+        recipeDTOSessionObject.setSteps(new ArrayList<>());
+
         recipeDTOSessionObject.getSteps().add("");
         model.addAttribute("recipeDTOSessionObject", recipeDTOSessionObject);
         return "recipeForm";
     }
 
-    @PostMapping("/recipes/new")
+    @PostMapping(value = "/recipes/new/newRecipe", params = "add")
     protected String updateShowRecipeForm(Model model,
                                           @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTO,
                                           @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
@@ -76,24 +79,26 @@ public class RecipeController {
         if (result.hasErrors()) {
             return "redirect:/";
         }
-
-        recipeDTOSessionObject.setRecipeName(recipeDTO.getRecipeName());
-        recipeDTOSessionObject.setSteps(recipeDTO.getSteps());
-
         recipeDTOSessionObject.getSteps().add("");
         model.addAttribute("recipeDTOSessionObject", recipeDTOSessionObject);
         return "recipeForm";
     }
 
-    @PostMapping("/recipes/new")
+    @PostMapping(value = "/recipes/new/newRecipe", params = "submit")
     protected String saveRecipe(Model model,
+                                @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTO,
                                 @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
-                                Principal principal) {
-
+                                Principal principal,
+                                BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/";
+        }
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
         if (socialMealsUserDTO != null) {
             recipeDTOSessionObject.setSocialMealsUserDTO(socialMealsUserDTO);
         }
+
+        recipeDTOSessionObject.setSteps(removeEmptySteps(recipeDTOSessionObject.getSteps()));
 
         try {
             recipeService.addNew(recipeDTOSessionObject);
@@ -104,7 +109,7 @@ public class RecipeController {
         return "redirect:/recipes/update/" + stringURLify(recipeDTOSessionObject.getRecipeName());
     }
 
-    @PostMapping("/recipes/update/{recipeName}")
+    @PostMapping(value = "/recipes/update/{recipeName}", params = "save")
     protected String updateRecipe(@PathVariable("recipeName") String recipeName,
                                   @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
                                   Model model,
@@ -113,6 +118,8 @@ public class RecipeController {
             return "redirect:/MyKitchen";
         }
 
+        recipeDTO.setSteps(removeEmptySteps(recipeDTO.getSteps()));
+
         try {
             recipeService.updateRecipe(recipeService.findByRecipeName(recipeName), recipeDTO);
         } catch (DataIntegrityViolationException error) {
@@ -120,6 +127,24 @@ public class RecipeController {
         }
 
         return "redirect:/recipes/update/" + stringURLify(recipeName);
+    }
+
+    @PostMapping(value = "/recipes/update/{recipeName}", params = "add")
+    protected String addStepToUpdateRecipe(@PathVariable("recipeName") String recipeName,
+                                  @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+                                  Model model,
+                                  BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/MyKitchen";
+        }
+
+        recipeDTO.getSteps().add("");
+        model.addAttribute("recipeDTO", recipeDTO);
+        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
+        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
+        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
+
+        return "updateRecipeForm";
     }
 
     @PostMapping(value = "/recipes/update/{recipeName}/addingredient")
@@ -182,6 +207,16 @@ public class RecipeController {
         model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
 
         return "updateRecipeForm";
+    }
+
+    private List<String> removeEmptySteps(List<String> steps) {
+        List<String> returnSteps = new ArrayList<>();
+        for (String step : steps) {
+            if (!step.equals("")) {
+                returnSteps.add(step);
+            }
+        }
+        return returnSteps;
     }
 
 

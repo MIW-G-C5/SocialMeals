@@ -18,18 +18,11 @@
                 </tr>
                 <tr>
                     <td th:text="${recipeDTO.recipeName}"></td>
+                </tr>
+                <tr th:each="step, iter : ${recipeDTO.getSteps()}">
+                    <td th:text="'Step ' + __${iter.index + 1}__ + ': ' + ${step}"></td>
+                </tr>
 
-                </tr>
-                <tr>
-                    <td th:text="'Step 1 ' + ${recipeDTO.steps[0]}"></td>
-                </tr>
-<!--                <tr>-->
-<!--                    <td th:text="'Step 2 ' + ${recipeDTO.steps[1]}"></td>-->
-<!--                </tr>-->
-<!--                <td th:text="'Step 3 ' + ${recipeDTO.steps[2]}"></td>-->
-<!--                <tr>-->
-
-                </tr>
             </table>
         </div>
 
@@ -54,7 +47,20 @@
         <div class="updateRecipe">
             <form class="has-validation" th:action="@{/recipes/update/{recipeName}(recipeName=${recipeDTO.recipeName})}"
                   method="post" th:object="${recipeDTO}">
-                <div th:replace="fragments/forms :: recipeForm"></div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" th:field="*{recipeName}" required>
+                </div>
+                <div class="form-group" th:each="step, iter : ${recipeDTO.steps}">
+                    <label for="step1" th:text="'Step ' + ${iter.index + 1}"></label>
+                    <input type="text" class="form-control" th:field="*{steps[__${iter.index}__]}" id="step1" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" name="add">Add Step</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" name="save">Save</button>
+                </div>
             </form>
         </div>
 
