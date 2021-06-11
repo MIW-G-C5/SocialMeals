@@ -1,6 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
 
+import java.util.Comparator;
 import java.util.List;
 
 /**

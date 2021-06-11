@@ -10,6 +10,8 @@
     <div th:replace="fragments/general :: headerPhoto"></div>
     <div th:replace="fragments/general :: navbar"></div>
 
+    <br><br>
+
     <form class="has-validation" th:action="@{/recipes/new/newRecipe}" method="post" th:object="${recipeDTOSessionObject}">
         
         <div th:replace="fragments/forms :: recipeForm"></div>

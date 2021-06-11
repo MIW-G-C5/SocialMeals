@@ -1,23 +1,23 @@
 package nl.miwgroningen.cohort5.socialmeals.controller;
 
+import nl.miwgroningen.cohort5.socialmeals.comparator.RecipeDTOAscComparator;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Britt van Mourik
  *
- * Controls the view of MyKitchen
+ * Controls the view of MyKitchen and Cookbook
  */
 
 @Controller
@@ -48,6 +48,7 @@ public class MyKitchenController {
     @GetMapping("/Cookbook/{username}")
     protected String showPublicCookbook(@PathVariable("username") String username, Model model, Principal principal) {
         List<RecipeDTO> recipeDTOList = recipeService.getRecipesByUsername(username);
+        Collections.sort(recipeDTOList, new RecipeDTOAscComparator());
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(username);
 
         if (recipeDTOList == null ) {

@@ -61,8 +61,14 @@ public class Seeder {
 
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
 
-        recipeService.addNew(new RecipeDTO("Baba ganoush", steps, socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Lasagna", steps2, socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Baba ganoush", steps, socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Poké Bowl", new ArrayList<>(), socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Strawberry smoothie", new ArrayList<>(), socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Chickpea dahl", new ArrayList<>(), socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Sweet potato curry", new ArrayList<>(), socialMealsUserDTO));
+
+
     }
 
     private void seedIngredients() {
