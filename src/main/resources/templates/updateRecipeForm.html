@@ -64,12 +64,12 @@
                   th:object="${ingredientRecipeDTO}">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
-                    <input class=form-control type="number" step="0.1" id="quantity" th:field="*{quantity}">
+                    <input class="form-control form-control-with" type="number" step="0.1" id="quantity" th:field="*{quantity}">
                 </div>
 
                 <div class="form-group">
                     <label for="quantitytype">Quantity type</label>
-                    <input class=form-control type="text" id="quantitytype" th:field="*{quantityType}">
+                    <input class="form-control form-control-with" type="text" id="quantitytype" th:field="*{quantityType}">
                 </div>
 
                 <select name="ingredientName">
