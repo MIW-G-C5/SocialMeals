@@ -23,6 +23,7 @@ import java.util.List;
  */
 
 @Controller
+@SessionAttributes("recipeDTOSessionObject")
 public class RecipeController {
 
     private RecipeService recipeService;
@@ -34,6 +35,13 @@ public class RecipeController {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
+    }
+
+    @ModelAttribute("recipeDTOSessionObject")
+    public RecipeDTO newRecipeDTO() {
+        RecipeDTO recipeDTO = new RecipeDTO();
+        recipeDTO.setSteps(new ArrayList<>());
+        return recipeDTO;
     }
 
     @GetMapping({"/", "/recipes"})
@@ -54,32 +62,46 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/new")
-    protected String showRecipeForm(Model model) {
-        model.addAttribute("recipeDTO", new RecipeDTO());
+    protected String showRecipeForm(Model model, @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject) {
+        recipeDTOSessionObject.getSteps().add("");
+        model.addAttribute("recipeDTOSessionObject", recipeDTOSessionObject);
         return "recipeForm";
     }
 
     @PostMapping("/recipes/new")
-    protected String saveRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
-                                Model model,
-                                BindingResult result,
-                                Principal principal) {
+    protected String updateShowRecipeForm(Model model,
+                                          @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTO,
+                                          @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
+                                          BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/";
         }
 
+        recipeDTOSessionObject.setRecipeName(recipeDTO.getRecipeName());
+        recipeDTOSessionObject.setSteps(recipeDTO.getSteps());
+
+        recipeDTOSessionObject.getSteps().add("");
+        model.addAttribute("recipeDTOSessionObject", recipeDTOSessionObject);
+        return "recipeForm";
+    }
+
+    @PostMapping("/recipes/new")
+    protected String saveRecipe(Model model,
+                                @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
+                                Principal principal) {
+
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
         if (socialMealsUserDTO != null) {
-            recipeDTO.setSocialMealsUserDTO(socialMealsUserDTO);
+            recipeDTOSessionObject.setSocialMealsUserDTO(socialMealsUserDTO);
         }
 
         try {
-            recipeService.addNew(recipeDTO);
+            recipeService.addNew(recipeDTOSessionObject);
         } catch (DataIntegrityViolationException error) {
-            return createRecipeFormWithNotificationRecipeExists(model, recipeDTO);
+            return createRecipeFormWithNotificationRecipeExists(model, recipeDTOSessionObject);
         }
 
-        return "redirect:/recipes/update/" + stringURLify(recipeDTO.getRecipeName());
+        return "redirect:/recipes/update/" + stringURLify(recipeDTOSessionObject.getRecipeName());
     }
 
     @PostMapping("/recipes/update/{recipeName}")
