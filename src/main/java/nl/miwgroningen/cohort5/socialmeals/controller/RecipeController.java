@@ -67,13 +67,13 @@ public class RecipeController {
         RecipeDTO recipeDTO = new RecipeDTO();
         recipeDTO.setSteps(new ArrayList<>());
         recipeDTO.getSteps().add("");
-        model.addAttribute("recipeDTOSessionObject", recipeDTO);
+        model.addAttribute("recipeDTO", recipeDTO);
         return "recipeForm";
     }
 
     @PostMapping(value = "/recipes/new/newRecipe", params = "add")
     protected String updateShowRecipeForm(Model model,
-                                          @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
+                                          @ModelAttribute("recipeDTO") RecipeDTO recipeDTOSessionObject,
                                           BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/";

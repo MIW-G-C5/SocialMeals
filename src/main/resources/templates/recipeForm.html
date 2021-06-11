@@ -12,7 +12,7 @@
 
     <br><br>
 
-    <form class="has-validation" th:action="@{/recipes/new/newRecipe}" method="post" th:object="${recipeDTOSessionObject}">
+    <form class="has-validation" th:action="@{/recipes/new/newRecipe}" method="post" th:object="${recipeDTO}">
         
         <div th:replace="fragments/forms :: recipeForm"></div>
 
