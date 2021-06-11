@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
  */
 
 @Controller
-@SessionAttributes("recipeDTOSessionObject")
 public class RecipeController {
 
     private RecipeService recipeService;
@@ -37,13 +36,6 @@ public class RecipeController {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
-    }
-
-    @ModelAttribute("recipeDTOSessionObject")
-    public RecipeDTO newRecipeDTO() {
-        RecipeDTO recipeDTO = new RecipeDTO();
-        recipeDTO.setSteps(new ArrayList<>());
-        return recipeDTO;
     }
 
     @GetMapping({"/", "/recipes"})
@@ -64,19 +56,17 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/new")
-    protected String showRecipeForm(Model model, @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject) {
-        recipeDTOSessionObject.setRecipeName("");
-        recipeDTOSessionObject.setSteps(new ArrayList<>());
-
-        recipeDTOSessionObject.getSteps().add("");
-        model.addAttribute("recipeDTOSessionObject", recipeDTOSessionObject);
+    protected String showRecipeForm(Model model) {
+        RecipeDTO recipeDTO = new RecipeDTO();
+        recipeDTO.setSteps(new ArrayList<>());
+        recipeDTO.getSteps().add("");
+        model.addAttribute("recipeDTOSessionObject", recipeDTO);
         return "recipeForm";
     }
 
     @PostMapping(value = "/recipes/new/newRecipe", params = "add")
     protected String updateShowRecipeForm(Model model,
-                                          @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTO,
-                                          @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
+                                          @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
                                           BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/";
@@ -88,8 +78,7 @@ public class RecipeController {
 
     @PostMapping(value = "/recipes/new/newRecipe", params = "submit")
     protected String saveRecipe(Model model,
-                                @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTO,
-                                @SessionAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
+                                @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
                                 Principal principal,
                                 BindingResult result) {
         if (result.hasErrors()) {
@@ -133,9 +122,9 @@ public class RecipeController {
 
     @PostMapping(value = "/recipes/update/{recipeName}", params = "add")
     protected String addStepToUpdateRecipe(@PathVariable("recipeName") String recipeName,
-                                  @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
-                                  Model model,
-                                  BindingResult result) {
+                                           @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+                                           Model model,
+                                           BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/MyKitchen";
         }
@@ -222,14 +211,6 @@ public class RecipeController {
     }
 
     private List<String> removeEmptySteps(List<String> steps) {
-        List<String> returnSteps = new ArrayList<>();
-        for (String step : steps) {
-            if (!step.equals("")) {
-                returnSteps.add(step);
-            }
-        }
-        return returnSteps;
+        return steps.stream().filter(i -> !i.isEmpty()).collect(Collectors.toList());
     }
-
-
 }
