@@ -22,7 +22,6 @@
                 <tr th:each="step, iter : ${recipeDTO.getSteps()}">
                     <td th:text="'Step ' + __${iter.index + 1}__ + ': ' + ${step}"></td>
                 </tr>
-
             </table>
         </div>
 
@@ -81,11 +80,10 @@
                     <input class="form-control form-control-with" type="text" id="quantitytype" th:field="*{quantityType}">
                 </div>
 
-                <select name="ingredientName">
-                    <option value="">Select Ingredient</option>
-                    <option th:each="ingredient : ${remainingIngredients}" th:value="${ingredient.ingredientName}"
-                            th:text="${ingredient.ingredientName}"></option>
-                </select>
+                <div class="form-group">
+                    <label for="ingredientAuto">Ingredient</label>
+                    <input class=form-control name="ingredientName" id="ingredientAuto">
+                </div>
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -97,5 +95,6 @@
 </div>
 
 <div th:replace="fragments/general :: bottomScripts"></div>
+
 </body>
 </html>

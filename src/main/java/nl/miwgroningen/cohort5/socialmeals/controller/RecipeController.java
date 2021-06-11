@@ -1,5 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.controller;
 
+import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -176,6 +178,16 @@ public class RecipeController {
         }
         model.addAttribute("allRecipes", recipeResults);
         return "recipeOverview";
+    }
+
+    @RequestMapping(value="/recipes/update/ingredientAutocomplete")
+    @ResponseBody
+    public List<String> ingredientAutocomplete(@RequestParam(value="term") String keyword,
+                                               @RequestParam(value="recipeName") String recipeName) {
+        List<String> searchIngredients = ingredientService.search(keyword);
+        List<String> remainingIngredients = recipeService.getRemainingIngredientsByRecipeName(recipeName)
+                .stream().map(IngredientDTO::getIngredientName).collect(Collectors.toList());
+        return searchIngredients.stream().filter(remainingIngredients::contains).collect(Collectors.toList());
     }
 
     public String stringURLify(String name) {
