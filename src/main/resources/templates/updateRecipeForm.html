@@ -44,7 +44,7 @@
 
 
         <div class="updateRecipe">
-            <form class="has-validation" th:action="@{/recipes/update/{recipeName}(recipeName=${recipeDTO.recipeName})}"
+            <form class="has-validation" th:action="@{/recipe/update/{recipeName}(recipeName=${recipeDTO.recipeName})}"
                   method="post" th:object="${recipeDTO}">
                 <div th:replace="fragments/forms :: recipeForm"></div>
             </form>
@@ -52,7 +52,7 @@
 
         <div class="updateIngredients">
             <form class="has-validation"
-                  th:action="@{/recipes/update/{recipeName}/addingredient(recipeName=${recipeDTO.recipeName})}" method="post"
+                  th:action="@{/recipe/update/{recipeName}/addingredient(recipeName=${recipeDTO.recipeName})}" method="post"
                   th:object="${ingredientRecipeDTO}">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>

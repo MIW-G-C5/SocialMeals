@@ -63,7 +63,7 @@ public class MyKitchenController {
         return "myCookbook";
     }
 
-    @GetMapping("/recipes/delete/{recipeName}")
+    @GetMapping("/recipe/delete/{recipeName}")
     protected String deleteRecipe(@PathVariable("recipeName") String recipeName,
                                   Principal principal) {
         RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
@@ -72,10 +72,10 @@ public class MyKitchenController {
         }
 
         recipeService.deleteRecipe(recipeDTO);
-        return "redirect:/MyKitchen";
+        return "redirect:/Cookbook/" + principal.getName();
     }
 
-    @GetMapping("/recipes/update/{recipeName}")
+    @GetMapping("/recipe/update/{recipeName}")
     protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model, Principal principal) {
         RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
         if (recipeDTO == null || recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {

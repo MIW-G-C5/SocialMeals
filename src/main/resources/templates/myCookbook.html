@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="NL-nl" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
 <head th:replace="fragments/general :: baseHeader(~{:: title})">
-    <title></title>
+    <title th:text="${socialMealsUserDTO.username} + '\'s cookbook'"></title>
 </head>
 <body>
 
@@ -10,19 +10,15 @@
     <div th:replace="fragments/general :: headerPhoto"></div>
     <div th:replace="fragments/general :: navbar"></div>
 
-    <h1><span th:text="${socialMealsUserDTO.username} + 's cookbook'"></span></h1>
+    <h1><span th:text="${socialMealsUserDTO.username} + '\'s cookbook'"></span></h1>
 
     <table class="table">
-        <tr>
-            <th>Recipe Name</th>
-            <th></th>
-            <th></th>
-        </tr>
+
         <tr th:each="recipe : ${recipeDTOList}">
             <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a></td>
-            <td><a th:href="@{/recipes/update/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}">Update</a></td>
+            <td><a th:href="@{/recipe/update/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}">Update</a></td>
             <td><a onclick="return confirm('Are you sure?')"
-                   th:href="@{/recipes/delete/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}">Delete</a></td>
+                   th:href="@{/recipe/delete/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}">Delete</a></td>
         </tr>
 
     </table>

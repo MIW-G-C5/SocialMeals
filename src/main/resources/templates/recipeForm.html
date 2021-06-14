@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="NL-nl" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
 <head th:replace="fragments/general :: baseHeader(~{:: title})">
-    <title>Add new recipe</title>
+    <title>New Recipe</title>
 </head>
 <body>
 
@@ -10,9 +10,10 @@
     <div th:replace="fragments/general :: headerPhoto"></div>
     <div th:replace="fragments/general :: navbar"></div>
 
-    <br><br>
+    <h1>Add new recipe</h1>
 
-    <form class="has-validation" th:action="@{/recipes/new/newRecipe}" method="post" th:object="${recipeDTO}">
+
+    <form class="has-validation" th:action="@{/recipe/new/newRecipe}" method="post" th:object="${recipeDTO}">
         
         <div th:replace="fragments/forms :: recipeForm"></div>
 

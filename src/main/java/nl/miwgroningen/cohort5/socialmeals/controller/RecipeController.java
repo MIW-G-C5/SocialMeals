@@ -62,7 +62,7 @@ public class RecipeController {
         return "recipeDetails";
     }
 
-    @GetMapping("/recipes/new")
+    @GetMapping("/recipe/new")
     protected String showRecipeForm(Model model) {
         RecipeDTO recipeDTO = new RecipeDTO();
         recipeDTO.setSteps(new ArrayList<>());
@@ -71,7 +71,7 @@ public class RecipeController {
         return "recipeForm";
     }
 
-    @PostMapping(value = "/recipes/new/newRecipe", params = "add")
+    @PostMapping(value = "/recipe/new/newRecipe", params = "add")
     protected String updateShowRecipeForm(Model model,
                                           @ModelAttribute("recipeDTO") RecipeDTO recipeDTOSessionObject,
                                           BindingResult result) {
@@ -83,7 +83,7 @@ public class RecipeController {
         return "recipeForm";
     }
 
-    @PostMapping(value = "/recipes/new/newRecipe", params = "save")
+    @PostMapping(value = "/recipe/new/newRecipe", params = "save")
     protected String saveRecipe(Model model,
                                 @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
                                 Principal principal,
@@ -104,10 +104,10 @@ public class RecipeController {
             return createRecipeFormWithNotificationRecipeExists(model, recipeDTOSessionObject);
         }
 
-        return "redirect:/recipes/update/" + stringURLify(recipeDTOSessionObject.getRecipeName());
+        return "redirect:/recipe/update/" + stringURLify(recipeDTOSessionObject.getRecipeName());
     }
 
-    @PostMapping(value = "/recipes/update/{recipeName}", params = "save")
+    @PostMapping(value = "/recipe/update/{recipeName}", params = "save")
     protected String updateRecipe(@PathVariable("recipeName") String recipeName,
                                   @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
                                   Model model,
@@ -124,10 +124,10 @@ public class RecipeController {
             return createRecipeUpdateFormWithNotificationRecipeExists(model, recipeDTO, recipeName);
         }
 
-        return "redirect:/recipes/update/" + stringURLify(recipeName);
+        return "redirect:/recipe/update/" + stringURLify(recipeDTO.getRecipeName());
     }
 
-    @PostMapping(value = "/recipes/update/{recipeName}", params = "add")
+    @PostMapping(value = "/recipe/update/{recipeName}", params = "add")
     protected String addStepToUpdateRecipe(@PathVariable("recipeName") String recipeName,
                                            @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
                                            Model model,
@@ -145,7 +145,7 @@ public class RecipeController {
         return "updateRecipeForm";
     }
 
-    @PostMapping(value = "/recipes/update/{recipeName}/addingredient")
+    @PostMapping(value = "/recipe/update/{recipeName}/addingredient")
     protected String addIngredient(@ModelAttribute("ingredientRecipeDTO") IngredientRecipeDTO ingredientRecipeDTO,
                                    @PathVariable("recipeName") String recipeName,
                                    @RequestParam("ingredientName") String ingredientName,
@@ -162,7 +162,7 @@ public class RecipeController {
             System.err.println(error.getMessage());
         }
 
-        return "redirect:/recipes/update/" + stringURLify(recipeName);
+        return "redirect:/recipe/update/" + stringURLify(recipeName);
     }
 
     @GetMapping(value = "recipes/search")
@@ -176,7 +176,7 @@ public class RecipeController {
         return "recipeOverview";
     }
 
-    @RequestMapping(value="/recipes/update/ingredientAutocomplete")
+    @RequestMapping(value="/recipe/update/ingredientAutocomplete")
     @ResponseBody
     public List<String> ingredientAutocomplete(@RequestParam(value="term") String keyword,
                                                @RequestParam(value="recipeName") String recipeName) {
