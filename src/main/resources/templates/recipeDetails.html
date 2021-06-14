@@ -13,12 +13,12 @@
 
     <h1><span th:text="${recipe.recipeName}"></span></h1>
 
-    <p>
+    <h2>
         made by
         <a th:href="@{/Cookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}" th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
         <span th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
         <br>
-    </p>
+    </h2>
 
     <div class="flex">
 
@@ -32,15 +32,12 @@
         </div>
 
         <div class="recipeIngredients">
-            <table class="table">
-                <tr>
-                    <th>Shoppinglist</th>
-                </tr>
-                <tr th:each="ingredientRecipe : ${ingredientRecipes}">
-                    <td th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' ' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></td>
-                </tr>
-            </table>
-
+            <p><span text="Shoppinglist"></span></p>
+            <ul>
+                <li th:each="ingredientRecipe : ${ingredientRecipes}">
+                    <a th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' ' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></a>
+                </li>
+            </ul>
         </div>
 
     </div>

@@ -72,12 +72,12 @@ public class Seeder {
     }
 
     private void seedIngredients() {
-        ingredientService.addNew(new Ingredient("tomato"));
-        ingredientService.addNew(new Ingredient("eggplant"));
-        ingredientService.addNew(new Ingredient("garlic"));
-        ingredientService.addNew(new Ingredient("tahini"));
-        ingredientService.addNew(new Ingredient("lemon"));
-        ingredientService.addNew(new Ingredient("cumin"));
+        ingredientService.addNew(new Ingredient("Tomato"));
+        ingredientService.addNew(new Ingredient("Eggplant"));
+        ingredientService.addNew(new Ingredient("Garlic"));
+        ingredientService.addNew(new Ingredient("Tahini"));
+        ingredientService.addNew(new Ingredient("Lemon"));
+        ingredientService.addNew(new Ingredient("Cumin"));
     }
 
     private void seedIngredientRecipes() {

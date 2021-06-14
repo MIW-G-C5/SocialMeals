@@ -1,6 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class RecipeDTO {
     }
 
     public RecipeDTO() {
+        this.steps = new ArrayList<>();
     }
 
     public SocialMealsUserDTO getSocialMealsUserDTO() {
