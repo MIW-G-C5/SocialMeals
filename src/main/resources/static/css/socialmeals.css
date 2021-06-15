@@ -44,7 +44,7 @@ h3 {
 }
 
 .navbar a:hover {
-    font-weight: bold;
+    background-color: papayawhip;
 }
 
 .searchResults {
