@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
     Optional<Ingredient> findByIngredientName(String ingredientName);
 
-    @Query("SELECT ingredientName FROM Ingredient where ingredientName like %:keyword%")
+    @Query("SELECT ingredientName FROM Ingredient where ingredientName like %:keyword% ORDER BY ingredientName")
     List<String> search(@Param("keyword") String keyword);
 }

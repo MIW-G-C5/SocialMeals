@@ -65,7 +65,6 @@ public class RecipeController {
     @GetMapping("/recipe/new")
     protected String showRecipeForm(Model model) {
         RecipeDTO recipeDTO = new RecipeDTO();
-//        recipeDTO.setSteps(new ArrayList<>());
         recipeDTO.getSteps().add("");
         model.addAttribute("recipeDTO", recipeDTO);
         return "recipeForm";
