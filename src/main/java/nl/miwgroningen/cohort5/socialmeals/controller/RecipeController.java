@@ -2,10 +2,12 @@ package nl.miwgroningen.cohort5.socialmeals.controller;
 
 
 import nl.miwgroningen.cohort5.socialmeals.comparator.RecipeDTOAscComparator;
+import nl.miwgroningen.cohort5.socialmeals.comparator.RecipeDTODescComparator;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
+import nl.miwgroningen.cohort5.socialmeals.dto.stateKeeper.SortedRecipesStateKeeper;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
@@ -24,10 +26,11 @@ import java.util.stream.Collectors;
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
  *
- * Controls the view of allrecipes page and creating and updating pages
+ * Controls the view of the recipes overview page and creating and updating pages
  */
 
 @Controller
+@SessionAttributes("sortedRecipesStateKeeper")
 public class RecipeController {
 
     private RecipeService recipeService;
@@ -41,13 +44,46 @@ public class RecipeController {
         this.socialMealsUserDetailService = socialMealsUserDetailService;
     }
 
-    @GetMapping({"/", "/recipes"})
-    protected String showRecipes(Model model) {
-        List<RecipeDTO> recipeDTOS = recipeService.getAll();
-        Collections.sort(recipeDTOS, new RecipeDTOAscComparator());
+    @ModelAttribute("sortedRecipesStateKeeper")
+    public SortedRecipesStateKeeper stateKeeper(){
+        return new SortedRecipesStateKeeper();
+    }
 
-        model.addAttribute("allRecipes", recipeDTOS);
-        model.addAttribute("comparator", new RecipeDTOAscComparator());
+    @GetMapping({"/", "/recipes"})
+    protected String showRecipes(
+            @ModelAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
+            Model model) {
+
+        List<RecipeDTO> recipeDTOList = recipeService.getAll();
+        sortedRecipesStateKeeper.setSortedRecipes(recipeDTOList);
+
+        Collections.sort(sortedRecipesStateKeeper.getSortedRecipes(), new RecipeDTOAscComparator());
+
+        model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
+
+
+        return "recipeOverview";
+    }
+
+    @GetMapping("/recipes/asc")
+    protected String sortAscRecipes(
+            @SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
+            Model model){
+
+        Collections.sort(sortedRecipesStateKeeper.getSortedRecipes(), new RecipeDTOAscComparator());
+
+        model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
+        return "recipeOverview";
+    }
+
+    @GetMapping("/recipes/desc")
+    protected String sortDescRecipes(
+            @SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
+            Model model){
+
+        Collections.sort(sortedRecipesStateKeeper.getSortedRecipes(), new RecipeDTODescComparator());
+
+        model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
         return "recipeOverview";
     }
 
@@ -165,14 +201,20 @@ public class RecipeController {
         return "redirect:/recipe/update/" + stringURLify(recipeName);
     }
 
-    @GetMapping(value = "recipes/search")
-    protected String searchRecipe(Model model, @RequestParam String keyword) {
+    @GetMapping(value = "/recipes/search")
+    protected String searchRecipe(@SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
+                                  Model model, @RequestParam String keyword) {
         List<String> searchResults = recipeService.search(keyword);
-        List<RecipeDTO> recipeResults = new ArrayList<>();
+        List<RecipeDTO> sortedRecipes = new ArrayList<>();
+
         for (String searchResult : searchResults) {
-            recipeResults.add(recipeService.findByRecipeName(searchResult));
+            sortedRecipes.add(recipeService.findByRecipeName(searchResult));
         }
-        model.addAttribute("allRecipes", recipeResults);
+
+        sortedRecipesStateKeeper.setSortedRecipes(sortedRecipes);
+
+        model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
+
         return "recipeOverview";
     }
 

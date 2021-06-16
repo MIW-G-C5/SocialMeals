@@ -18,15 +18,24 @@
 
     <br>
 
-    <span class="navbar-push" th:text="'results: ' + ${allRecipes.size()}"></span>
+    <form th:action="@{/recipes/asc}">
+        <input class="btn btn-outline-secondary" type="submit" value="Ascending">
+    </form>
+
+    <form th:action="@{/recipes/desc}">
+        <input class="btn btn-outline-secondary" type="submit" value="Descending">
+    </form>
+
+    <span class="navbar-push" th:text="'results: ' + ${recipeList.size()}"></span>
 
     <table class="table">
 
-        <tr th:each="recipe : ${allRecipes}">
+        <tr th:each="recipe : ${recipeList}">
             <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}"
                    th:text="${recipe.recipeName}"></a></td>
         </tr>
     </table>
+
 
 </div>
 
