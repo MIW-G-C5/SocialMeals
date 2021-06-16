@@ -18,15 +18,18 @@
 
     <br>
 
-    <form th:action="@{/recipes/asc}">
-        <input class="btn btn-outline-secondary" type="submit" value="Ascending">
-    </form>
+    <div class="row no-gutters">
+        <form class="col-1" th:action="@{/recipes/asc}">
+            <input class="btn btn-outline-secondary" type="submit" value="name↑">
+        </form>
 
-    <form th:action="@{/recipes/desc}">
-        <input class="btn btn-outline-secondary" type="submit" value="Descending">
-    </form>
+        <form class="col-1" th:action="@{/recipes/desc}">
+            <input class="btn btn-outline-secondary" type="submit" value="name↓">
+        </form>
 
-    <span class="navbar-push" th:text="'results: ' + ${recipeList.size()}"></span>
+    </div>
+
+    <span class="searchResults" th:text="'results: ' + ${recipeList.size()}"></span>
 
     <table class="table">
 
