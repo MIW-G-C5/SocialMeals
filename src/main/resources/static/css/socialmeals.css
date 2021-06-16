@@ -39,8 +39,8 @@ h3 {
 .navbar {
     background-color: white;
     width: 100%;
-    margin-top: -7.5%;
-    margin-bottom: 5%;
+    font-size: 1.2rem;
+
 }
 
 .navbar a:hover {
