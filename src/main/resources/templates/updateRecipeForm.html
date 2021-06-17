@@ -12,64 +12,47 @@
 
     </div>
     <div th:replace="fragments/general :: navbar"></div>
-
-    <div class="flex">
-        <div class="existingRecipe">
-            <table class="table">
-                <tr>
-                    <th> Recipe</th>
-                </tr>
-                <tr>
-                    <td th:text="${recipeDTO.recipeName}"></td>
-                </tr>
-                <tr th:each="step, iter : ${recipeDTO.getSteps()}">
-                    <td th:text="'Step ' + __${iter.index + 1}__ + ': ' + ${step}"></td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="addedIngredients">
-            <table class="table">
-                <tr>
-                    <th> Ingredient</th>
-                </tr>
-                <tr th:each="ingredientRecipe : ${presentIngredientsRecipes}">
-                    <td th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' '
-                    + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
     <h1>Update</h1>
 
-    <div class="flex">
+    <div class="row form-control-height">
 
-
-        <div class="updateRecipe">
+        <div class="col-8">
             <form class="has-validation" th:action="@{/recipe/update/{recipeName}(recipeName=${recipeDTO.recipeName})}"
                   method="post" th:object="${recipeDTO}">
                 <div th:replace="fragments/forms :: recipeForm"></div>
             </form>
         </div>
 
-        <div class="updateIngredients">
+        <div class="col">
+            <h3>Cooking instruction</h3>
+            <ol>
+                <li th:each="step : ${recipeDTO.steps}">
+                    <a th:text="${step}"></a>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row form-control-height">
+
+        <div class="col-8">
+            <h3>Add ingredients</h3>
             <form class="has-validation"
                   th:action="@{/recipe/update/{recipeName}/addingredient(recipeName=${recipeDTO.recipeName})}" method="post"
                   th:object="${ingredientRecipeDTO}">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
-                        <input class="form-control form-control-with" type="number" min="0.1" step="0.1" id="quantity" th:field="*{quantity}">
+                    <input class="form-control form-control-width" type="number" min="0.1" step="0.1" id="quantity" th:field="*{quantity}">
                 </div>
 
                 <div class="form-group">
                     <label for="quantitytype">Quantity type</label>
-                    <input class="form-control form-control-with" type="text" id="quantitytype" th:field="*{quantityType}">
+                    <input class="form-control form-control-width" type="text" id="quantitytype" th:field="*{quantityType}">
                 </div>
 
                 <div class="form-group">
                     <label for="ingredientAuto">Ingredient</label>
-                    <input class="form-control form-control-with" name="ingredientName" id="ingredientAuto">
+                    <input class="form-control form-control-width" name="ingredientName" id="ingredientAuto">
                 </div>
 
                 <div class="form-group">
@@ -77,7 +60,19 @@
                 </div>
             </form>
         </div>
+
+
+        <div class="col">
+            <h3>Shoppinglist</h3>
+            <ul>
+                <li th:each="ingredientRecipe : ${presentIngredientsRecipes}">
+                    <a th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' ' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></a>
+                </li>
+            </ul>
+        </div>
     </div>
+
+
 
 </div>
 

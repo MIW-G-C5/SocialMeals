@@ -20,10 +20,10 @@
         <br>
     </h2>
 
-    <div class="flex">
+    <div class="row justify-content-around form-control-height">
 
-        <div class="recipeSteps">
-            <p><span text="Cooking instruction"></span></p>
+        <div class="col-4">
+            <h3>Cooking instruction</h3>
             <ol>
                 <li th:each="step, iterStep : ${recipe.steps}">
                     <a th:text="${step}"></a>
@@ -31,8 +31,8 @@
             </ol>
         </div>
 
-        <div class="recipeIngredients">
-            <p><span text="Shoppinglist"></span></p>
+        <div class="col-4">
+            <h3>Shoppinglist</h3>
             <ul>
                 <li th:each="ingredientRecipe : ${ingredientRecipes}">
                     <a th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' ' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></a>
