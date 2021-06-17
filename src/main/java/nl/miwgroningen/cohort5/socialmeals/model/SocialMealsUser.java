@@ -29,12 +29,23 @@ public class SocialMealsUser implements UserDetails {
     @OneToMany(mappedBy = "socialMealsUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Recipe> userRecipes;
 
+    @OneToMany(mappedBy = "socialMealsUser", cascade = CascadeType.ALL)
+    private Set<Cookbook> userCookbooks;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
 
         return authorityList;
+    }
+
+    public Set<Cookbook> getUserCookbooks() {
+        return userCookbooks;
+    }
+
+    public void setUserCookbooks(Set<Cookbook> userCookbooks) {
+        this.userCookbooks = userCookbooks;
     }
 
     public Set<Recipe> getUserRecipes() {

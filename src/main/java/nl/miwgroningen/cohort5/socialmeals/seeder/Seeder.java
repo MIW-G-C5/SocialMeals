@@ -1,5 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.seeder;
 
+import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
@@ -7,6 +8,7 @@ import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository;
+import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
@@ -30,14 +32,17 @@ public class Seeder {
     private RecipeService recipeService;
     private IngredientService ingredientService;
     private SocialMealsUserDetailService socialMealsUserDetailService;
+    private CookbookService cookbookService;
 
     @Autowired
     public Seeder(RecipeService recipeService,
                   IngredientService ingredientService,
-                  SocialMealsUserDetailService socialMealsUserDetailService) {
+                  SocialMealsUserDetailService socialMealsUserDetailService,
+                  CookbookService cookbookService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
+        this.cookbookService = cookbookService;
     }
 
     @EventListener
@@ -46,6 +51,7 @@ public class Seeder {
         seedIngredients();
         seedRecipes();
         seedIngredientRecipes();
+        seedCookbooks();
     }
 
     private void seedUser() {
@@ -67,7 +73,6 @@ public class Seeder {
         recipeService.addNew(new RecipeDTO("Strawberry smoothie", new ArrayList<>(), socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Chickpea dahl", new ArrayList<>(), socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Sweet potato curry", new ArrayList<>(), socialMealsUserDTO));
-
 
     }
 
@@ -111,5 +116,21 @@ public class Seeder {
         recipeService.addIngredientsToRecipe(ingredientRecipeList);
 
     }
+
+    private void seedCookbooks() {
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
+
+        cookbookService.addNew(new CookbookDTO("Favorieten", socialMealsUserDTO, new ArrayList<>()));
+        cookbookService.addNew(new CookbookDTO("Zomergerechten", socialMealsUserDTO, new ArrayList<>()));
+        cookbookService.addNew(new CookbookDTO("Wintergerechten", socialMealsUserDTO, new ArrayList<>()));
+
+
+        CookbookDTO cookbookDTO = new CookbookDTO("Libanees", socialMealsUserDTO, new ArrayList<>());
+        cookbookService.addNew(cookbookDTO);
+        RecipeDTO recipeDTO = recipeService.findByRecipeName("Lasagna");
+        cookbookService.addRecipeDTO(cookbookDTO, recipeDTO);
+    }
+
+
 
 }

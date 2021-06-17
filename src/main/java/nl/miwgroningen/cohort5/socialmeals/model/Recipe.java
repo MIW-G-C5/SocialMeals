@@ -29,6 +29,9 @@ public class Recipe {
     @ManyToOne
     private SocialMealsUser socialMealsUser;
 
+    @ManyToMany(mappedBy = "recipeLikes")
+    Set<Cookbook> cookbookLikes;
+
     public Recipe(String recipeName, List<String> steps, SocialMealsUser socialMealsUser) {
         this.recipeName = recipeName;
         this.steps = steps;
@@ -76,5 +79,13 @@ public class Recipe {
 
     public void setIngredientRecipes(Set<IngredientRecipe> ingredientQuantities) {
         this.ingredientRecipes = ingredientQuantities;
+    }
+
+    public Set<Cookbook> getCookbookLikes() {
+        return cookbookLikes;
+    }
+
+    public void setCookbookLikes(Set<Cookbook> cookbookLikes) {
+        this.cookbookLikes = cookbookLikes;
     }
 }

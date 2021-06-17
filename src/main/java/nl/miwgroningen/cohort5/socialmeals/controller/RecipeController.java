@@ -7,9 +7,11 @@ import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
+import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.stateKeeper.SortedRecipesStateKeeper;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
+import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -36,12 +38,15 @@ public class RecipeController {
     private RecipeService recipeService;
     private IngredientService ingredientService;
     private SocialMealsUserDetailService socialMealsUserDetailService;
+    private CookbookService cookbookService;
 
     public RecipeController(RecipeService recipeService, IngredientService ingredientService,
-                            SocialMealsUserDetailService socialMealsUserDetailService) {
+                            SocialMealsUserDetailService socialMealsUserDetailService,
+                            CookbookService cookbookService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
+        this.cookbookService = cookbookService;
     }
 
     @ModelAttribute("sortedRecipesStateKeeper")
@@ -88,11 +93,22 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{recipeName}")
-    protected String showRecipeDetails(@PathVariable("recipeName") String recipeName, Model model) {
+    protected String showRecipeDetails(@PathVariable("recipeName") String recipeName,
+                                       Model model,
+                                       Principal principal) {
         RecipeDTO recipe = recipeService.findByRecipeName(recipeName);
         if (recipe == null) {
             return "redirect:/recipes";
         }
+
+        boolean loggedInUser = principal != null;
+        if (loggedInUser) {
+            SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
+            List<CookbookDTO> cookbookDTOList = cookbookService.getCookbooksByUser(socialMealsUserDTO);
+            model.addAttribute("cookbookList", cookbookDTOList);
+        }
+
+        model.addAttribute("loggedInUser", loggedInUser);
         model.addAttribute("recipe", recipe);
         model.addAttribute("ingredientRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
         return "recipeDetails";

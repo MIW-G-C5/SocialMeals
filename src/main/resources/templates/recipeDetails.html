@@ -13,16 +13,33 @@
 
     <h1><span th:text="${recipe.recipeName}"></span></h1>
 
-    <h2>
-        made by
-        <a th:href="@{/Cookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}" th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
-        <span th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
-        <br>
-    </h2>
 
     <div class="row justify-content-around form-control-height">
+        <div class="col-3">
+            <h2>
+                made by
+                <a th:href="@{/cookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}"
+                   th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
+                <span th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
+                <br>
+            </h2>
 
-        <div class="col-4">
+            <div th:if="${loggedInUser}">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Add to Cookbook
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <div th:each="cookbook : ${cookbookList}">
+                            <a class="dropdown-item" th:href="@{/cookbook/add/{urlId}/{recipeName}(urlId = ${cookbook.urlId}, recipeName = ${recipe.recipeName})}" th:text="${cookbook.cookbookName}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-5">
             <h3>Cooking instruction</h3>
             <ol>
                 <li th:each="step, iterStep : ${recipe.steps}">

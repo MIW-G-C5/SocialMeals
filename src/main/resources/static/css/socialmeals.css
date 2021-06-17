@@ -65,4 +65,12 @@ h3 {
     grid-template-columns: minmax(25%, 75%) auto;
 }
 
+.button-width {
+    width: 100%;
+}
+
+.listWithoutStyle{
+    list-style-type: none;
+}
+
 

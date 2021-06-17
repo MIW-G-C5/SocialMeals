@@ -23,7 +23,7 @@ public class IngredientServiceMySQL implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
 
-    IngredientConverter ingredientConverter;
+    private IngredientConverter ingredientConverter;
 
     @Autowired
     public IngredientServiceMySQL(IngredientRepository ingredientRepository) {

@@ -32,7 +32,7 @@ public class RecipeServiceMySQL implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final IngredientRecipeRepository ingredientRecipeRepository;
-    private SocialMealsUserRepository socialMealsUserRepository;
+    private final SocialMealsUserRepository socialMealsUserRepository;
 
     private IngredientService ingredientService;
     private SocialMealsUserDetailService socialMealsUserDetailService;
