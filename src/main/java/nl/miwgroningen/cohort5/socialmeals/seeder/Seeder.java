@@ -75,6 +75,11 @@ public class Seeder {
         ingredientService.addNew(new Ingredient("Tomato"));
         ingredientService.addNew(new Ingredient("Eggplant"));
         ingredientService.addNew(new Ingredient("Garlic"));
+        ingredientService.addNew(new Ingredient("Coriander"));
+        ingredientService.addNew(new Ingredient("Rice"));
+        ingredientService.addNew(new Ingredient("Broth"));
+        ingredientService.addNew(new Ingredient("Pepper"));
+        ingredientService.addNew(new Ingredient("Olive oil"));
         ingredientService.addNew(new Ingredient("Tahini"));
         ingredientService.addNew(new Ingredient("Lemon"));
         ingredientService.addNew(new Ingredient("Cumin"));
