@@ -37,7 +37,8 @@ class IngredientConverterTest {
 
         //assert
         for (int i = 0; i < testListObjDTO.size(); i++) {
-            Assertions.assertEquals(testIngredientList.get(i).getIngredientName(), testListObjDTO.get(i).getIngredientName());
+            Assertions.assertEquals(
+                    testIngredientList.get(i).getIngredientName(), testListObjDTO.get(i).getIngredientName());
         }
     }
 }
