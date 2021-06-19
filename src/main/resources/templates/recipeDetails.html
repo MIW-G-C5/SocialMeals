@@ -14,11 +14,10 @@
     <h1><span th:text="${recipe.recipeName}"></span></h1>
 
 
-    <div class="row justify-content-around form-control-height">
+    <div class="row form-control-height">
         <div class="col-3">
-            <h2>
-                made by
-                <a th:href="@{/cookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}"
+            <h2>made by
+                <a th:href="@{/cookbook/myCookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}"
                    th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
                 <span th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
                 <br>
@@ -39,7 +38,7 @@
 
         </div>
 
-        <div class="col-5">
+        <div class="col-6">
             <h3>Cooking instruction</h3>
             <ol>
                 <li th:each="step, iterStep : ${recipe.steps}">
@@ -48,7 +47,7 @@
             </ol>
         </div>
 
-        <div class="col-4">
+        <div class="col-3">
             <h3>Shoppinglist</h3>
             <ul>
                 <li th:each="ingredientRecipe : ${ingredientRecipes}">

@@ -15,7 +15,7 @@
 
     <h2>
         made by
-        <a th:href="@{/cookbook/{username}(username = ${socialMealsUserDTO.username})}"
+        <a th:href="@{/cookbook/myCookbook/{username}(username = ${socialMealsUserDTO.username})}"
            th:text="${socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
         <span th:text="${socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
         <br>
