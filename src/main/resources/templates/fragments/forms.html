@@ -32,7 +32,7 @@
     <div th:fragment="cookbookForm">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control form-control-width" th:field="*{cookbookName}" required>
+            <input type="text" class="form-control form-control-width" th:field="*{cookbookName}" required pattern=".*\S+.*" title="This field is required">
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary" name="save">Save</button>

@@ -1,6 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
+import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Cookbook;
@@ -64,7 +65,23 @@ public class CookbookServiceMySQL implements CookbookService {
     @Override
     public CookbookDTO addNew(CookbookDTO cookbookDTO) {
         cookbookDTO.setUrlId(findNextCookbookId());
+        formatCookbookName(cookbookDTO);
         cookbookRepository.save(cookbookConverter.fromNewCookbookDTO(cookbookDTO));
+        return cookbookDTO;
+    }
+
+    @Override
+    public CookbookDTO updateCookbook(CookbookDTO cookbookDTO) {
+        Optional<Cookbook> optionalCookbook = cookbookRepository.findByUrlId(cookbookDTO.getUrlId());
+        if (optionalCookbook.isEmpty()) {
+            return null;
+        }
+        Cookbook cookbook = optionalCookbook.get();
+
+        formatCookbookName(cookbookDTO);
+        cookbook.setCookbookName(cookbookDTO.getCookbookName());
+        cookbookRepository.save(cookbook);
+
         return cookbookDTO;
     }
 
@@ -104,6 +121,14 @@ public class CookbookServiceMySQL implements CookbookService {
             maxId = DEFAULT_URL_ID;
         }
         return ++maxId;
+    }
+
+    private CookbookDTO formatCookbookName(CookbookDTO cookbookDTO) {
+        String cookbookName = cookbookDTO.getCookbookName().trim();
+        cookbookName = cookbookName.substring(0, 1).toUpperCase() + cookbookName.substring(1);
+
+        cookbookDTO.setCookbookName(cookbookName);
+        return cookbookDTO;
     }
 
 }

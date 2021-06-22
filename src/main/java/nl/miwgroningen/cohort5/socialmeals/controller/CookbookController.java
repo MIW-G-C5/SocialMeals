@@ -88,6 +88,35 @@ public class CookbookController {
         return "redirect:/MyKitchen";
     }
 
+    @GetMapping("/cookbook/update/{urlId}")
+    protected String showUpdateCookbookForm(@PathVariable("urlId") Long urlId,
+                                    Model model) {
+        CookbookDTO cookbookDTO = cookbookService.findByUrlId(urlId);
+        if (cookbookDTO == null) {
+            model.addAttribute("cookbookDTO", new CookbookDTO());
+        } else {
+            model.addAttribute("cookbookDTO", cookbookDTO);
+        }
+        return "cookbookUpdateForm";
+    }
+
+    @PostMapping("/cookbook/update")
+    protected String saveExistingCookbook(@ModelAttribute("cookbookDTO") CookbookDTO cookbookDTO,
+                                     BindingResult result,
+                                     Principal principal) {
+        if (result.hasErrors()) {
+            return "redirect:/MyKitchen";
+        }
+        CookbookDTO oldCookbookDTO = cookbookService.findByUrlId(cookbookDTO.getUrlId());
+
+        if (isItYours(principal, oldCookbookDTO.getSocialMealsUser())) {
+            cookbookService.updateCookbook(cookbookDTO);
+        }
+
+        return "redirect:/MyKitchen";
+    }
+
+
     @GetMapping("/cookbook/add/{urlId}/{recipeName}")
     protected String addRecipeToCookbook(@PathVariable("urlId") Long urlId,
                                          @PathVariable("recipeName") String recipeName,
