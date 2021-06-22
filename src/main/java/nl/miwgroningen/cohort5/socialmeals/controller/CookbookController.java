@@ -116,6 +116,22 @@ public class CookbookController {
         return "redirect:/MyKitchen";
     }
 
+    @GetMapping("/cookbook/delete/{urlId}")
+    protected String deleteCookbook(@PathVariable("urlId") Long urlId,
+                                          Principal principal) {
+
+        CookbookDTO cookbookDTO = cookbookService.findByUrlId(urlId);
+
+        if (isItYours(principal, cookbookDTO.getSocialMealsUser())) {
+            cookbookService.deleteCookbook(cookbookDTO);
+        }
+
+        return "redirect:/MyKitchen";
+    }
+
+
+
+
 
     @GetMapping("/cookbook/add/{urlId}/{recipeName}")
     protected String addRecipeToCookbook(@PathVariable("urlId") Long urlId,

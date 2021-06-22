@@ -86,6 +86,15 @@ public class CookbookServiceMySQL implements CookbookService {
     }
 
     @Override
+    public CookbookDTO deleteCookbook(CookbookDTO cookbookDTO) {
+        Optional<Cookbook> optionalCookbook = cookbookRepository.findByUrlId(cookbookDTO.getUrlId());
+        if (optionalCookbook.isPresent()) {
+            cookbookRepository.delete(optionalCookbook.get());
+        }
+        return cookbookDTO;
+    }
+
+    @Override
     public CookbookDTO addRecipeDTO(CookbookDTO cookbookDTO, RecipeDTO recipeDTO) {
         Optional<Cookbook> cookbook = cookbookRepository.findByUrlId(cookbookDTO.getUrlId());
         if (cookbook.isEmpty()) {

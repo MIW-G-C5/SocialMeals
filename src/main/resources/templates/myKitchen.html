@@ -23,10 +23,12 @@
         <tr>
             <td><a th:href="@{/cookbook/myCookbook/{username}(username=${user.username})}">My cookbook</a></td>
             <td></td>
+            <td></td>
         </tr>
         <tr th:each="cookbook : ${cookbookList}">
             <td><a th:href="@{/cookbook/{urlId}(urlId = ${cookbook.urlId})}" th:text="${cookbook.cookbookName}"></a></td>
             <td><a th:href="@{/cookbook/update/{urlId}(urlId = ${cookbook.urlId})}" th:text="edit"></a></td>
+            <td><a th:href="@{/cookbook/delete/{urlId}(urlId = ${cookbook.urlId})}" th:text="delete"></a></td>
         </tr>
     </table>
 

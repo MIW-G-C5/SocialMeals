@@ -22,6 +22,8 @@ public interface CookbookService {
 
     CookbookDTO updateCookbook(CookbookDTO cookbookDTO);
 
+    CookbookDTO deleteCookbook(CookbookDTO cookbookDTO);
+
     CookbookDTO addRecipeDTO(CookbookDTO cookbookDTO, RecipeDTO recipeDTO);
 
     CookbookDTO removeRecipeDTO(CookbookDTO cookbookDTO, RecipeDTO recipeDTO);
