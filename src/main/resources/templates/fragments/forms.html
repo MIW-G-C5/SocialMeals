@@ -10,23 +10,36 @@
 
 
     <div th:fragment="recipeForm">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control form-control-width" id="name" th:field="*{recipeName}" required>
+
+        <div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control form-control-width" id="name" th:field="*{recipeName}" required>
+            </div>
+
+            <div  class = "form-group" th:each="step, iter : ${recipeDTO.steps}">
+                <input type="hidden" th:value="${iter.index}" name="stepIndex">
+
+                <span th:text="'Step ' + ${iter.index + 1 }"></span>
+
+                <div class="form-group row row-no-margin">
+                    <input type="text" class="form-control form-control-width col-9" th:field="*{steps[__${iter.index}__]}" id="step1" />
+                    <button  type="submit" class="btn btn-primary " name="delete"> <i class="fas fa-trash"></i> </button>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" name="add">Add Step</button>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" name="save">Save</button>
+            </div>
+            <div th:if="${existingRecipe != null}" class="alert alert-danger notification" role="alert">
+                <p th:text="${existingRecipe.recipeName} + ' already exists'"></p>
+            </div>
         </div>
-        <div class="form-group" th:each="step, iter : ${recipeDTO.steps}">
-            <label for="step1" th:text="'Step ' + ${iter.index + 1}"></label>
-            <input type="text" class="form-control form-control-width" th:field="*{steps[__${iter.index}__]}" id="step1" />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" name="add">Add Step</button>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" name="save">Save</button>
-        </div>
-        <div th:if="${existingRecipe != null}" class="alert alert-danger notification" role="alert">
-            <p th:text="${existingRecipe.recipeName} + ' already exists'"></p>
-        </div>
+
+
     </div>
 
     <div th:fragment="cookbookForm">

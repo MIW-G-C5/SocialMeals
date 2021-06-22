@@ -159,6 +159,35 @@ public class RecipeController {
         return "redirect:/recipe/update/" + stringURLify(recipeDTOSessionObject.getRecipeName());
     }
 
+
+    @PostMapping(value = "/recipe/new/newRecipe", params = "delete")
+    protected String deleteStepFromRecipeForm(Model model,
+                                              @ModelAttribute("recipeDTO") RecipeDTO recipeDTOSessionObject,
+                                              @RequestParam("stepIndex") int stepIndex,
+                                              BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/";
+        }
+
+        recipeDTOSessionObject.getSteps().remove(stepIndex);
+        model.addAttribute("recipeDTO", recipeDTOSessionObject);
+        return "recipeForm";
+    }
+
+
+    @GetMapping("/recipe/update/{recipeName}")
+    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model, Principal principal) {
+        RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
+
+        if (recipeDTO == null || recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
+            return "redirect:/MyKitchen";
+        }
+
+       refreshUpdateRecipe(recipeName, recipeDTO, model);
+
+        return "updateRecipeForm";
+    }
+
     @PostMapping(value = "/recipe/update/{recipeName}", params = "save")
     protected String updateRecipe(@PathVariable("recipeName") String recipeName,
                                   @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
@@ -189,10 +218,26 @@ public class RecipeController {
         }
 
         recipeDTO.getSteps().add("");
-        model.addAttribute("recipeDTO", recipeDTO);
-        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
-        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
-        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
+        refreshUpdateRecipe(recipeName, recipeDTO, model);
+
+        return "updateRecipeForm";
+    }
+
+    @PostMapping(value = "/recipe/update/{recipeName}", params = "delete")
+    protected String deleteStepFromUpdateRecipe(
+            @PathVariable("recipeName") String recipeName,
+            @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+            @RequestParam("stepIndex") int stepIndex,
+            Model model,
+            BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "redirect:/MyKitchen";
+        }
+
+        recipeDTO.getSteps().remove(stepIndex);
+
+        refreshUpdateRecipe(recipeName, recipeDTO, model);
 
         return "updateRecipeForm";
     }
@@ -260,6 +305,22 @@ public class RecipeController {
             }
         }
         return stringBuilder.toString();
+    }
+
+    private void refreshUpdateRecipe
+            (@PathVariable("recipeName") String recipeName,
+             @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+             Model model) {
+
+        model.addAttribute("recipeDTO", recipeDTO);
+        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
+        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
+        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
+    }
+
+    private boolean recipeUserDoesNotMatchCurrentUser(Principal principal, RecipeDTO recipeDTO) {
+        SocialMealsUserDTO currentUser = socialMealsUserDetailService.getUserByUsername(principal.getName());
+        return !currentUser.equals(recipeDTO.getSocialMealsUserDTO());
     }
 
     private String createRecipeFormWithNotificationRecipeExists(Model model, RecipeDTO recipeDTO) {

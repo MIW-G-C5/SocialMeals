@@ -63,21 +63,6 @@ public class MyKitchenController {
         return "redirect:/cookbook/myCookbook/" + principal.getName();
     }
 
-    @GetMapping("/recipe/update/{recipeName}")
-    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model, Principal principal) {
-        RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
-        if (recipeDTO == null || recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
-            return "redirect:/MyKitchen";
-        }
-
-        model.addAttribute("recipeDTO", recipeDTO);
-        model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
-        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
-        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
-
-        return "updateRecipeForm";
-    }
-
     @GetMapping("/MyKitchen/addCookbook")
     protected String createCookbook(Model model) {
         model.addAttribute("cookbookDTO", new CookbookDTO());
