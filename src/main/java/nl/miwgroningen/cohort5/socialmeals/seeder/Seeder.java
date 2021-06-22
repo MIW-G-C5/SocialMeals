@@ -1,9 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.seeder;
 
-import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
-import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
-import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
-import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
+import nl.miwgroningen.cohort5.socialmeals.dto.*;
 import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
@@ -77,17 +74,17 @@ public class Seeder {
     }
 
     private void seedIngredients() {
-        ingredientService.addNew(new Ingredient("Tomato"));
-        ingredientService.addNew(new Ingredient("Eggplant"));
-        ingredientService.addNew(new Ingredient("Garlic"));
-        ingredientService.addNew(new Ingredient("Coriander"));
-        ingredientService.addNew(new Ingredient("Rice"));
-        ingredientService.addNew(new Ingredient("Broth"));
-        ingredientService.addNew(new Ingredient("Pepper"));
-        ingredientService.addNew(new Ingredient("Olive oil"));
-        ingredientService.addNew(new Ingredient("Tahini"));
-        ingredientService.addNew(new Ingredient("Lemon"));
-        ingredientService.addNew(new Ingredient("Cumin"));
+        ingredientService.addNew(new IngredientDTO("Tomato"));
+        ingredientService.addNew(new IngredientDTO("Eggplant"));
+        ingredientService.addNew(new IngredientDTO("Garlic"));
+        ingredientService.addNew(new IngredientDTO("Coriander"));
+        ingredientService.addNew(new IngredientDTO("Rice"));
+        ingredientService.addNew(new IngredientDTO("Broth"));
+        ingredientService.addNew(new IngredientDTO("Pepper"));
+        ingredientService.addNew(new IngredientDTO("Olive oil"));
+        ingredientService.addNew(new IngredientDTO("Tahini"));
+        ingredientService.addNew(new IngredientDTO("Lemon"));
+        ingredientService.addNew(new IngredientDTO("Cumin"));
     }
 
     private void seedIngredientRecipes() {

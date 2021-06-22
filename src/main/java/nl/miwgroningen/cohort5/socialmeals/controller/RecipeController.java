@@ -9,6 +9,7 @@ import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.stateKeeper.SortedRecipesStateKeeper;
+import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
@@ -250,9 +251,14 @@ public class RecipeController {
             return "redirect:/";
         }
 
+        IngredientDTO ingredientDTO = ingredientService.findByIngredientName(ingredientName);
+        if (ingredientDTO == null) {
+            ingredientDTO = ingredientService.addNew(new IngredientDTO(ingredientName));
+        }
+
         try {
             ingredientRecipeDTO.setRecipeDTO(recipeService.findByRecipeName(recipeName));
-            ingredientRecipeDTO.setIngredientDTO(ingredientService.findByIngredientName(ingredientName));
+            ingredientRecipeDTO.setIngredientDTO(ingredientDTO);
             recipeService.addIngredientToRecipe(ingredientRecipeDTO);
         } catch (NullPointerException error) {
             System.err.println(error.getMessage());
