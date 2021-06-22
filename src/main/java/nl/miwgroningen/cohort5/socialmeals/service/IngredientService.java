@@ -15,7 +15,7 @@ public interface IngredientService {
 
     List<IngredientDTO> getAll();
 
-    Ingredient addNew(Ingredient ingredient);
+    IngredientDTO addNew(IngredientDTO ingredientDTO);
 
     IngredientDTO findByIngredientName(String ingredientName);
 

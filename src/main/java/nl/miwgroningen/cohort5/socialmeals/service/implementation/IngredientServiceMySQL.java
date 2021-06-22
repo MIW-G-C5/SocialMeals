@@ -8,7 +8,6 @@ import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientConver
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,9 +37,11 @@ public class IngredientServiceMySQL implements IngredientService {
     }
 
     @Override
-    public Ingredient addNew(Ingredient ingredient) {
+    public IngredientDTO addNew(IngredientDTO ingredientDTO) {
+        formatIngredientName(ingredientDTO);
+        Ingredient ingredient = ingredientConverter.fromDTO(ingredientDTO);
         ingredientRepository.save(ingredient);
-        return ingredient;
+        return ingredientDTO;
     }
 
     @Override
@@ -66,5 +67,13 @@ public class IngredientServiceMySQL implements IngredientService {
     @Override
     public List<String> search(String keyword) {
         return ingredientRepository.search(keyword);
+    }
+
+    private IngredientDTO formatIngredientName(IngredientDTO ingredientDTO) {
+        String ingredientName = ingredientDTO.getIngredientName().trim();
+        ingredientName = ingredientName.substring(0, 1).toUpperCase() + ingredientName.substring(1);
+
+        ingredientDTO.setIngredientName(ingredientName);
+        return ingredientDTO;
     }
 }
