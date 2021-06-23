@@ -129,10 +129,6 @@ public class CookbookController {
         return "redirect:/MyKitchen";
     }
 
-
-
-
-
     @GetMapping("/cookbook/add/{urlId}/{recipeName}")
     protected String addRecipeToCookbook(@PathVariable("urlId") Long urlId,
                                          @PathVariable("recipeName") String recipeName,

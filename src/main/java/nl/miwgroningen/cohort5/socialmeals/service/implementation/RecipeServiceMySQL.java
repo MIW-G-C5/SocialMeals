@@ -116,6 +116,27 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
+    public void deleteIngredientFromRecipe(IngredientRecipe ingredientRecipe){
+        ingredientRecipeRepository.delete(ingredientRecipe);
+    }
+
+    @Override
+    public IngredientRecipe getIngredientRecipeByNames(String ingredientName, String recipeName){
+
+        Optional <Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
+
+        if(recipe.isPresent()){
+            List<IngredientRecipe> ingredientRecipes = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
+            for (IngredientRecipe ingredientRecipe : ingredientRecipes) {
+                ingredientRecipe.getIngredient().getIngredientName().equals(ingredientName);
+                return ingredientRecipe;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName) {
 
         Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
