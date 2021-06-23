@@ -29,7 +29,7 @@ public class Recipe {
     @ManyToOne
     private SocialMealsUser socialMealsUser;
 
-    @ManyToMany(mappedBy = "recipeLikes")
+    @ManyToMany(mappedBy = "recipeLikes", cascade = CascadeType.ALL)
     Set<Cookbook> cookbookLikes;
 
     public Recipe(String recipeName, List<String> steps, SocialMealsUser socialMealsUser) {

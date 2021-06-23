@@ -3,6 +3,8 @@ package nl.miwgroningen.cohort5.socialmeals.service.dtoconverter;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import org.junit.jupiter.api.Assertions;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -40,5 +42,18 @@ class IngredientConverterTest {
             Assertions.assertEquals(
                     testIngredientList.get(i).getIngredientName(), testListObjDTO.get(i).getIngredientName());
         }
+    }
+
+    @Test
+    void fromDTO() {
+        //arrange
+        IngredientDTO testIngredientDTO = new IngredientDTO("testIngredientName");
+        IngredientConverter ingredientConverter = new IngredientConverter();
+
+        //act
+        Ingredient testIngredient = ingredientConverter.fromDTO(testIngredientDTO);
+
+        //assert
+        assertThat("testIngredientName", is(testIngredient.getIngredientName()));
     }
 }

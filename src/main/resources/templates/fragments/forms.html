@@ -14,17 +14,18 @@
         <div>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control form-control-width" id="name" th:field="*{recipeName}" required>
+                <div class="row row-no-margin">
+                    <input type="text" class="form-control form-control-width col-9" id="name" th:field="*{recipeName}" required>
+                </div>
             </div>
 
             <div  class = "form-group" th:each="step, iter : ${recipeDTO.steps}">
                 <input type="hidden" th:value="${iter.index}" name="stepIndex">
 
                 <span th:text="'Step ' + ${iter.index + 1 }"></span>
-
-                <div class="form-group row row-no-margin">
+                <div class="row row-no-margin">
                     <input type="text" class="form-control form-control-width col-9" th:field="*{steps[__${iter.index}__]}" id="step1" />
-                    <button  type="submit" class="btn btn-primary " name="delete"> <i class="fas fa-trash"></i> </button>
+                    <button  type="submit" class="btn btn-primary" name="delete"> <i class="fas fa-trash"></i> </button>
                 </div>
 
             </div>
