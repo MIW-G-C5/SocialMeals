@@ -15,9 +15,13 @@
     <table class="table">
 
         <tr th:each="recipe : ${recipeDTOList}">
-            <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a></td>
-            <td><a th:href="@{/recipe/update/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}">Edit</a></td>
-            <td><a class="confirmDelete" th:href="@{/recipe/delete/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}">Delete</a></td>
+            <td class="align-middle">
+                <a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a>
+            </td>
+            <td data-th-align="right">
+                <a type="button" class="btn btn-primary" th:href="@{/recipe/update/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}"><i class="fas fa-pencil-alt"></i></a>
+                <a type="button" class="btn btn-primary confirmDelete" th:href="@{/recipe/delete/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}"><i class="fas fa-trash"></i></a>
+            </td>
         </tr>
     </table>
 
