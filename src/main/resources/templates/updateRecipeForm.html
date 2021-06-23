@@ -76,10 +76,9 @@
                     <div class="row">
 
                         <div class="col-1">
-                            <a onclick="return confirm('Are you sure?')"
-                               th:href="@{/recipe/delete/{recipeName}/{ingredientName}
-                           (recipeName=${ingredientRecipe.recipeDTO.recipeName},
-                           ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i class="fas fa-minus"></i></a>
+                            <a class="confirmDelete" th:href="@{/recipe/delete/{recipeName}/{ingredientName}(recipeName=${ingredientRecipe.recipeDTO.recipeName},
+                                ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i class="fas fa-minus"></i>
+                            </a>
                         </div>
 
                         <div class="col-9">
