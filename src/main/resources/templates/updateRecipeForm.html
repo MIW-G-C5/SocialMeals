@@ -84,18 +84,13 @@
                         </div>
 
                         <div class="col-1">
-                            <a onclick="return confirm('Are you sure?')" class="btn btn-primary"
+
+                            <a class="confirmDelete btn btn-primary"
                                th:href="@{/recipe/delete/{recipeName}/{ingredientName}
-                           (recipeName=${ingredientRecipe.recipeDTO.recipeName},
-                           ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i class="fas fa-trash "></i></a>
+                            (recipeName=${ingredientRecipe.recipeDTO.recipeName},
+                                ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i class="fas fa-trash"></i>
+                            </a>
                         </div>
-
-
-
-
-
-
-
 
                     </div>
 
@@ -104,11 +99,6 @@
         </div>
 
     </div>
-
-
-
-
-
 
 </div>
 
