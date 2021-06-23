@@ -59,7 +59,12 @@ public class Seeder {
     }
 
     private void seedRecipes() {
-        List<String> steps = new ArrayList<>(List.of("Roast eggplant", "add all ingredients", "blend"));
+
+        String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
+               "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
+               "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
+        List<String> steps = new ArrayList<>(List.of(loremIpsum, loremIpsum, loremIpsum));
         List<String> steps2 = new ArrayList<>(List.of("Fry garlic", "and onion", "add everything and put in oven"));
 
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
