@@ -17,10 +17,8 @@
         <tr th:each="recipe : ${recipeDTOList}">
             <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a></td>
             <td><a th:href="@{/recipe/update/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}">Edit</a></td>
-            <td><a onclick="return confirm('Are you sure?')"
-                   th:href="@{/recipe/delete/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}">Delete</a></td>
+            <td><a class="confirmDelete" th:href="@{/recipe/delete/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}">Delete</a></td>
         </tr>
-
     </table>
 
 </div>
