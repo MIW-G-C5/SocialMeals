@@ -267,6 +267,21 @@ public class RecipeController {
         return "redirect:/recipe/update/" + stringURLify(recipeName);
     }
 
+
+    @GetMapping("/recipe/delete/{recipeName}/{ingredientName}")
+    protected String deleteRecipe(@PathVariable("recipeName") String recipeName,
+                                  @PathVariable("ingredientName") String ingredientName) {
+
+        try {
+            recipeService.deleteIngredientFromRecipe(recipeService.getIngredientRecipeByNames(ingredientName, recipeName));
+        } catch (NullPointerException error) {
+            System.err.println(error.getMessage());
+        }
+
+        return "redirect:/recipe/update/" + stringURLify(recipeName);
+
+    }
+
     @GetMapping(value = "/recipes/search")
     protected String searchRecipe(@SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
                                   Model model, @RequestParam String keyword) {
