@@ -1,5 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
+
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
@@ -29,6 +30,7 @@ import java.util.Optional;
 
 @Service
 public class RecipeServiceMySQL implements RecipeService {
+    private static final long DEFAULT_URL_ID = 5000;
 
     private final RecipeRepository recipeRepository;
     private final IngredientRecipeRepository ingredientRecipeRepository;
@@ -68,6 +70,7 @@ public class RecipeServiceMySQL implements RecipeService {
 
     @Override
     public RecipeDTO addNew(RecipeDTO recipeDTO) {
+        recipeDTO.setUrlId(findNextRecipeId());
         Recipe recipe = recipeConverter.fromDTO(recipeDTO);
         recipeRepository.save(recipe);
         return recipeDTO;
@@ -101,6 +104,15 @@ public class RecipeServiceMySQL implements RecipeService {
         }
 
         return recipeDTO;
+    }
+
+    @Override
+    public RecipeDTO findByUrlId(Long urlId) {
+        Optional<Recipe> recipe = recipeRepository.findByUrlId(urlId);
+        if (recipe.isEmpty()) {
+            return null;
+        }
+        return recipeConverter.toDTO(recipe.get());
     }
 
     @Override
@@ -194,6 +206,14 @@ public class RecipeServiceMySQL implements RecipeService {
             ingredients.add(ingredientRecipeDTO.getIngredientDTO());
         }
         return ingredients;
+    }
+
+    private long findNextRecipeId(){
+        Long maxId = recipeRepository.getMaxUrlId();
+        if (maxId == null) {
+            maxId = DEFAULT_URL_ID;
+        }
+        return ++maxId;
     }
 
 }

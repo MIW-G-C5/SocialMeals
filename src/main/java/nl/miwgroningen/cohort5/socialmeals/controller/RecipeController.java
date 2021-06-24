@@ -93,11 +93,13 @@ public class RecipeController {
         return "recipeOverview";
     }
 
-    @GetMapping("/recipes/{recipeName}")
-    protected String showRecipeDetails(@PathVariable("recipeName") String recipeName,
+    @GetMapping("/recipes/{urlId}")
+    protected String showRecipeDetails(@PathVariable("urlId") Long urlId,
                                        Model model,
                                        Principal principal) {
-        RecipeDTO recipe = recipeService.findByRecipeName(recipeName);
+
+        RecipeDTO recipe = recipeService.findByUrlId(urlId);
+
         if (recipe == null) {
             return "redirect:/recipes";
         }
@@ -111,7 +113,7 @@ public class RecipeController {
 
         model.addAttribute("loggedInUser", loggedInUser);
         model.addAttribute("recipe", recipe);
-        model.addAttribute("ingredientRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
+        model.addAttribute("ingredientRecipes", recipeService.getIngredientRecipesByRecipeName(recipe.getRecipeName()));
         return "recipeDetails";
     }
 
@@ -156,7 +158,7 @@ public class RecipeController {
             return createRecipeFormWithNotificationRecipeExists(model, recipeDTOSessionObject);
         }
 
-        return "redirect:/recipe/update/" + stringURLify(recipeDTOSessionObject.getRecipeName());
+        return "redirect:/recipe/update/" + recipeService.findByRecipeName(recipeDTOSessionObject.getRecipeName()).getUrlId();
     }
 
 
@@ -175,21 +177,21 @@ public class RecipeController {
     }
 
 
-    @GetMapping("/recipe/update/{recipeName}")
-    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model, Principal principal) {
-        RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
+    @GetMapping("/recipe/update/{urlId}")
+    protected String showUpdateRecipe(@PathVariable("urlId") Long urlId, Model model, Principal principal) {
+        RecipeDTO recipeDTO = recipeService.findByUrlId(urlId);
 
         if (recipeDTO == null || recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
             return "redirect:/MyKitchen";
         }
 
-       refreshUpdateRecipe(recipeName, recipeDTO, model);
+       refreshUpdateRecipe(recipeDTO.getRecipeName(), recipeDTO, model);
 
         return "updateRecipeForm";
     }
 
-    @PostMapping(value = "/recipe/update/{recipeName}", params = "save")
-    protected String updateRecipe(@PathVariable("recipeName") String recipeName,
+    @PostMapping(value = "/recipe/update/{urlId}", params = "save")
+    protected String updateRecipe(@PathVariable("urlId") Long urlId,
                                   @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
                                   Model model,
                                   BindingResult result) {
@@ -200,16 +202,16 @@ public class RecipeController {
         recipeDTO.setSteps(removeEmptySteps(recipeDTO.getSteps()));
 
         try {
-            recipeService.updateRecipe(recipeService.findByRecipeName(recipeName), recipeDTO);
+            recipeService.updateRecipe(recipeService.findByUrlId(urlId), recipeDTO);
         } catch (DataIntegrityViolationException error) {
-            return createRecipeUpdateFormWithNotificationRecipeExists(model, recipeDTO, recipeName);
+            return createRecipeUpdateFormWithNotificationRecipeExists(model, recipeDTO, recipeDTO.getRecipeName());
         }
 
-        return "redirect:/recipe/update/" + stringURLify(recipeDTO.getRecipeName());
+        return "redirect:/recipe/update/" + urlId;
     }
 
-    @PostMapping(value = "/recipe/update/{recipeName}", params = "add")
-    protected String addStepToUpdateRecipe(@PathVariable("recipeName") String recipeName,
+    @PostMapping(value = "/recipe/update/{urlId}", params = "add")
+    protected String addStepToUpdateRecipe(@PathVariable("urlId") Long urlId,
                                            @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
                                            Model model,
                                            BindingResult result) {
@@ -218,14 +220,14 @@ public class RecipeController {
         }
 
         recipeDTO.getSteps().add("");
-        refreshUpdateRecipe(recipeName, recipeDTO, model);
+        refreshUpdateRecipe(recipeDTO.getRecipeName(), recipeDTO, model);
 
         return "updateRecipeForm";
     }
 
-    @PostMapping(value = "/recipe/update/{recipeName}", params = "delete")
+    @PostMapping(value = "/recipe/update/{urlId}", params = "delete")
     protected String deleteStepFromUpdateRecipe(
-            @PathVariable("recipeName") String recipeName,
+            @PathVariable("urlId") Long urlId,
             @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
             @RequestParam("stepIndex") int stepIndex,
             Model model,
@@ -237,14 +239,14 @@ public class RecipeController {
 
         recipeDTO.getSteps().remove(stepIndex);
 
-        refreshUpdateRecipe(recipeName, recipeDTO, model);
+        refreshUpdateRecipe(recipeDTO.getRecipeName(), recipeDTO, model);
 
         return "updateRecipeForm";
     }
 
-    @PostMapping(value = "/recipe/update/{recipeName}/addingredient")
+    @PostMapping(value = "/recipe/update/{urlId}/addingredient")
     protected String addIngredient(@ModelAttribute("ingredientRecipeDTO") IngredientRecipeDTO ingredientRecipeDTO,
-                                   @PathVariable("recipeName") String recipeName,
+                                   @PathVariable("urlId") Long urlId,
                                    @RequestParam("ingredientName") String ingredientName,
                                    BindingResult result) {
         if (result.hasErrors()) {
@@ -257,28 +259,30 @@ public class RecipeController {
         }
 
         try {
-            ingredientRecipeDTO.setRecipeDTO(recipeService.findByRecipeName(recipeName));
+            ingredientRecipeDTO.setRecipeDTO(recipeService.findByUrlId(urlId));
             ingredientRecipeDTO.setIngredientDTO(ingredientDTO);
             recipeService.addIngredientToRecipe(ingredientRecipeDTO);
         } catch (NullPointerException error) {
             System.err.println(error.getMessage());
         }
 
-        return "redirect:/recipe/update/" + stringURLify(recipeName);
+        return "redirect:/recipe/update/" + urlId;
     }
 
 
-    @GetMapping("/recipe/delete/{recipeName}/{ingredientName}")
-    protected String deleteRecipe(@PathVariable("recipeName") String recipeName,
+    @GetMapping("/recipe/delete/{urlId}/{ingredientName}")
+    protected String deleteRecipe(@PathVariable("urlId") Long urlId,
                                   @PathVariable("ingredientName") String ingredientName) {
 
+        RecipeDTO recipeDTO = recipeService.findByUrlId(urlId);
+
         try {
-            recipeService.deleteIngredientFromRecipe(recipeService.getIngredientRecipeByNames(ingredientName, recipeName));
+            recipeService.deleteIngredientFromRecipe(recipeService.getIngredientRecipeByNames(ingredientName, recipeDTO.getRecipeName()));
         } catch (NullPointerException error) {
             System.err.println(error.getMessage());
         }
 
-        return "redirect:/recipe/update/" + stringURLify(recipeName);
+        return "redirect:/recipe/update/" + urlId;
 
     }
 
@@ -309,22 +313,9 @@ public class RecipeController {
         return searchIngredients.stream().filter(remainingIngredients::contains).collect(Collectors.toList());
     }
 
-    public String stringURLify(String name) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < name.length(); i++) {
-            char c = name.charAt(i);
-            if (c == ' ') {
-                stringBuilder.append("%20");
-            } else {
-                stringBuilder.append(c);
-            }
-        }
-        return stringBuilder.toString();
-    }
-
     private void refreshUpdateRecipe
-            (@PathVariable("recipeName") String recipeName,
-             @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+            (String recipeName,
+             RecipeDTO recipeDTO,
              Model model) {
 
         model.addAttribute("recipeDTO", recipeDTO);

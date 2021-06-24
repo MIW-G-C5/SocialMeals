@@ -25,6 +25,8 @@ public interface RecipeService {
 
     RecipeDTO findByRecipeName(String recipeName);
 
+    RecipeDTO findByUrlId(Long urlId);
+
     void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeList);
 
     void addIngredientToRecipe(IngredientRecipeDTO ingredientRecipeDTO);

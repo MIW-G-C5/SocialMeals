@@ -12,6 +12,8 @@ import java.util.List;
  */
 
 public class RecipeDTO {
+
+    private Long urlId;
     private String recipeName;
     private List<String> steps;
     private SocialMealsUserDTO socialMealsUserDTO;
@@ -48,5 +50,13 @@ public class RecipeDTO {
 
     public void setSteps(List<String> steps) {
         this.steps = steps;
+    }
+
+    public Long getUrlId() {
+        return urlId;
+    }
+
+    public void setUrlId(Long urlId) {
+        this.urlId = urlId;
     }
 }

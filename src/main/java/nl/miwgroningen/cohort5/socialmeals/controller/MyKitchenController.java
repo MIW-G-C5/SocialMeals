@@ -51,10 +51,10 @@ public class MyKitchenController {
         return "myKitchen";
     }
 
-    @GetMapping("/recipe/delete/{recipeName}")
-    protected String deleteRecipe(@PathVariable("recipeName") String recipeName,
+    @GetMapping("/recipe/delete/{urlId}")
+    protected String deleteRecipe(@PathVariable("urlId") Long urlId,
                                   Principal principal) {
-        RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
+        RecipeDTO recipeDTO = recipeService.findByUrlId(urlId);
         if (recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
             return "redirect:/MyKitchen";
         }

@@ -16,7 +16,7 @@
     <div class="row form-control-height">
 
         <div class="col-8">
-            <form class="has-validation" th:action="@{/recipe/update/{recipeName}(recipeName=${recipeDTO.recipeName})}"
+            <form class="has-validation" th:action="@{/recipe/update/{urlId}(urlId=${recipeDTO.urlId})}"
                   method="post" th:object="${recipeDTO}">
                 <div th:replace="fragments/forms :: recipeForm"></div>
             </form>
@@ -37,7 +37,7 @@
         <div class="col-8">
             <h3>Add ingredients</h3>
             <form class="has-validation"
-                  th:action="@{/recipe/update/{recipeName}/addingredient(recipeName=${recipeDTO.recipeName})}" method="post"
+                  th:action="@{/recipe/update/{urlId}/addingredient(urlId=${recipeDTO.urlId})}" method="post"
                   th:object="${ingredientRecipeDTO}">
 
                 <div class="form-group">
@@ -82,8 +82,8 @@
                         <div class="col-1">
 
                             <a class="confirmDelete btn btn-primary"
-                               th:href="@{/recipe/delete/{recipeName}/{ingredientName}
-                            (recipeName=${ingredientRecipe.recipeDTO.recipeName},
+                               th:href="@{/recipe/delete/{urlId}/{ingredientName}
+                            (urlId=${ingredientRecipe.recipeDTO.urlId},
                                 ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i class="fas fa-trash"></i>
                             </a>
                         </div>

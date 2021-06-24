@@ -34,7 +34,7 @@
     <table class="table">
 
         <tr th:each="recipe : ${recipeList}">
-            <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}"
+            <td><a th:href="@{/recipes/{urlId}(urlId=${recipe.urlId})}"
                    th:text="${recipe.recipeName}"></a></td>
         </tr>
     </table>
