@@ -39,7 +39,7 @@
         </div>
 
         <div class="col-6">
-            <h3>Cooking instruction</h3>
+            <h3>Cooking instructions</h3>
             <ol>
                 <li th:each="step, iterStep : ${recipe.steps}">
                     <a th:text="${step}"></a>
@@ -47,11 +47,13 @@
             </ol>
         </div>
 
-        <div class="col-3">
-            <h3>Shoppinglist</h3>
-            <ul>
+        <div class="col-3 ">
+
+            <ul class="shoppingListPostIT listWithoutStyle">
+                <h3>Shopping list</h3>
+
                 <li th:each="ingredientRecipe : ${ingredientRecipes}">
-                    <a th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' ' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></a>
+                    <a th:text=" ${ingredientRecipe.ingredientDTO.ingredientName} + ' (' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType} +') ' "></a>
                 </li>
             </ul>
         </div>

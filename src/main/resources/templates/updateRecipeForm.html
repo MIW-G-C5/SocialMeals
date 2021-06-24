@@ -9,7 +9,6 @@
 
     <div th:replace="fragments/general :: headerPhoto">
 
-
     </div>
     <div th:replace="fragments/general :: navbar"></div>
     <h1>Edit</h1>
@@ -23,7 +22,7 @@
         </div>
 
         <div class="col">
-            <h3>Cooking instruction</h3>
+            <h3>Cooking instructions</h3>
             <ol>
                 <li th:each="step : ${recipeDTO.steps}">
                     <a th:text="${step}"></a>
@@ -52,11 +51,10 @@
                     </div>
 
                     <div class="form-group col-7">
-                        <label for="quantitytype">Unit</label>
+                        <label for="quantitytype">Units</label>
                         <input class="form-control form-control-width" type="text" id="quantitytype" th:field="*{quantityType}">
                     </div>
                 </div>
-
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -64,24 +62,29 @@
             </form>
         </div>
 
-
         <div class="col">
-            <h3>Shoppinglist</h3>
+            <h3>Shopping list</h3>
 
-            <ul class="listWithoutStyle updateShoppingList">
+            <ul class="listWithoutStyle">
                 <li th:each="ingredientRecipe : ${presentIngredientsRecipes}">
 
+                    <div class="row updateShoppingList">
 
-                    <div class="row">
-
-                        <div class="col-1">
-                            <a class="confirmDelete" th:href="@{/recipe/delete/{recipeName}/{ingredientName}(recipeName=${ingredientRecipe.recipeDTO.recipeName},
-                                ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i class="fas fa-minus"></i>
-                            </a>
+                        <div class="col-4">
+                            <span th:text="${ingredientRecipe.ingredientDTO.ingredientName}"></span>
                         </div>
 
-                        <div class="col-9">
-                            <span th:text="${ingredientRecipe.ingredientDTO.ingredientName} + ' ' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></span>
+                        <div class="col-6">
+                            <span th:text="${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></span>
+                        </div>
+
+                        <div class="col-1">
+
+                            <a class="confirmDelete btn btn-primary"
+                               th:href="@{/recipe/delete/{recipeName}/{ingredientName}
+                            (recipeName=${ingredientRecipe.recipeDTO.recipeName},
+                                ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i class="fas fa-trash"></i>
+                            </a>
                         </div>
 
                     </div>
@@ -89,9 +92,8 @@
                 </li>
             </ul>
         </div>
+
     </div>
-
-
 
 </div>
 
