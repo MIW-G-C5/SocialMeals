@@ -9,7 +9,6 @@
 
     <div th:replace="fragments/general :: headerPhoto">
 
-
     </div>
     <div th:replace="fragments/general :: navbar"></div>
     <h1>Edit</h1>
@@ -53,11 +52,10 @@
                     </div>
 
                     <div class="form-group col-7">
-                        <label for="quantitytype">Unit</label>
+                        <label for="quantitytype">Units</label>
                         <input class="form-control form-control-width" type="text" id="quantitytype" th:field="*{quantityType}">
                     </div>
                 </div>
-
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -65,13 +63,11 @@
             </form>
         </div>
 
-
         <div class="col">
             <h3>Shopping list</h3>
 
             <ul class="listWithoutStyle">
                 <li th:each="ingredientRecipe : ${presentIngredientsRecipes}">
-
 
                     <div class="row updateShoppingList">
 

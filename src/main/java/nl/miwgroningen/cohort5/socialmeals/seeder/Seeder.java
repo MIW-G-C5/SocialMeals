@@ -60,11 +60,7 @@ public class Seeder {
 
     private void seedRecipes() {
 
-        String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
-               "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
-               "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-
-        List<String> steps = new ArrayList<>(List.of(loremIpsum, loremIpsum, loremIpsum));
+        List<String> steps = new ArrayList<>(babaGanoushSteps());
         List<String> steps2 = new ArrayList<>(List.of("Fry garlic", "and onion", "add everything and put in oven"));
 
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
@@ -76,6 +72,28 @@ public class Seeder {
         recipeService.addNew(new RecipeDTO("Chickpea dahl", new ArrayList<>(), socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Sweet potato curry", new ArrayList<>(), socialMealsUserDTO));
 
+    }
+
+    private List<String> babaGanoushSteps(){
+        List<String> steps = new ArrayList<>();
+
+        steps.add("Preheat the oven to 230 degrees Celcius. Line a baking sheet with parchment paper. " +
+                "Halve the eggplants lengthwise, brush them lightly with olive oil and roast for 30 to 40 minutes.");
+        steps.add("Set the eggplants aside for a few minutes. Flip them over and scoop out the flesh with a spoon. " +
+                "Discard the skin.");
+        steps.add("Strain the eggplant flesh over a mixing bowl. " +
+                "Let the eggplant rest for a few minutes and try again to remove more moisture. " +
+                "Discard the moisture afterwards. ");
+        steps.add("Clean and dry the mixing bowl and add the eggplant to it. " +
+                "Add the garlic and lemon juice and stir with a fork until the eggplant breaks down.");
+        steps.add("Add tahini and mix well. Slowly add olive oil while stirring. " +
+                "Continue stirring until the mixture is pale and creamy.");
+        steps.add("Add parsley, salt and cumin to the mixture. " +
+                "Season with more salt and lemon juice if you like.");
+        steps.add("Serve the baba ganoush with a light drizzle of olive oil " +
+                "and some sprinkled parsley and smoked paprika on top.");
+
+        return steps;
     }
 
     private void seedIngredients() {
@@ -90,6 +108,8 @@ public class Seeder {
         ingredientService.addNew(new IngredientDTO("Tahini"));
         ingredientService.addNew(new IngredientDTO("Lemon"));
         ingredientService.addNew(new IngredientDTO("Cumin"));
+        ingredientService.addNew(new IngredientDTO("Parsley"));
+        ingredientService.addNew(new IngredientDTO("Smoked paprika"));
     }
 
     private void seedIngredientRecipes() {
@@ -104,6 +124,21 @@ public class Seeder {
                 recipeService.findByRecipeName("Baba ganoush"),
                         6,
                         "units"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("Olive oil"),
+                        recipeService.findByRecipeName("Baba ganoush"),
+                        3,
+                        "tablespoons"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("Parsley"),
+                        recipeService.findByRecipeName("Baba ganoush"),
+                        2,
+                        "teaspoons"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("Smoked paprika"),
+                        recipeService.findByRecipeName("Baba ganoush"),
+                        1,
+                        "teaspoon"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("tahini"),
                         recipeService.findByRecipeName("Baba ganoush"),
