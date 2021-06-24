@@ -26,7 +26,7 @@
                 <div class="row row-no-margin">
                     <textarea type="text" class="form-control form-control-width col-9" th:field="*{steps[__${iter.index}__]}" id="step1" rows="3"></textarea>
                     <div class="d-flex align-items-end">
-                        <a th:href="@{/recipe/deleteStep/{iterIndex}(iterIndex = ${iter.index})}" type="submit" class="btn btn-primary"> <i class="fas fa-trash"></i> </a>
+                        <a th:unless="${iter.size == 1}" th:href="@{/recipe/deleteStep/{iterIndex}(iterIndex = ${iter.index})}" type="submit" class="btn btn-primary"> <i class="fas fa-trash"></i> </a>
                     </div>
                 </div>
 

@@ -14,7 +14,6 @@ import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -126,7 +125,6 @@ public class RecipeController {
         recipeStateKeeper = new RecipeDTO();
         recipeStateKeeper.getSteps().add("");
 
-
         model.addAttribute("recipeDTO", recipeStateKeeper);
         return "recipeForm";
     }
@@ -139,9 +137,9 @@ public class RecipeController {
         if (result.hasErrors()) {
             return "redirect:/";
         }
-        recipeStateKeeper.setRecipeName(recipeDTO.getRecipeName());
-        recipeStateKeeper.setSteps(recipeDTO.getSteps());
+        setRecipeKeeperValuesWithRecipeDTOValues(recipeStateKeeper, recipeDTO);
         recipeStateKeeper.getSteps().add("");
+
         model.addAttribute("recipeDTO", recipeStateKeeper);
         return "recipeForm";
     }
@@ -193,14 +191,10 @@ public class RecipeController {
                                       @ModelAttribute("recipeStateKeeper") RecipeDTO recipeStateKeeper,
                                       Model model,
                                       Principal principal) {
-        if (recipeStateKeeper == null) {
-            recipeStateKeeper = new RecipeDTO();
-        }
+
         RecipeDTO existingRecipe =  recipeService.findByRecipeName(recipeName);
 
-        recipeStateKeeper.setRecipeName(existingRecipe.getRecipeName());
-        recipeStateKeeper.setSteps(existingRecipe.getSteps());
-        recipeStateKeeper.setSocialMealsUserDTO(existingRecipe.getSocialMealsUserDTO());
+        setRecipeKeeperValuesWithRecipeDTOValues(recipeStateKeeper, existingRecipe);
 
 
         if (recipeStateKeeper == null || recipeUserDoesNotMatchCurrentUser(principal, recipeStateKeeper)) {
@@ -240,11 +234,10 @@ public class RecipeController {
             return "redirect:/MyKitchen";
         }
 
-        recipeStateKeeper.setRecipeName(recipeDTO.getRecipeName());
-        recipeStateKeeper.setSteps(recipeDTO.getSteps());
+        setRecipeKeeperValuesWithRecipeDTOValues(recipeStateKeeper, recipeDTO);
         recipeStateKeeper.getSteps().add("");
-        refreshUpdateRecipe(recipeStateKeeper, model);
 
+        refreshUpdateRecipe(recipeStateKeeper, model);
         return "updateRecipeForm";
     }
 
@@ -329,9 +322,7 @@ public class RecipeController {
         return stringBuilder.toString();
     }
 
-    private void refreshUpdateRecipe
-            (@ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
-             Model model) {
+    private void refreshUpdateRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO, Model model) {
 
         model.addAttribute("recipeDTO", recipeDTO);
         model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
@@ -364,5 +355,11 @@ public class RecipeController {
 
     private List<String> removeEmptySteps(List<String> steps) {
         return steps.stream().filter(i -> !i.isEmpty()).collect(Collectors.toList());
+    }
+
+    private void setRecipeKeeperValuesWithRecipeDTOValues(RecipeDTO recipeStateKeeper, RecipeDTO recipeDTO) {
+        recipeStateKeeper.setRecipeName(recipeDTO.getRecipeName());
+        recipeStateKeeper.setSteps(recipeDTO.getSteps());
+        recipeStateKeeper.setSocialMealsUserDTO(recipeDTO.getSocialMealsUserDTO());
     }
 }
