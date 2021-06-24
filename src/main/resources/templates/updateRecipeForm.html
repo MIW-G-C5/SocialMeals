@@ -17,8 +17,7 @@
     <div class="row form-control-height">
 
         <div class="col-8">
-            <form class="has-validation" th:action="@{/recipe/update/{recipeName}(recipeName=${recipeDTO.recipeName})}"
-                  method="post" th:object="${recipeDTO}">
+            <form class="has-validation" th:action="@{/recipe/update/updateSteps}" method="post" th:object="${recipeDTO}">
                 <div th:replace="fragments/forms :: recipeForm"></div>
             </form>
         </div>
