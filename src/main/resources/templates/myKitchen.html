@@ -14,22 +14,22 @@
 
     <br>
 
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-md-center list-styling">
         <div class="col-8">
-            <div class="d-flex flex-row-reverse">
-                <a th:href="@{/MyKitchen/addCookbook}">Create Cookbook</a>
+            <div class="d-flex flex-row-reverse increase-font">
+                <a class="text-decoration-none" th:href="@{/MyKitchen/addCookbook}">Create Cookbook</a>
             </div>
 
             <table class="table">
                 <tr class="row-even-spacing">
                     <td class="align-middle">
-                        <a th:href="@{/cookbook/myCookbook/{username}(username=${user.username})}">My Recipes</a>
+                        <a class="text-decoration-none" th:href="@{/cookbook/myCookbook/{username}(username=${user.username})}">My Recipes</a>
                     </td>
                     <td></td>
                 </tr>
                 <tr class="row-even-spacing" th:each="cookbook : ${cookbookList}">
                     <td class="align-middle">
-                        <a th:href="@{/cookbook/{urlId}(urlId = ${cookbook.urlId})}" th:text="${cookbook.cookbookName}"></a>
+                        <a class="text-decoration-none" th:href="@{/cookbook/{urlId}(urlId = ${cookbook.urlId})}" th:text="${cookbook.cookbookName}"></a>
                     </td>
                     <td data-th-align="right">
                         <a type="button" class="btn btn-primary" th:href="@{/cookbook/update/{urlId}(urlId = ${cookbook.urlId})}"><i class="fas fa-pencil-alt"></i></a>

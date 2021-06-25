@@ -1,4 +1,4 @@
-package nl.miwgroningen.cohort5.socialmeals.service.implementation;
+package nl.miwgroningen.cohort5.socialmeals.service.mocks;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;

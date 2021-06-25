@@ -1,7 +1,6 @@
-package nl.miwgroningen.cohort5.socialmeals.service.implementation;
+package nl.miwgroningen.cohort5.socialmeals.service.mocks;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
-import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Cookbook;
@@ -43,7 +42,7 @@ public class CookbookServiceMySQL implements CookbookService {
         this.socialMealsUserDetailService = socialMealsUserDetailService;
         this.recipeService = recipeService;
 
-        cookbookConverter = new CookbookConverter(recipeService, socialMealsUserDetailService);
+        cookbookConverter = new CookbookConverter();
     }
 
     @Override
@@ -68,7 +67,9 @@ public class CookbookServiceMySQL implements CookbookService {
     public CookbookDTO addNew(CookbookDTO cookbookDTO) {
         cookbookDTO.setUrlId(findNextCookbookId());
         formatCookbookName(cookbookDTO);
-        cookbookRepository.save(cookbookConverter.fromNewCookbookDTO(cookbookDTO));
+
+        SocialMealsUser socialMealsUser = socialMealsUserDetailService.getUserByDTO(cookbookDTO.getSocialMealsUser());
+        cookbookRepository.save(cookbookConverter.fromNewCookbookDTO(cookbookDTO, socialMealsUser));
         return cookbookDTO;
     }
 

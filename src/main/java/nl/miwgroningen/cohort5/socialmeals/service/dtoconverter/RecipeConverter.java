@@ -2,13 +2,10 @@ package nl.miwgroningen.cohort5.socialmeals.service.dtoconverter;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
-import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
-import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
-import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
+import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author A.H. van Zessen
@@ -18,12 +15,9 @@ import java.util.Optional;
 
 public class RecipeConverter {
 
-    private SocialMealsUserDetailService socialMealsUserDetailService;
-
     private SocialMealsUserConverter socialMealsUserConverter;
 
-    public RecipeConverter(SocialMealsUserDetailService socialMealsUserDetailService) {
-        this.socialMealsUserDetailService = socialMealsUserDetailService;
+    public RecipeConverter() {
         socialMealsUserConverter = new SocialMealsUserConverter();
     }
 
@@ -44,10 +38,10 @@ public class RecipeConverter {
         return returnList;
     }
 
-    public Recipe fromDTO(RecipeDTO recipeDTO) {
+    public Recipe fromDTO(RecipeDTO recipeDTO, SocialMealsUser socialMealsUser) {
         Recipe recipe = new Recipe(recipeDTO.getRecipeName(),
                 recipeDTO.getSteps(),
-                socialMealsUserDetailService.getUserByDTO(recipeDTO.getSocialMealsUserDTO()));
+                socialMealsUser);
         recipe.setUrlId(recipeDTO.getUrlId());
         return recipe;
     }

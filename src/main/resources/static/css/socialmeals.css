@@ -94,4 +94,6 @@ h3 {
     line-height: 2em;
 }
 
-
+.increase-font, .table {
+    font-size: 1.2rem;
+}

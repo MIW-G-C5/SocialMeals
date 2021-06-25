@@ -2,23 +2,19 @@ package nl.miwgroningen.cohort5.socialmeals.controller;
 
 import nl.miwgroningen.cohort5.socialmeals.comparator.RecipeDTOAscComparator;
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
-import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
-import nl.miwgroningen.cohort5.socialmeals.dto.stateKeeper.SortedRecipesStateKeeper;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
-import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
+import nl.miwgroningen.cohort5.socialmeals.service.mocks.SocialMealsUserDetailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Britt van Mourik

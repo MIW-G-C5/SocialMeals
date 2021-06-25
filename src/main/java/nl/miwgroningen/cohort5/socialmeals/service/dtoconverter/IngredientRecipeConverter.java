@@ -4,12 +4,7 @@ import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
-import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
-import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
-import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
-import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
-import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,30 +17,23 @@ import java.util.List;
 
 public class IngredientRecipeConverter {
 
-    private RecipeService recipeService;
     private IngredientService ingredientService;
-    private SocialMealsUserDetailService socialMealsUserDetailService;
 
     private RecipeConverter recipeConverter;
     private IngredientConverter ingredientConverter;
 
-    public IngredientRecipeConverter(RecipeService recipeService,
-                                     IngredientService ingredientService,
-                                     SocialMealsUserDetailService socialMealsUserDetailService) {
-        this.recipeService = recipeService;
+    public IngredientRecipeConverter(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
-        this.socialMealsUserDetailService = socialMealsUserDetailService;
 
         ingredientConverter = new IngredientConverter();
-        recipeConverter = new RecipeConverter(socialMealsUserDetailService);
+        recipeConverter = new RecipeConverter();
     }
 
-    public IngredientRecipe fromDTO(IngredientRecipeDTO ingredientRecipeDTO){
+    public IngredientRecipe fromDTO(IngredientRecipeDTO ingredientRecipeDTO, Recipe recipe){
 
-        Recipe recipe = recipeService.getRecipeByRecipeDTO(ingredientRecipeDTO.getRecipeDTO());
         Ingredient ingredient = ingredientService.getIngredientByIngredientDTO(ingredientRecipeDTO.getIngredientDTO());
 
-        if (recipe == null || ingredient == null) {
+        if (ingredient == null) {
             return null;
         }
 

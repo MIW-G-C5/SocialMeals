@@ -4,10 +4,7 @@ import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Cookbook;
-import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
-import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
-import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,18 +17,12 @@ import java.util.List;
 
 public class CookbookConverter {
 
-    private RecipeService recipeService;
-    private SocialMealsUserDetailService socialMealsUserDetailService;
-
     private SocialMealsUserConverter socialMealsUserConverter;
     private RecipeConverter recipeConverter;
 
-    public CookbookConverter(RecipeService recipeService, SocialMealsUserDetailService socialMealsUserDetailService) {
-        this.recipeService = recipeService;
-        this.socialMealsUserDetailService = socialMealsUserDetailService;
-
+    public CookbookConverter() {
         this.socialMealsUserConverter = new SocialMealsUserConverter();
-        this.recipeConverter = new RecipeConverter(socialMealsUserDetailService);
+        this.recipeConverter = new RecipeConverter();
     }
 
     public CookbookDTO toDTO(Cookbook cookbook) {
@@ -53,8 +44,7 @@ public class CookbookConverter {
         return cookbookDTOs;
     }
 
-    public Cookbook fromNewCookbookDTO(CookbookDTO cookbookDTO) {
-        SocialMealsUser socialMealsUser = socialMealsUserDetailService.getUserByDTO(cookbookDTO.getSocialMealsUser());
+    public Cookbook fromNewCookbookDTO(CookbookDTO cookbookDTO, SocialMealsUser socialMealsUser) {
 
         Cookbook cookbook = new Cookbook();
         cookbook.setCookbookName(cookbookDTO.getCookbookName());

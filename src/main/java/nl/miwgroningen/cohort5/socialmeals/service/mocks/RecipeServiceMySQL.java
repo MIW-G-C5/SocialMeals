@@ -1,4 +1,4 @@
-package nl.miwgroningen.cohort5.socialmeals.service.implementation;
+package nl.miwgroningen.cohort5.socialmeals.service.mocks;
 
 
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
@@ -17,7 +17,6 @@ import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.RecipeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,9 +56,9 @@ public class RecipeServiceMySQL implements RecipeService {
         this.ingredientService = ingredientService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
 
-        recipeConverter = new RecipeConverter(socialMealsUserDetailService);
+        recipeConverter = new RecipeConverter();
         ingredientRecipeConverter =
-                new IngredientRecipeConverter(this, ingredientService, socialMealsUserDetailService);
+                new IngredientRecipeConverter(ingredientService);
     }
 
     @Override
@@ -71,7 +70,10 @@ public class RecipeServiceMySQL implements RecipeService {
     @Override
     public RecipeDTO addNew(RecipeDTO recipeDTO) {
         recipeDTO.setUrlId(findNextRecipeId());
-        Recipe recipe = recipeConverter.fromDTO(recipeDTO);
+
+        SocialMealsUser socialMealsUser = socialMealsUserDetailService.getUserByDTO(recipeDTO.getSocialMealsUserDTO());
+        Recipe recipe = recipeConverter.fromDTO(recipeDTO, socialMealsUser);
+
         recipeRepository.save(recipe);
         return recipeDTO;
     }
@@ -106,13 +108,14 @@ public class RecipeServiceMySQL implements RecipeService {
     @Override
     public void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeDTOS) {
         for (IngredientRecipeDTO ingredientRecipeDTO : ingredientRecipeDTOS) {
-            ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO));
+            addIngredientToRecipe(ingredientRecipeDTO);
         }
     }
 
     @Override
     public void addIngredientToRecipe(IngredientRecipeDTO ingredientRecipeDTO) {
-        ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO));
+        Recipe recipe = getRecipeByRecipeDTO(ingredientRecipeDTO.getRecipeDTO());
+        ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO, recipe));
     }
 
     @Override
