@@ -20,14 +20,12 @@ import java.util.List;
 
 public class CookbookConverter {
 
-    private RecipeService recipeService;
     private SocialMealsUserDetailService socialMealsUserDetailService;
 
     private SocialMealsUserConverter socialMealsUserConverter;
     private RecipeConverter recipeConverter;
 
-    public CookbookConverter(RecipeService recipeService, SocialMealsUserDetailService socialMealsUserDetailService) {
-        this.recipeService = recipeService;
+    public CookbookConverter(SocialMealsUserDetailService socialMealsUserDetailService) {
         this.socialMealsUserDetailService = socialMealsUserDetailService;
 
         this.socialMealsUserConverter = new SocialMealsUserConverter();

@@ -43,7 +43,7 @@ public class CookbookServiceMySQL implements CookbookService {
         this.socialMealsUserDetailService = socialMealsUserDetailService;
         this.recipeService = recipeService;
 
-        cookbookConverter = new CookbookConverter(recipeService, socialMealsUserDetailService);
+        cookbookConverter = new CookbookConverter(socialMealsUserDetailService);
     }
 
     @Override
