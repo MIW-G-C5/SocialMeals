@@ -144,6 +144,24 @@ public class CookbookServiceMySQL implements CookbookService {
         return recipeDTOList;
     }
 
+    @Override
+    public List<RecipeDTO> searchInCookbook(SocialMealsUserDTO socialMealsUserDTO, String keyword) {
+        List<String> searchList = recipeService.search(keyword);
+
+        List<String> filteredByCookbook = recipeService.getRecipesByUsername(socialMealsUserDTO.getUsername())
+                .stream()
+                .map(RecipeDTO::getRecipeName)
+                .filter(searchList::contains)
+                .collect(Collectors.toList());
+
+        List<RecipeDTO> recipeDTOList = new ArrayList<>();
+        for (String recipe : filteredByCookbook) {
+            recipeDTOList.add(recipeService.findByRecipeName(recipe));
+        }
+
+        return recipeDTOList;
+    }
+
     private long findNextCookbookId() {
         Long maxId = cookbookRepository.getMaxUrlId();
         if (maxId == null) {

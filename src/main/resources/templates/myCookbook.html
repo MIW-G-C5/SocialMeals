@@ -12,6 +12,11 @@
 
     <h1><span th:text="${socialMealsUserDTO.username} + '\'s cookbook'"></span></h1>
 
+    <form class="searchRecipe" th:action="@{/cookbook/recipe/search}">
+        <input type="text" class="form-control" name="keyword"/>
+        <input type="submit" class="btn btn-primary" value="Search"/>
+    </form>
+
     <table class="table">
 
         <tr th:each="recipe : ${recipeDTOList}">
