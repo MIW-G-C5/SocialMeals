@@ -150,10 +150,10 @@ public class CookbookController {
          return "redirect:/cookbook/" + cookbookDTO.getUrlId();
      }
 
-    @GetMapping(value = "/cookbook/recipe/search")
+    @GetMapping(value = "/cookbook/recipe/search", params = {"cookbookid"})
     protected String searchRecipeInCookbook(Model model,
-                                            @RequestParam String keyword,
                                             @RequestParam String cookbookid,
+                                            @RequestParam String keyword,
                                             Principal principal) {
         CookbookDTO cookbookDTO = cookbookService.findByUrlId(Long.parseLong(cookbookid));
         List<RecipeDTO> recipeDTOList = cookbookService.searchInCookbook(cookbookDTO, keyword);
@@ -164,13 +164,26 @@ public class CookbookController {
         return "cookbookDetails";
     }
 
+    @GetMapping(value = "/cookbook/recipe/search")
+    protected String searchRecipeInMyCookbook(Model model,
+                                              @RequestParam String keyword,
+                                              Principal principal) {
+
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
+        List<RecipeDTO> recipeDTOList = cookbookService.searchInCookbook(socialMealsUserDTO, keyword);
+
+        model.addAttribute("socialMealsUserDTO", socialMealsUserDTO);
+        model.addAttribute("recipeDTOList", recipeDTOList);
+        return "myCookbook";
+    }
+
     private void refreshUpdateCookbook(CookbookDTO cookbookDTO, Model model, Principal principal) {
         SocialMealsUserDTO socialMealsUserDTO =
                 socialMealsUserDetailService.getUserByUsername(cookbookDTO.getSocialMealsUser().getUsername());
 
         model.addAttribute("cookbookDTO", cookbookDTO);
-        model.addAttribute("ownRecipe", isItYours(principal, socialMealsUserDTO));
         model.addAttribute("socialMealsUserDTO", socialMealsUserDTO);
+        model.addAttribute("ownRecipe", isItYours(principal, socialMealsUserDTO));
     }
 
     private boolean isItYours(Principal principal, SocialMealsUserDTO socialMealsUserDTO) {
