@@ -138,7 +138,7 @@ public class CookbookServiceMySQL implements CookbookService {
 
         List<RecipeDTO> recipeDTOList = new ArrayList<>();
         for (Long recipe : filteredByCookbook) {
-            recipeDTOList.add(recipeService.findByUrlId(cookbookDTO.getUrlId()));
+            recipeDTOList.add(recipeService.findByUrlId(recipe));
         }
 
         return recipeDTOList;
