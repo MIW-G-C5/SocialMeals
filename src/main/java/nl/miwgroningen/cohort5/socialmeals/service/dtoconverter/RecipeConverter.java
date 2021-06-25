@@ -28,8 +28,10 @@ public class RecipeConverter {
     }
 
     public RecipeDTO toDTO(Recipe recipe) {
-        return new RecipeDTO(recipe.getRecipeName(), recipe.getSteps(),
+        RecipeDTO recipeDTO = new RecipeDTO(recipe.getRecipeName(), recipe.getSteps(),
                 socialMealsUserConverter.toDTO(recipe.getSocialMealsUser()));
+        recipeDTO.setUrlId(recipe.getUrlId());
+        return recipeDTO;
     }
 
     public List<RecipeDTO> toListDTO(List<Recipe> recipeList) {
@@ -43,9 +45,11 @@ public class RecipeConverter {
     }
 
     public Recipe fromDTO(RecipeDTO recipeDTO) {
-        return new Recipe(recipeDTO.getRecipeName(),
+        Recipe recipe = new Recipe(recipeDTO.getRecipeName(),
                 recipeDTO.getSteps(),
                 socialMealsUserDetailService.getUserByDTO(recipeDTO.getSocialMealsUserDTO()));
+        recipe.setUrlId(recipeDTO.getUrlId());
+        return recipe;
     }
 
     public Recipe fromDTO(Recipe recipe, RecipeDTO recipeDTO) {

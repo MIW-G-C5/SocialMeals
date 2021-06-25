@@ -16,7 +16,9 @@
     <div class="row form-control-height">
 
         <div class="col-8">
+
             <form class="has-validation" th:action="@{/recipe/update/updateSteps}" method="post" th:object="${recipeDTO}">
+
                 <div th:replace="fragments/forms :: recipeForm"></div>
             </form>
         </div>
@@ -36,15 +38,17 @@
         <div class="col-8">
             <h3>Add ingredients</h3>
             <form class="has-validation"
-                  th:action="@{/recipe/update/{recipeName}/addingredient(recipeName=${recipeDTO.recipeName})}" method="post"
+                  th:action="@{/recipe/update/{urlId}/addingredient(urlId=${recipeDTO.urlId})}" method="post"
                   th:object="${ingredientRecipeDTO}">
 
                 <div class="form-group">
                     <label for="ingredientAuto">Ingredient</label>
                     <input class="form-control form-control-width" name="ingredientName" id="ingredientAuto" required pattern=".*\S+.*" title="This field is required">
+                    <input type="hidden" id="urlId" th:value="${recipeDTO.urlId}">
                 </div>
 
                 <div class="row">
+
                     <div class="form-group col-4">
                         <label for="quantity">Quantity</label>
                         <input class="form-control form-control-width" type="number" min="0.1" step="0.1" id="quantity" th:field="*{quantity}">
@@ -81,8 +85,8 @@
                         <div class="col-1">
 
                             <a class="confirmDelete btn btn-primary"
-                               th:href="@{/recipe/delete/{recipeName}/{ingredientName}
-                            (recipeName=${ingredientRecipe.recipeDTO.recipeName},
+                               th:href="@{/recipe/delete/{urlId}/{ingredientName}
+                            (urlId=${ingredientRecipe.recipeDTO.urlId},
                                 ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i class="fas fa-trash"></i>
                             </a>
                         </div>

@@ -129,26 +129,26 @@ public class CookbookController {
         return "redirect:/MyKitchen";
     }
 
-    @GetMapping("/cookbook/add/{urlId}/{recipeName}")
+    @GetMapping("/cookbook/add/{urlId}/{recipeUrlId}")
     protected String addRecipeToCookbook(@PathVariable("urlId") Long urlId,
-                                         @PathVariable("recipeName") String recipeName,
+                                         @PathVariable("recipeUrlId") Long recipeUrlId,
                                          Principal principal) {
 
         CookbookDTO cookbookDTO = cookbookService.findByUrlId(urlId);
         if (isItYours(principal, cookbookDTO.getSocialMealsUser())) {
-            cookbookService.addRecipeDTO(cookbookDTO, recipeService.findByRecipeName(recipeName));
+            cookbookService.addRecipeDTO(cookbookDTO, recipeService.findByUrlId(recipeUrlId));
         }
 
-        return "redirect:/recipes/" + recipeName;
+        return "redirect:/recipes/" + recipeUrlId;
     }
 
-     @GetMapping("/cookbook/remove/{urlId}/{recipeName}")
+     @GetMapping("/cookbook/remove/{urlId}/{recipeUrlId}")
      protected String removeRecipeFromCookbook(@PathVariable("urlId") Long urlId,
-                                               @PathVariable("recipeName") String recipeName,
+                                               @PathVariable("recipeUrlId") Long recipeUrlId,
                                                Principal principal) {
          CookbookDTO cookbookDTO = cookbookService.findByUrlId(urlId);
          if (isItYours(principal, cookbookDTO.getSocialMealsUser())) {
-             cookbookService.removeRecipeDTO(cookbookDTO, recipeService.findByRecipeName(recipeName));
+             cookbookService.removeRecipeDTO(cookbookDTO, recipeService.findByUrlId(recipeUrlId));
          }
 
          return "redirect:/cookbook/" + cookbookDTO.getUrlId();

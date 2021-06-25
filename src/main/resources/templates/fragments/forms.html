@@ -17,6 +17,9 @@
                 <div class="row row-no-margin">
                     <input type="text" class="form-control form-control-width col-9" id="name" th:field="*{recipeName}" required>
                 </div>
+
+                <input type="hidden" th:value="${recipeDTO.urlId}">
+
             </div>
 
             <div  class = "form-group" th:each="step, iter : ${recipeDTO.steps}">
@@ -42,7 +45,6 @@
             </div>
         </div>
 
-
     </div>
 
     <div th:fragment="cookbookForm">
@@ -54,8 +56,6 @@
             <button type="submit" class="btn btn-primary" name="save">Save</button>
         </div>
     </div>
-
-
 
 </div>
 

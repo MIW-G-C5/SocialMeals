@@ -17,7 +17,9 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recipeId;
 
-    @Column(unique = true, nullable = false)
+    private Long urlId;
+
+    @Column(nullable = false)
     private String recipeName;
 
     @ElementCollection
@@ -87,5 +89,13 @@ public class Recipe {
 
     public void setCookbookLikes(Set<Cookbook> cookbookLikes) {
         this.cookbookLikes = cookbookLikes;
+    }
+
+    public Long getUrlId() {
+        return urlId;
+    }
+
+    public void setUrlId(Long urlId) {
+        this.urlId = urlId;
     }
 }
