@@ -130,14 +130,14 @@ public class CookbookServiceMySQL implements CookbookService {
     public List<RecipeDTO> searchInCookbook(CookbookDTO cookbookDTO, String keyword) {
         List<Long> searchList = recipeService.search(keyword);
 
-        List<String> filteredByCookbook = cookbookDTO.getRecipes()
+        List<Long> filteredByCookbook = cookbookDTO.getRecipes()
                 .stream()
-                .map(RecipeDTO::getRecipeName)
+                .map(RecipeDTO::getUrlId)
                 .filter(searchList::contains)
                 .collect(Collectors.toList());
 
         List<RecipeDTO> recipeDTOList = new ArrayList<>();
-        for (String recipe : filteredByCookbook) {
+        for (Long recipe : filteredByCookbook) {
             recipeDTOList.add(recipeService.findByUrlId(cookbookDTO.getUrlId()));
         }
 
@@ -146,17 +146,17 @@ public class CookbookServiceMySQL implements CookbookService {
 
     @Override
     public List<RecipeDTO> searchInCookbook(SocialMealsUserDTO socialMealsUserDTO, String keyword) {
-        List<String> searchList = recipeService.search(keyword);
+        List<Long> searchList = recipeService.search(keyword);
 
-        List<String> filteredByCookbook = recipeService.getRecipesByUsername(socialMealsUserDTO.getUsername())
+        List<Long> filteredByCookbook = recipeService.getRecipesByUsername(socialMealsUserDTO.getUsername())
                 .stream()
-                .map(RecipeDTO::getRecipeName)
+                .map(RecipeDTO::getUrlId)
                 .filter(searchList::contains)
                 .collect(Collectors.toList());
 
         List<RecipeDTO> recipeDTOList = new ArrayList<>();
-        for (String recipe : filteredByCookbook) {
-            recipeDTOList.add(recipeService.findByRecipeName(recipe));
+        for (Long recipe : filteredByCookbook) {
+            recipeDTOList.add(recipeService.findByUrlId(recipe));
         }
 
         return recipeDTOList;
