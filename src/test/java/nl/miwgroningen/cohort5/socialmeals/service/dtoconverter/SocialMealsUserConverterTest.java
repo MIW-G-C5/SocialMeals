@@ -1,10 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.service.dtoconverter;
-import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
-import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
-import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
-import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

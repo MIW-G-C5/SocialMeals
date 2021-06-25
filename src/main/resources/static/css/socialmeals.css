@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
 }
@@ -94,6 +94,6 @@ h3 {
     line-height: 2em;
 }
 
-.long-text {
-    font-size: 1rem;
+.increase-font, .table {
+    font-size: 1.2rem;
 }

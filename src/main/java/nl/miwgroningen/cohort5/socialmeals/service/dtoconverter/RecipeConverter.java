@@ -3,13 +3,9 @@ package nl.miwgroningen.cohort5.socialmeals.service.dtoconverter;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
-import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
-import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
-import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author A.H. van Zessen

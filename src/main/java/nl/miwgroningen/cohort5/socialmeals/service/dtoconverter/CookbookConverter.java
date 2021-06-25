@@ -4,10 +4,7 @@ import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Cookbook;
-import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
-import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
-import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 
 import java.util.ArrayList;
 import java.util.HashSet;

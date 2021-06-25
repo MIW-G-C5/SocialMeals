@@ -4,12 +4,7 @@ import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
-import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
-import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
-import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
-import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
-import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 
 import java.util.ArrayList;
 import java.util.List;
