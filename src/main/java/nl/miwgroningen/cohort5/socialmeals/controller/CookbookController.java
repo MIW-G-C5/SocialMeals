@@ -172,6 +172,7 @@ public class CookbookController {
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
         List<RecipeDTO> recipeDTOList = cookbookService.searchInCookbook(socialMealsUserDTO, keyword);
 
+        model.addAttribute("ownRecipe", isItYours(principal, socialMealsUserDTO));
         model.addAttribute("socialMealsUserDTO", socialMealsUserDTO);
         model.addAttribute("recipeDTOList", recipeDTOList);
         return "myCookbook";
