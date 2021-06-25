@@ -30,7 +30,7 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <div th:each="cookbook : ${cookbookList}">
-                            <a class="dropdown-item" th:href="@{/cookbook/add/{urlId}/{recipeName}(urlId = ${cookbook.urlId}, recipeName = ${recipe.recipeName})}" th:text="${cookbook.cookbookName}"></a>
+                            <a class="dropdown-item" th:href="@{/cookbook/add/{urlId}/{recipeUrlId}(urlId = ${cookbook.urlId}, recipeUrlId = ${recipe.urlId})}" th:text="${cookbook.cookbookName}"></a>
                         </div>
                     </div>
                 </div>

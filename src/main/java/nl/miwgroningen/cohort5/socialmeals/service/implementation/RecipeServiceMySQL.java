@@ -1,5 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
+
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
@@ -29,6 +30,7 @@ import java.util.Optional;
 
 @Service
 public class RecipeServiceMySQL implements RecipeService {
+    private static final long DEFAULT_URL_ID = 5000;
 
     private final RecipeRepository recipeRepository;
     private final IngredientRecipeRepository ingredientRecipeRepository;
@@ -68,8 +70,11 @@ public class RecipeServiceMySQL implements RecipeService {
 
     @Override
     public RecipeDTO addNew(RecipeDTO recipeDTO) {
+        recipeDTO.setUrlId(findNextRecipeId());
+
         SocialMealsUser socialMealsUser = socialMealsUserDetailService.getUserByDTO(recipeDTO.getSocialMealsUserDTO());
         Recipe recipe = recipeConverter.fromDTO(recipeDTO, socialMealsUser);
+
         recipeRepository.save(recipe);
         return recipeDTO;
     }
@@ -93,15 +98,12 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public RecipeDTO findByRecipeName(String recipeName) {
-        Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
-        RecipeDTO recipeDTO = null;
-
-        if (recipe.isPresent()) {
-            recipeDTO = recipeConverter.toDTO(recipe.get());
+    public RecipeDTO findByUrlId(Long urlId) {
+        Optional<Recipe> recipe = recipeRepository.findByUrlId(urlId);
+        if (recipe.isEmpty()) {
+            return null;
         }
-
-        return recipeDTO;
+        return recipeConverter.toDTO(recipe.get());
     }
 
     @Override
@@ -122,16 +124,17 @@ public class RecipeServiceMySQL implements RecipeService {
         ingredientRecipeRepository.delete(ingredientRecipe);
     }
 
-    @Override
-    public IngredientRecipe getIngredientRecipeByNames(String ingredientName, String recipeName){
+    public IngredientRecipe getIngredientRecipeByNameAndUrlId(String ingredientName, Long urlId){
 
-        Optional <Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
+        Optional <Recipe> recipe = recipeRepository.findByUrlId(urlId);
 
         if(recipe.isPresent()){
             List<IngredientRecipe> ingredientRecipes = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
             for (IngredientRecipe ingredientRecipe : ingredientRecipes) {
-                ingredientRecipe.getIngredient().getIngredientName().equals(ingredientName);
-                return ingredientRecipe;
+
+                if( ingredientRecipe.getIngredient().getIngredientName().equals(ingredientName)){
+                    return ingredientRecipe;
+                }
             }
         }
 
@@ -139,9 +142,9 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName) {
+    public List<IngredientRecipeDTO> getIngredientRecipesByRecipeUrlId(Long urlId) {
 
-        Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
+        Optional<Recipe> recipe = recipeRepository.findByUrlId(urlId);
 
         if (recipe.isEmpty()) {
             return null;
@@ -153,9 +156,9 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public List<IngredientDTO> getRemainingIngredientsByRecipeName(String recipeName) {
+    public List<IngredientDTO> getRemainingIngredientsByUrlId(Long urlId) {
         List<IngredientDTO> allIngredients = ingredientService.getAll();
-        List<IngredientRecipeDTO> presentIngredientRecipes = getIngredientRecipesByRecipeName(recipeName);
+        List<IngredientRecipeDTO> presentIngredientRecipes = getIngredientRecipesByRecipeUrlId(urlId);
         List<IngredientDTO> presentIngredients = getIngredientsByIngredientRecipes(presentIngredientRecipes);
         List<IngredientDTO> remainingIngredients = new ArrayList<>();
 
@@ -181,12 +184,12 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     public Recipe getRecipeByRecipeDTO(RecipeDTO recipeDTO) {
-        Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeDTO.getRecipeName());
+        Optional<Recipe> recipe = recipeRepository.findByUrlId(recipeDTO.getUrlId());
         return recipe.orElse(null);
     }
 
     @Override
-    public List<String> search(String keyword) {
+    public List<Long> search(String keyword) {
         return recipeRepository.search(keyword);
     }
 
@@ -196,6 +199,14 @@ public class RecipeServiceMySQL implements RecipeService {
             ingredients.add(ingredientRecipeDTO.getIngredientDTO());
         }
         return ingredients;
+    }
+
+    private long findNextRecipeId(){
+        Long maxId = recipeRepository.getMaxUrlId();
+        if (maxId == null) {
+            maxId = DEFAULT_URL_ID;
+        }
+        return ++maxId;
     }
 
 }
