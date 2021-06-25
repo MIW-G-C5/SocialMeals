@@ -116,42 +116,42 @@ public class Seeder {
         List<IngredientRecipeDTO> ingredientRecipeList = new ArrayList<>();
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("tomato"),
-                recipeService.findByRecipeName("Lasagna"),
+                recipeService.findByUrlId(Long.valueOf(5001)),
                         5,
                         "units"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("eggplant"),
-                recipeService.findByRecipeName("Baba ganoush"),
+                recipeService.findByUrlId(Long.valueOf(5002)),
                         6,
                         "units"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("Olive oil"),
-                        recipeService.findByRecipeName("Baba ganoush"),
+                        recipeService.findByUrlId(Long.valueOf(5002)),
                         3,
                         "tablespoons"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("Parsley"),
-                        recipeService.findByRecipeName("Baba ganoush"),
+                        recipeService.findByUrlId(Long.valueOf(5002)),
                         2,
                         "teaspoons"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("Smoked paprika"),
-                        recipeService.findByRecipeName("Baba ganoush"),
+                        recipeService.findByUrlId(Long.valueOf(5002)),
                         1,
                         "teaspoon"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("tahini"),
-                        recipeService.findByRecipeName("Baba ganoush"),
+                        recipeService.findByUrlId(Long.valueOf(5002)),
                         2,
                         "tablespoons"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("cumin"),
-                        recipeService.findByRecipeName("Baba ganoush"),
+                        recipeService.findByUrlId(Long.valueOf(5002)),
                         10,
                         "grams"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("lemon"),
-                        recipeService.findByRecipeName("Baba ganoush"),
+                        recipeService.findByUrlId(Long.valueOf(5002)),
                         5,
                         "squeezes"));
 
@@ -169,7 +169,7 @@ public class Seeder {
 
         CookbookDTO cookbookDTO = new CookbookDTO("Libanees", socialMealsUserDTO, new ArrayList<>());
         cookbookService.addNew(cookbookDTO);
-        RecipeDTO recipeDTO = recipeService.findByRecipeName("Lasagna");
+        RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5001));
         cookbookService.addRecipeDTO(cookbookDTO, recipeDTO);
     }
 

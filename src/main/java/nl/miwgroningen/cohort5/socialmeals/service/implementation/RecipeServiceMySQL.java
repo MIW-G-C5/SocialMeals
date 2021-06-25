@@ -95,18 +95,6 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public RecipeDTO findByRecipeName(String recipeName) {
-        Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
-        RecipeDTO recipeDTO = null;
-
-        if (recipe.isPresent()) {
-            recipeDTO = recipeConverter.toDTO(recipe.get());
-        }
-
-        return recipeDTO;
-    }
-
-    @Override
     public RecipeDTO findByUrlId(Long urlId) {
         Optional<Recipe> recipe = recipeRepository.findByUrlId(urlId);
         if (recipe.isEmpty()) {
@@ -132,10 +120,9 @@ public class RecipeServiceMySQL implements RecipeService {
         ingredientRecipeRepository.delete(ingredientRecipe);
     }
 
-    @Override
-    public IngredientRecipe getIngredientRecipeByNames(String ingredientName, String recipeName){
+    public IngredientRecipe getIngredientRecipeByNameAndUrlId(String ingredientName, Long urlId){
 
-        Optional <Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
+        Optional <Recipe> recipe = recipeRepository.findByUrlId(urlId);
 
         if(recipe.isPresent()){
             List<IngredientRecipe> ingredientRecipes = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
@@ -149,9 +136,9 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName) {
+    public List<IngredientRecipeDTO> getIngredientRecipesByRecipeUrlId(Long urlId) {
 
-        Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeName);
+        Optional<Recipe> recipe = recipeRepository.findByUrlId(urlId);
 
         if (recipe.isEmpty()) {
             return null;
@@ -163,9 +150,9 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public List<IngredientDTO> getRemainingIngredientsByRecipeName(String recipeName) {
+    public List<IngredientDTO> getRemainingIngredientsByUrlId(Long urlId) {
         List<IngredientDTO> allIngredients = ingredientService.getAll();
-        List<IngredientRecipeDTO> presentIngredientRecipes = getIngredientRecipesByRecipeName(recipeName);
+        List<IngredientRecipeDTO> presentIngredientRecipes = getIngredientRecipesByRecipeUrlId(urlId);
         List<IngredientDTO> presentIngredients = getIngredientsByIngredientRecipes(presentIngredientRecipes);
         List<IngredientDTO> remainingIngredients = new ArrayList<>();
 
@@ -191,12 +178,12 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     public Recipe getRecipeByRecipeDTO(RecipeDTO recipeDTO) {
-        Optional<Recipe> recipe = recipeRepository.findByRecipeName(recipeDTO.getRecipeName());
+        Optional<Recipe> recipe = recipeRepository.findByUrlId(recipeDTO.getUrlId());
         return recipe.orElse(null);
     }
 
     @Override
-    public List<String> search(String keyword) {
+    public List<Long> search(String keyword) {
         return recipeRepository.search(keyword);
     }
 

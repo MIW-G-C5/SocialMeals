@@ -23,8 +23,6 @@ public interface RecipeService {
 
     RecipeDTO deleteRecipe(RecipeDTO recipeDTO);
 
-    RecipeDTO findByRecipeName(String recipeName);
-
     RecipeDTO findByUrlId(Long urlId);
 
     void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeList);
@@ -33,15 +31,15 @@ public interface RecipeService {
 
     void deleteIngredientFromRecipe(IngredientRecipe ingredientRecipe);
 
-    IngredientRecipe getIngredientRecipeByNames(String ingredientName, String recipeName);
+    IngredientRecipe getIngredientRecipeByNameAndUrlId(String ingredientName, Long urlId);
 
-    List<IngredientRecipeDTO> getIngredientRecipesByRecipeName(String recipeName);
+    List<IngredientRecipeDTO> getIngredientRecipesByRecipeUrlId(Long urlId);
 
-    List<IngredientDTO> getRemainingIngredientsByRecipeName(String recipeName);
+    List<IngredientDTO> getRemainingIngredientsByUrlId(Long urlId);
 
     List<RecipeDTO> getRecipesByUsername(String username);
 
     Recipe getRecipeByRecipeDTO(RecipeDTO recipeDTO);
 
-    List<String> search(String keyword);
+    List<Long> search(String keyword);
 }
