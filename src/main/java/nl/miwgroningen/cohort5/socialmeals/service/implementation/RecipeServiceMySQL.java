@@ -127,8 +127,10 @@ public class RecipeServiceMySQL implements RecipeService {
         if(recipe.isPresent()){
             List<IngredientRecipe> ingredientRecipes = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
             for (IngredientRecipe ingredientRecipe : ingredientRecipes) {
-                ingredientRecipe.getIngredient().getIngredientName().equals(ingredientName);
-                return ingredientRecipe;
+
+                if( ingredientRecipe.getIngredient().getIngredientName().equals(ingredientName)){
+                    return ingredientRecipe;
+                }
             }
         }
 

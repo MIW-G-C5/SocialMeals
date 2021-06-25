@@ -9,6 +9,7 @@ import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.stateKeeper.SortedRecipesStateKeeper;
+import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
@@ -124,7 +125,10 @@ public class RecipeController {
     @GetMapping("/recipe/new")
     protected String showRecipeForm(@ModelAttribute("recipeStateKeeper") RecipeDTO recipeStateKeeper,
                                     Model model) {
-        recipeStateKeeper = new RecipeDTO();
+
+        RecipeDTO recipeDTO = new RecipeDTO();
+        setRecipeKeeperValuesWithRecipeDTOValues(recipeStateKeeper, recipeDTO);
+        recipeStateKeeper.setUrlId(recipeDTO.getUrlId());
         recipeStateKeeper.getSteps().add("");
 
         model.addAttribute("recipeDTO", recipeStateKeeper);
@@ -167,7 +171,7 @@ public class RecipeController {
             return createRecipeFormWithNotificationRecipeExists(model, recipeDTO);
         }
 
-        return "redirect:/recipe/update/" + recipeService.findByUrlId(recipeDTO.getUrlId());
+        return "redirect:/recipe/update/" + recipeDTO.getUrlId();
     }
 
     @GetMapping(value = "/recipe/deleteStep/{iterIndex}")
@@ -182,6 +186,7 @@ public class RecipeController {
             model.addAttribute("recipeDTO", recipeStateKeeper);
             return "recipeForm";
         }
+
         existingRecipe.setSteps(recipeStateKeeper.getSteps());
         refreshUpdateRecipe(existingRecipe, model);
         return "updateRecipeForm";
@@ -278,7 +283,8 @@ public class RecipeController {
         RecipeDTO recipeDTO = recipeService.findByUrlId(urlId);
 
         try {
-            recipeService.deleteIngredientFromRecipe(recipeService.getIngredientRecipeByNameAndUrlId(ingredientName, urlId));
+            IngredientRecipe ingredientRecipe = recipeService.getIngredientRecipeByNameAndUrlId(ingredientName, urlId);
+            recipeService.deleteIngredientFromRecipe(ingredientRecipe);
         } catch (NullPointerException error) {
             System.err.println(error.getMessage());
         }
@@ -363,10 +369,6 @@ public class RecipeController {
     }
 
     private void setRecipeKeeperValuesWithRecipeDTOValues(RecipeDTO recipeStateKeeper, RecipeDTO recipeDTO) {
-        if(recipeStateKeeper.getUrlId() == null){
-            recipeStateKeeper.setUrlId(recipeDTO.getUrlId());
-        }
-
         recipeStateKeeper.setRecipeName(recipeDTO.getRecipeName());
         recipeStateKeeper.setSteps(recipeDTO.getSteps());
         recipeStateKeeper.setSocialMealsUserDTO(recipeDTO.getSocialMealsUserDTO());

@@ -128,7 +128,7 @@ public class CookbookServiceMySQL implements CookbookService {
 
     @Override
     public List<RecipeDTO> searchInCookbook(CookbookDTO cookbookDTO, String keyword) {
-        List<String> searchList = recipeService.search(keyword);
+        List<Long> searchList = recipeService.search(keyword);
 
         List<String> filteredByCookbook = cookbookDTO.getRecipes()
                 .stream()
@@ -138,7 +138,7 @@ public class CookbookServiceMySQL implements CookbookService {
 
         List<RecipeDTO> recipeDTOList = new ArrayList<>();
         for (String recipe : filteredByCookbook) {
-            recipeDTOList.add(recipeService.findByRecipeName(recipe));
+            recipeDTOList.add(recipeService.findByUrlId(cookbookDTO.getUrlId()));
         }
 
         return recipeDTOList;

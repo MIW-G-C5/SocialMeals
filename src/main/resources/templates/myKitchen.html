@@ -33,7 +33,7 @@
                     </td>
                     <td data-th-align="right">
                         <a type="button" class="btn btn-primary" th:href="@{/cookbook/update/{urlId}(urlId = ${cookbook.urlId})}"><i class="fas fa-pencil-alt"></i></a>
-                        <a type="button" class="btn btn-primary" th:href="@{/cookbook/delete/{urlId}(urlId = ${cookbook.urlId})}"><i class="fas fa-trash"></i></a>
+                        <a type="button" class="btn btn-primary confirmDelete" th:href="@{/cookbook/delete/{urlId}(urlId = ${cookbook.urlId})}"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             </table>
