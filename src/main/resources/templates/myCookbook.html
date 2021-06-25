@@ -16,7 +16,7 @@
 
         <tr th:each="recipe : ${recipeDTOList}">
             <td class="align-middle">
-                <a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a>
+                <a class="text-decoration-none" th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a>
             </td>
             <td data-th-align="right">
                 <a type="button" class="btn btn-primary" th:href="@{/recipe/update/{recipeName}(recipeName=${recipe.recipeName})}" th:if="${ownRecipe}"><i class="fas fa-pencil-alt"></i></a>

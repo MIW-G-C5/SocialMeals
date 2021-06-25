@@ -23,7 +23,7 @@
 
         <div class="col">
             <h3>Cooking instructions</h3>
-            <ol>
+            <ol class="long-text">
                 <li th:each="step : ${recipeDTO.steps}">
                     <a th:text="${step}"></a>
                 </li>
@@ -65,7 +65,7 @@
         <div class="col">
             <h3>Shopping list</h3>
 
-            <ul class="listWithoutStyle">
+            <ul class="listWithoutStyle long-text">
                 <li th:each="ingredientRecipe : ${presentIngredientsRecipes}">
 
                     <div class="row updateShoppingList">

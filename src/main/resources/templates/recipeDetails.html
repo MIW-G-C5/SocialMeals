@@ -40,7 +40,7 @@
 
         <div class="col-6">
             <h3>Cooking instructions</h3>
-            <ol>
+            <ol class="long-text">
                 <li th:each="step, iterStep : ${recipe.steps}">
                     <a th:text="${step}"></a>
                 </li>
@@ -49,7 +49,7 @@
 
         <div class="col-3 ">
 
-            <ul class="shoppingListPostIT listWithoutStyle">
+            <ul class="shoppingListPostIT listWithoutStyle long-text">
                 <h3>Shopping list</h3>
 
                 <li th:each="ingredientRecipe : ${ingredientRecipes}">
