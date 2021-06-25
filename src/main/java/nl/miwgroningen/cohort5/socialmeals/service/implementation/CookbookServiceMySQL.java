@@ -43,7 +43,7 @@ public class CookbookServiceMySQL implements CookbookService {
         this.socialMealsUserDetailService = socialMealsUserDetailService;
         this.recipeService = recipeService;
 
-        cookbookConverter = new CookbookConverter(socialMealsUserDetailService);
+        cookbookConverter = new CookbookConverter();
     }
 
     @Override
@@ -68,7 +68,9 @@ public class CookbookServiceMySQL implements CookbookService {
     public CookbookDTO addNew(CookbookDTO cookbookDTO) {
         cookbookDTO.setUrlId(findNextCookbookId());
         formatCookbookName(cookbookDTO);
-        cookbookRepository.save(cookbookConverter.fromNewCookbookDTO(cookbookDTO));
+
+        SocialMealsUser socialMealsUser = socialMealsUserDetailService.getUserByDTO(cookbookDTO.getSocialMealsUser());
+        cookbookRepository.save(cookbookConverter.fromNewCookbookDTO(cookbookDTO, socialMealsUser));
         return cookbookDTO;
     }
 

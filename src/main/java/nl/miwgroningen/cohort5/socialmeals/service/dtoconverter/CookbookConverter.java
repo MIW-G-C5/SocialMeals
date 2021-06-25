@@ -20,16 +20,12 @@ import java.util.List;
 
 public class CookbookConverter {
 
-    private SocialMealsUserDetailService socialMealsUserDetailService;
-
     private SocialMealsUserConverter socialMealsUserConverter;
     private RecipeConverter recipeConverter;
 
-    public CookbookConverter(SocialMealsUserDetailService socialMealsUserDetailService) {
-        this.socialMealsUserDetailService = socialMealsUserDetailService;
-
+    public CookbookConverter() {
         this.socialMealsUserConverter = new SocialMealsUserConverter();
-        this.recipeConverter = new RecipeConverter(socialMealsUserDetailService);
+        this.recipeConverter = new RecipeConverter();
     }
 
     public CookbookDTO toDTO(Cookbook cookbook) {
@@ -51,8 +47,7 @@ public class CookbookConverter {
         return cookbookDTOs;
     }
 
-    public Cookbook fromNewCookbookDTO(CookbookDTO cookbookDTO) {
-        SocialMealsUser socialMealsUser = socialMealsUserDetailService.getUserByDTO(cookbookDTO.getSocialMealsUser());
+    public Cookbook fromNewCookbookDTO(CookbookDTO cookbookDTO, SocialMealsUser socialMealsUser) {
 
         Cookbook cookbook = new Cookbook();
         cookbook.setCookbookName(cookbookDTO.getCookbookName());

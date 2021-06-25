@@ -55,9 +55,9 @@ public class RecipeServiceMySQL implements RecipeService {
         this.ingredientService = ingredientService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
 
-        recipeConverter = new RecipeConverter(socialMealsUserDetailService);
+        recipeConverter = new RecipeConverter();
         ingredientRecipeConverter =
-                new IngredientRecipeConverter(this, ingredientService, socialMealsUserDetailService);
+                new IngredientRecipeConverter(ingredientService);
     }
 
     @Override
@@ -68,7 +68,8 @@ public class RecipeServiceMySQL implements RecipeService {
 
     @Override
     public RecipeDTO addNew(RecipeDTO recipeDTO) {
-        Recipe recipe = recipeConverter.fromDTO(recipeDTO);
+        SocialMealsUser socialMealsUser = socialMealsUserDetailService.getUserByDTO(recipeDTO.getSocialMealsUserDTO());
+        Recipe recipe = recipeConverter.fromDTO(recipeDTO, socialMealsUser);
         recipeRepository.save(recipe);
         return recipeDTO;
     }
@@ -106,13 +107,14 @@ public class RecipeServiceMySQL implements RecipeService {
     @Override
     public void addIngredientsToRecipe(List<IngredientRecipeDTO> ingredientRecipeDTOS) {
         for (IngredientRecipeDTO ingredientRecipeDTO : ingredientRecipeDTOS) {
-            ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO));
+            addIngredientToRecipe(ingredientRecipeDTO);
         }
     }
 
     @Override
     public void addIngredientToRecipe(IngredientRecipeDTO ingredientRecipeDTO) {
-        ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO));
+        Recipe recipe = getRecipeByRecipeDTO(ingredientRecipeDTO.getRecipeDTO());
+        ingredientRecipeRepository.save(ingredientRecipeConverter.fromDTO(ingredientRecipeDTO, recipe));
     }
 
     @Override
