@@ -2,7 +2,7 @@ package nl.miwgroningen.cohort5.socialmeals.controller;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
-import nl.miwgroningen.cohort5.socialmeals.service.mocks.SocialMealsUserDetailService;
+import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

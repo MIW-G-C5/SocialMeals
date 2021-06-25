@@ -1,6 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.configuration;
 
-import nl.miwgroningen.cohort5.socialmeals.service.mocks.SocialMealsUserDetailService;
+import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

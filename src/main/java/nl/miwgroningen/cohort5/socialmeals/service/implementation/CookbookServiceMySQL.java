@@ -1,4 +1,4 @@
-package nl.miwgroningen.cohort5.socialmeals.service.mocks;
+package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
