@@ -14,8 +14,10 @@ import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.CookbookConverte
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Britt van Mourik
@@ -122,6 +124,24 @@ public class CookbookServiceMySQL implements CookbookService {
         actualCookbook.getRecipeLikes().remove(actualRecipe);
         cookbookRepository.save(actualCookbook);
         return cookbookConverter.toDTO(actualCookbook);
+    }
+
+    @Override
+    public List<RecipeDTO> searchInCookbook(CookbookDTO cookbookDTO, String keyword) {
+        List<String> searchList = recipeService.search(keyword);
+
+        List<String> filteredByCookbook = cookbookDTO.getRecipes()
+                .stream()
+                .map(RecipeDTO::getRecipeName)
+                .filter(searchList::contains)
+                .collect(Collectors.toList());
+
+        List<RecipeDTO> recipeDTOList = new ArrayList<>();
+        for (String recipe : filteredByCookbook) {
+            recipeDTOList.add(recipeService.findByRecipeName(recipe));
+        }
+
+        return recipeDTOList;
     }
 
     private long findNextCookbookId() {

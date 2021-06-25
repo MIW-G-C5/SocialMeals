@@ -28,4 +28,5 @@ public interface CookbookService {
 
     CookbookDTO removeRecipeDTO(CookbookDTO cookbookDTO, RecipeDTO recipeDTO);
 
+    List<RecipeDTO> searchInCookbook(CookbookDTO cookbookDTO, String keyword);
 }

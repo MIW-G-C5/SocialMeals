@@ -21,6 +21,12 @@
         <br>
     </h2>
 
+    <form class="searchRecipe" th:action="@{/cookbook/recipe/search}">
+        <input type="text" class="form-control" name="keyword"/>
+        <input type="hidden" th:value="${cookbookDTO.getUrlId()}" name="cookbookid">
+        <input type="submit" class="btn btn-primary" value="Search"/>
+    </form>
+
     <table class="table">
 
         <tr th:each="recipe : ${recipeDTOList}">

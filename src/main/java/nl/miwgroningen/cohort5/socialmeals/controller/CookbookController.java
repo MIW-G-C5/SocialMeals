@@ -2,8 +2,10 @@ package nl.miwgroningen.cohort5.socialmeals.controller;
 
 import nl.miwgroningen.cohort5.socialmeals.comparator.RecipeDTOAscComparator;
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
+import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
+import nl.miwgroningen.cohort5.socialmeals.dto.stateKeeper.SortedRecipesStateKeeper;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
@@ -13,8 +15,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Britt van Mourik
@@ -38,15 +42,11 @@ public class CookbookController {
     @GetMapping("/cookbook/{urlId}")
     protected String showPublicCookbook(@PathVariable("urlId") Long urlId,
                                         Model model,
-                                        Principal principal){
+                                        Principal principal) {
         CookbookDTO cookbookDTO = cookbookService.findByUrlId(urlId);
-        SocialMealsUserDTO socialMealsUserDTO =
-                socialMealsUserDetailService.getUserByUsername(cookbookDTO.getSocialMealsUser().getUsername());
 
-        model.addAttribute("cookbookDTO", cookbookDTO);
-        model.addAttribute("ownRecipe", isItYours(principal, socialMealsUserDTO));
-        model.addAttribute("socialMealsUserDTO", socialMealsUserDTO);
         model.addAttribute("recipeDTOList", cookbookDTO.getRecipes());
+        refreshUpdateCookbook(cookbookDTO, model, principal);
 
         return "cookbookDetails";
     }
@@ -153,6 +153,29 @@ public class CookbookController {
 
          return "redirect:/cookbook/" + cookbookDTO.getUrlId();
      }
+
+    @GetMapping(value = "/cookbook/recipe/search")
+    protected String searchRecipeInCookbook(Model model,
+                                            @RequestParam String keyword,
+                                            @RequestParam String cookbookid,
+                                            Principal principal) {
+        CookbookDTO cookbookDTO = cookbookService.findByUrlId(Long.parseLong(cookbookid));
+        List<RecipeDTO> recipeDTOList = cookbookService.searchInCookbook(cookbookDTO, keyword);
+
+        model.addAttribute("recipeDTOList", recipeDTOList);
+        refreshUpdateCookbook(cookbookDTO, model, principal);
+
+        return "cookbookDetails";
+    }
+
+    private void refreshUpdateCookbook(CookbookDTO cookbookDTO, Model model, Principal principal) {
+        SocialMealsUserDTO socialMealsUserDTO =
+                socialMealsUserDetailService.getUserByUsername(cookbookDTO.getSocialMealsUser().getUsername());
+
+        model.addAttribute("cookbookDTO", cookbookDTO);
+        model.addAttribute("ownRecipe", isItYours(principal, socialMealsUserDTO));
+        model.addAttribute("socialMealsUserDTO", socialMealsUserDTO);
+    }
 
     private boolean isItYours(Principal principal, SocialMealsUserDTO socialMealsUserDTO) {
         return principal.getName().equals(socialMealsUserDTO.getUsername());
