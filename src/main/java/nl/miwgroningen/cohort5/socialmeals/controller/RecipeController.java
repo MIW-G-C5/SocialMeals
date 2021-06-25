@@ -9,7 +9,6 @@ import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.stateKeeper.SortedRecipesStateKeeper;
-import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
  */
 
 @Controller
-@SessionAttributes("sortedRecipesStateKeeper")
+@SessionAttributes({"sortedRecipesStateKeeper", "recipeStateKeeper"})
 public class RecipeController {
 
     private RecipeService recipeService;
@@ -51,8 +50,13 @@ public class RecipeController {
     }
 
     @ModelAttribute("sortedRecipesStateKeeper")
-    public SortedRecipesStateKeeper stateKeeper(){
+    public SortedRecipesStateKeeper sortedRecipeStateKeeper(){
         return new SortedRecipesStateKeeper();
+    }
+
+    @ModelAttribute("recipeStateKeeper")
+    public RecipeDTO recipeStateKeeper() {
+        return new RecipeDTO();
     }
 
     @GetMapping({"/", "/recipes"})
@@ -116,28 +120,33 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe/new")
-    protected String showRecipeForm(Model model) {
-        RecipeDTO recipeDTO = new RecipeDTO();
-        recipeDTO.getSteps().add("");
-        model.addAttribute("recipeDTO", recipeDTO);
+    protected String showRecipeForm(@ModelAttribute("recipeStateKeeper") RecipeDTO recipeStateKeeper,
+                                    Model model) {
+        recipeStateKeeper = new RecipeDTO();
+        recipeStateKeeper.getSteps().add("");
+
+        model.addAttribute("recipeDTO", recipeStateKeeper);
         return "recipeForm";
     }
 
     @PostMapping(value = "/recipe/new/newRecipe", params = "add")
     protected String updateShowRecipeForm(Model model,
-                                          @ModelAttribute("recipeDTO") RecipeDTO recipeDTOSessionObject,
+                                          @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+                                          @SessionAttribute("recipeStateKeeper") RecipeDTO recipeStateKeeper,
                                           BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/";
         }
-        recipeDTOSessionObject.getSteps().add("");
-        model.addAttribute("recipeDTO", recipeDTOSessionObject);
+        setRecipeKeeperValuesWithRecipeDTOValues(recipeStateKeeper, recipeDTO);
+        recipeStateKeeper.getSteps().add("");
+
+        model.addAttribute("recipeDTO", recipeStateKeeper);
         return "recipeForm";
     }
 
     @PostMapping(value = "/recipe/new/newRecipe", params = "save")
     protected String saveRecipe(Model model,
-                                @ModelAttribute("recipeDTOSessionObject") RecipeDTO recipeDTOSessionObject,
+                                @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
                                 Principal principal,
                                 BindingResult result) {
         if (result.hasErrors()) {
@@ -145,52 +154,60 @@ public class RecipeController {
         }
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
         if (socialMealsUserDTO != null) {
-            recipeDTOSessionObject.setSocialMealsUserDTO(socialMealsUserDTO);
+            recipeDTO.setSocialMealsUserDTO(socialMealsUserDTO);
         }
 
-        recipeDTOSessionObject.setSteps(removeEmptySteps(recipeDTOSessionObject.getSteps()));
+        recipeDTO.setSteps(removeEmptySteps(recipeDTO.getSteps()));
 
         try {
-            recipeService.addNew(recipeDTOSessionObject);
+            recipeService.addNew(recipeDTO);
         } catch (DataIntegrityViolationException error) {
-            return createRecipeFormWithNotificationRecipeExists(model, recipeDTOSessionObject);
+            return createRecipeFormWithNotificationRecipeExists(model, recipeDTO);
         }
 
-        return "redirect:/recipe/update/" + stringURLify(recipeDTOSessionObject.getRecipeName());
+        return "redirect:/recipe/update/" + stringURLify(recipeDTO.getRecipeName());
     }
 
+    @GetMapping(value = "/recipe/deleteStep/{iterIndex}")
+    protected String deleteStepRecipe(@PathVariable("iterIndex") int iterIndex,
+                                      @SessionAttribute("recipeStateKeeper") RecipeDTO recipeStateKeeper,
+                                      Model model){
 
-    @PostMapping(value = "/recipe/new/newRecipe", params = "delete")
-    protected String deleteStepFromRecipeForm(Model model,
-                                              @ModelAttribute("recipeDTO") RecipeDTO recipeDTOSessionObject,
-                                              @RequestParam("stepIndex") int stepIndex,
-                                              BindingResult result) {
-        if (result.hasErrors()) {
-            return "redirect:/";
+        recipeStateKeeper.getSteps().remove(iterIndex);
+        RecipeDTO existingRecipe = recipeService.findByRecipeName(recipeStateKeeper.getRecipeName());
+
+        if (existingRecipe == null) {
+            model.addAttribute("recipeDTO", recipeStateKeeper);
+            return "recipeForm";
         }
+        existingRecipe.setSteps(recipeStateKeeper.getSteps());
+        refreshUpdateRecipe(existingRecipe, model);
+        return "updateRecipeForm";
 
-        recipeDTOSessionObject.getSteps().remove(stepIndex);
-        model.addAttribute("recipeDTO", recipeDTOSessionObject);
-        return "recipeForm";
     }
-
 
     @GetMapping("/recipe/update/{recipeName}")
-    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName, Model model, Principal principal) {
-        RecipeDTO recipeDTO = recipeService.findByRecipeName(recipeName);
+    protected String showUpdateRecipe(@PathVariable("recipeName") String recipeName,
+                                      @ModelAttribute("recipeStateKeeper") RecipeDTO recipeStateKeeper,
+                                      Model model,
+                                      Principal principal) {
 
-        if (recipeDTO == null || recipeUserDoesNotMatchCurrentUser(principal, recipeDTO)) {
+        RecipeDTO existingRecipe =  recipeService.findByRecipeName(recipeName);
+
+        setRecipeKeeperValuesWithRecipeDTOValues(recipeStateKeeper, existingRecipe);
+
+
+        if (recipeStateKeeper == null || recipeUserDoesNotMatchCurrentUser(principal, recipeStateKeeper)) {
             return "redirect:/MyKitchen";
         }
 
-       refreshUpdateRecipe(recipeName, recipeDTO, model);
+       refreshUpdateRecipe(recipeStateKeeper, model);
 
         return "updateRecipeForm";
     }
 
-    @PostMapping(value = "/recipe/update/{recipeName}", params = "save")
-    protected String updateRecipe(@PathVariable("recipeName") String recipeName,
-                                  @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+    @PostMapping(value = "/recipe/update/updateSteps", params = "save")
+    protected String updateRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
                                   Model model,
                                   BindingResult result) {
         if (result.hasErrors()) {
@@ -200,47 +217,30 @@ public class RecipeController {
         recipeDTO.setSteps(removeEmptySteps(recipeDTO.getSteps()));
 
         try {
-            recipeService.updateRecipe(recipeService.findByRecipeName(recipeName), recipeDTO);
+            recipeService.updateRecipe(recipeService.findByRecipeName(recipeDTO.getRecipeName()), recipeDTO);
         } catch (DataIntegrityViolationException error) {
-            return createRecipeUpdateFormWithNotificationRecipeExists(model, recipeDTO, recipeName);
+            return createRecipeUpdateFormWithNotificationRecipeExists(model, recipeDTO, recipeDTO.getRecipeName());
         }
 
         return "redirect:/recipe/update/" + stringURLify(recipeDTO.getRecipeName());
     }
 
-    @PostMapping(value = "/recipe/update/{recipeName}", params = "add")
-    protected String addStepToUpdateRecipe(@PathVariable("recipeName") String recipeName,
-                                           @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+    @PostMapping(value = "/recipe/update/updateSteps", params = "add")
+    protected String addStepToUpdateRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
+                                           @SessionAttribute("recipeStateKeeper") RecipeDTO recipeStateKeeper,
                                            Model model,
                                            BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/MyKitchen";
         }
 
-        recipeDTO.getSteps().add("");
-        refreshUpdateRecipe(recipeName, recipeDTO, model);
+        setRecipeKeeperValuesWithRecipeDTOValues(recipeStateKeeper, recipeDTO);
+        recipeStateKeeper.getSteps().add("");
 
+        refreshUpdateRecipe(recipeStateKeeper, model);
         return "updateRecipeForm";
     }
 
-    @PostMapping(value = "/recipe/update/{recipeName}", params = "delete")
-    protected String deleteStepFromUpdateRecipe(
-            @PathVariable("recipeName") String recipeName,
-            @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
-            @RequestParam("stepIndex") int stepIndex,
-            Model model,
-            BindingResult result) {
-
-        if (result.hasErrors()) {
-            return "redirect:/MyKitchen";
-        }
-
-        recipeDTO.getSteps().remove(stepIndex);
-
-        refreshUpdateRecipe(recipeName, recipeDTO, model);
-
-        return "updateRecipeForm";
-    }
 
     @PostMapping(value = "/recipe/update/{recipeName}/addingredient")
     protected String addIngredient(@ModelAttribute("ingredientRecipeDTO") IngredientRecipeDTO ingredientRecipeDTO,
@@ -322,15 +322,12 @@ public class RecipeController {
         return stringBuilder.toString();
     }
 
-    private void refreshUpdateRecipe
-            (@PathVariable("recipeName") String recipeName,
-             @ModelAttribute("recipeDTO") RecipeDTO recipeDTO,
-             Model model) {
+    private void refreshUpdateRecipe(@ModelAttribute("recipeDTO") RecipeDTO recipeDTO, Model model) {
 
         model.addAttribute("recipeDTO", recipeDTO);
         model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
-        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeName));
-        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeName));
+        model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeName(recipeDTO.getRecipeName()));
+        model.addAttribute("remainingIngredients", recipeService.getRemainingIngredientsByRecipeName(recipeDTO.getRecipeName()));
     }
 
     private boolean recipeUserDoesNotMatchCurrentUser(Principal principal, RecipeDTO recipeDTO) {
@@ -358,5 +355,11 @@ public class RecipeController {
 
     private List<String> removeEmptySteps(List<String> steps) {
         return steps.stream().filter(i -> !i.isEmpty()).collect(Collectors.toList());
+    }
+
+    private void setRecipeKeeperValuesWithRecipeDTOValues(RecipeDTO recipeStateKeeper, RecipeDTO recipeDTO) {
+        recipeStateKeeper.setRecipeName(recipeDTO.getRecipeName());
+        recipeStateKeeper.setSteps(recipeDTO.getSteps());
+        recipeStateKeeper.setSocialMealsUserDTO(recipeDTO.getSocialMealsUserDTO());
     }
 }

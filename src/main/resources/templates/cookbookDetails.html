@@ -30,9 +30,12 @@
     <table class="table">
 
         <tr th:each="recipe : ${recipeDTOList}">
-            <td><a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a></td>
-            <td><a onclick="return confirm('Are you sure?')"
-                   th:href="@{/cookbook/remove/{urlId}/{recipeName}(urlId = ${cookbookDTO.urlId}, recipeName = ${recipe.recipeName})}" th:if="${ownRecipe}">Delete</a></td>
+            <td class="align-middle">
+                <a th:href="@{/recipes/{recipeName}(recipeName=${recipe.recipeName})}" th:text="${recipe.recipeName}"></a>
+            </td>
+            <td data-th-align="right">
+                <a class="btn btn-primary confirmDelete" th:href="@{/cookbook/remove/{urlId}/{recipeName}(urlId = ${cookbookDTO.urlId}, recipeName = ${recipe.recipeName})}" th:if="${ownRecipe}"><i class="fas fa-trash"></i></a>
+            </td>
         </tr>
 
     </table>
