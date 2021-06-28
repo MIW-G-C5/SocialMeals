@@ -1,6 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
 
+import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
@@ -70,6 +71,7 @@ public class RecipeServiceMySQL implements RecipeService {
     @Override
     public RecipeDTO addNew(RecipeDTO recipeDTO) {
         recipeDTO.setUrlId(findNextRecipeId());
+        formatRecipeName(recipeDTO);
 
         SocialMealsUser socialMealsUser = socialMealsUserDetailService.getUserByDTO(recipeDTO.getSocialMealsUserDTO());
         Recipe recipe = recipeConverter.fromDTO(recipeDTO, socialMealsUser);
@@ -80,6 +82,7 @@ public class RecipeServiceMySQL implements RecipeService {
 
     @Override
     public void updateRecipe(RecipeDTO oldRecipeDTO, RecipeDTO updatedRecipeDTO) {
+        formatRecipeName(updatedRecipeDTO);
         Recipe oldRecipe = getRecipeByRecipeDTO(oldRecipeDTO);
         Recipe newRecipe = recipeConverter.fromDTO(oldRecipe, updatedRecipeDTO);
 
@@ -206,6 +209,14 @@ public class RecipeServiceMySQL implements RecipeService {
             maxId = DEFAULT_URL_ID;
         }
         return ++maxId;
+    }
+
+    private RecipeDTO formatRecipeName(RecipeDTO recipeDTO) {
+        String recipeName = recipeDTO.getRecipeName().trim();
+        recipeName = recipeName.substring(0, 1).toUpperCase() + recipeName.substring(1);
+
+        recipeDTO.setRecipeName(recipeName);
+        return recipeDTO;
     }
 
 }

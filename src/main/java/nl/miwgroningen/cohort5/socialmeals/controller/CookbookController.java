@@ -157,7 +157,8 @@ public class CookbookController {
                                             Principal principal) {
         CookbookDTO cookbookDTO = cookbookService.findByUrlId(Long.parseLong(cookbookid));
         List<RecipeDTO> recipeDTOList = cookbookService.searchInCookbook(cookbookDTO, keyword);
-
+        recipeDTOList.sort(new RecipeDTOAscComparator());
+        
         model.addAttribute("recipeDTOList", recipeDTOList);
         refreshUpdateCookbook(cookbookDTO, model, principal);
 
@@ -171,6 +172,7 @@ public class CookbookController {
 
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
         List<RecipeDTO> recipeDTOList = cookbookService.searchInCookbook(socialMealsUserDTO, keyword);
+        recipeDTOList.sort(new RecipeDTOAscComparator());
 
         model.addAttribute("ownRecipe", isItYours(principal, socialMealsUserDTO));
         model.addAttribute("socialMealsUserDTO", socialMealsUserDTO);
