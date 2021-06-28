@@ -14,4 +14,4 @@ before_install:
 
 script:
     - >
-        bash script/build.sh
+        bash scripts/build.sh
