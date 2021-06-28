@@ -21,6 +21,8 @@ public interface RecipeService {
 
     void updateRecipe(RecipeDTO oldRecipeDTO, RecipeDTO updatedRecipeDTO);
 
+    void updateRecipeWithImage(RecipeDTO oldRecipeDTO, RecipeDTO updatedRecipeDTO);
+
     RecipeDTO deleteRecipe(RecipeDTO recipeDTO);
 
     RecipeDTO findByUrlId(Long urlId);

@@ -13,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,6 +113,27 @@ public class RecipeCreateUpdateDeleteController {
         refreshUpdateRecipe(recipeStateKeeper, model);
 
         return "updateRecipeForm";
+    }
+
+    @PostMapping(value = "/recipe/update/{urlId}/updateImage")
+    protected String updateRecipeWithImage(@PathVariable("urlId") Long urlId,
+                                      @RequestParam MultipartFile multipartImage,
+                                      BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/";
+        }
+
+        RecipeDTO recipeDTO = recipeService.findByUrlId(urlId);
+
+        try {
+            recipeDTO.setRecipeImage(multipartImage.getBytes());
+        } catch (IOException iOExeption) {
+            iOExeption.printStackTrace();
+        }
+
+        recipeService.updateRecipeWithImage(recipeService.findByUrlId(urlId), recipeDTO);
+
+        return "redirect:/recipe/update/" + urlId;
     }
 
     @PostMapping(value = "/recipe/update/updateSteps", params = "add")

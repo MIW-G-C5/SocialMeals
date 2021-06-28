@@ -43,12 +43,18 @@ public class RecipeConverter {
                 recipeDTO.getSteps(),
                 socialMealsUser);
         recipe.setUrlId(recipeDTO.getUrlId());
+
         return recipe;
     }
 
     public Recipe fromDTO(Recipe recipe, RecipeDTO recipeDTO) {
         recipe.setRecipeName(recipeDTO.getRecipeName());
         recipe.setSteps(recipeDTO.getSteps());
+        return recipe;
+    }
+
+    public Recipe fromDTOWithImage(Recipe recipe, RecipeDTO recipeDTO)  {
+        recipe.setRecipeImage(recipeDTO.getRecipeImage());
         return recipe;
     }
 }
