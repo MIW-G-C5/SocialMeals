@@ -23,6 +23,7 @@ public class Recipe {
     private String recipeName;
 
     @ElementCollection
+    @Column(length = 5000)
     private List<String> steps = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
