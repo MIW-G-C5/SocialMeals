@@ -40,6 +40,7 @@ public class CookbookController {
                                         Model model,
                                         Principal principal) {
         CookbookDTO cookbookDTO = cookbookService.findByUrlId(urlId);
+        cookbookDTO.getRecipes().sort(new RecipeDTOAscComparator());
 
         model.addAttribute("recipeDTOList", cookbookDTO.getRecipes());
         refreshUpdateCookbook(cookbookDTO, model, principal);
@@ -52,12 +53,8 @@ public class CookbookController {
                                     Model model,
                                     Principal principal) {
         List<RecipeDTO> recipeDTOList = recipeService.getRecipesByUsername(username);
-        Collections.sort(recipeDTOList, new RecipeDTOAscComparator());
+        recipeDTOList.sort(new RecipeDTOAscComparator());
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(username);
-
-        if (recipeDTOList == null) {
-            return "redirect:/";
-        }
 
         model.addAttribute("ownRecipe", isItYours(principal, socialMealsUserDTO));
         model.addAttribute("socialMealsUserDTO", socialMealsUserDTO);
