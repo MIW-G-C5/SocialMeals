@@ -59,11 +59,9 @@ public class RecipeReadController {
 
         List<RecipeDTO> recipeDTOList = recipeService.getAll();
         sortedRecipesStateKeeper.setSortedRecipes(recipeDTOList);
-
-        Collections.sort(sortedRecipesStateKeeper.getSortedRecipes(), new RecipeDTOAscComparator());
+        sortedRecipesStateKeeper.getSortedRecipes().sort(new RecipeDTOAscComparator());
 
         model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
-
 
         return "recipeOverview";
     }
@@ -73,9 +71,10 @@ public class RecipeReadController {
             @SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
             Model model){
 
-        Collections.sort(sortedRecipesStateKeeper.getSortedRecipes(), new RecipeDTOAscComparator());
+        sortedRecipesStateKeeper.getSortedRecipes().sort(new RecipeDTOAscComparator());
 
         model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
+
         return "recipeOverview";
     }
 
@@ -84,9 +83,10 @@ public class RecipeReadController {
             @SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
             Model model){
 
-        Collections.sort(sortedRecipesStateKeeper.getSortedRecipes(), new RecipeDTODescComparator());
+        sortedRecipesStateKeeper.getSortedRecipes().sort(new RecipeDTODescComparator());
 
         model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
+
         return "recipeOverview";
     }
 
@@ -129,6 +129,7 @@ public class RecipeReadController {
         }
 
         sortedRecipesStateKeeper.setSortedRecipes(sortedRecipes);
+        sortedRecipesStateKeeper.getSortedRecipes().sort(new RecipeDTOAscComparator());
         model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
 
         return "recipeOverview";
