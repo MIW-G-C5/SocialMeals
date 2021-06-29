@@ -1,6 +1,7 @@
 $( function() {
     $( "#ingredientAuto" ).autocomplete({
-        source: "/recipe/update/ingredientAutocomplete?urlId=" + $('#urlId').val()
+        source: "/recipe/update/ingredientAutocomplete?urlId=" + $('#urlId').val(),
+        minLength: 3
     });
 } );
 
