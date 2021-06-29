@@ -97,3 +97,27 @@ h3 {
 .increase-font, .table {
     font-size: 1.2rem;
 }
+
+.fork-rating > input {
+    display:none;
+}
+
+.fork-rating > label {
+    display: inline-block;
+    font-size:1.6rem;
+    margin: 0.2rem;
+}
+
+.fork-rating input:checked ~ label {
+    color: #ffca08;
+}
+
+.fork-rating input:hover ~ label  {
+    color: #ffca08;
+}
+
+.rating-average {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.6rem;
+}

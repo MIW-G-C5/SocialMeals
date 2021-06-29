@@ -16,14 +16,17 @@
 
     <div class="row form-control-height">
         <div class="col-3">
-            <h2>made by
-                <a th:href="@{/cookbook/myCookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}"
-                   th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
-                <span th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
-                <br>
-            </h2>
+            <div class="row">
+                <h2>made by
+                    <a th:href="@{/cookbook/myCookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}"
+                       th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
+                    <span th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
+                    <br>
+                </h2>
+            </div>
 
-            <div th:if="${loggedInUser}">
+
+            <div class="row" th:if="${loggedInUser}">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Add to Cookbook
@@ -36,21 +39,34 @@
                 </div>
             </div>
 
-            <div th:unless="${averageRating} == null">
-                <p th:text="${averageRating} + ' rating!'"></p>
+            <div class="row">
+                <p class="rating-average" th:unless="${averageRating} == null" th:text="${averageRating} + ' / 5'"></p>
             </div>
-
-            <div th:if="${loggedInUser}">
+            <div class="row" th:if="${loggedInUser}">
                 <form class="has-validation" th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
-                    <label for="rating">Rate!</label>
-                    <input class="form-control form-control-width" type="number" min="1" max="5" id="rating" th:field="*{forks}">
+                    <div class="fork-rating d-flex justify-content-right flex-row-reverse">
+                        <input type="radio" id="fork5" name="rating" value="5">
+                        <label for="fork5" title="5 fork"><i class="fas fa-utensils"></i></label>
 
+                        <input type="radio" id="fork4" name="rating" value="4">
+                        <label for="fork4" title="4 fork"><i class="fas fa-utensils"></i></label>
+
+                        <input type="radio" id="fork3" name="rating" value="3">
+                        <label for="fork3" title="3 fork"><i class="fas fa-utensils"></i></label>
+
+                        <input type="radio" id="fork2" name="rating" value="2">
+                        <label for="fork2" title="2 fork"><i class="fas fa-utensils"></i></label>
+
+                        <input type="radio" id="fork1" name="rating" value="1">
+                        <label for="fork1" title="1 fork"><i class="fas fa-utensils"></i></label>
+
+                    </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" name="save">Save</button>
                     </div>
+
                 </form>
             </div>
-
         </div>
 
 

@@ -136,17 +136,15 @@ public class RecipeReadController {
 
     @PostMapping("/recipes/{recipeUrlId}/rate")
     protected String saveRating(@PathVariable("recipeUrlId") Long urlId,
-                                Principal principal,
+                                @RequestParam("rating") int rating,
                                 RatingDTO ratingDTO,
+                                Principal principal,
                                 BindingResult result) {
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
         RecipeDTO recipeDTO = recipeService.findByUrlId(urlId);
 
         if (!result.hasErrors()) {
-            ratingDTO.setSocialMealsUserDTO(socialMealsUserDTO);
-            ratingDTO.setRecipeDTO(recipeDTO);
-
-            ratingService.addNew(ratingDTO);
+            ratingService.addNew(new RatingDTO(rating, recipeDTO, socialMealsUserDTO));
         }
 
         return "redirect:/recipes/" + urlId;
