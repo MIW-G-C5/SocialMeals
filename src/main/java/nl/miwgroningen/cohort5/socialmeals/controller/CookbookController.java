@@ -162,18 +162,20 @@ public class CookbookController {
         return "cookbookDetails";
     }
 
-    @GetMapping(value = "/cookbook/recipe/search")
+    @GetMapping(value = "/cookbook/recipe/search", params = {"cookbookuser"})
     protected String searchRecipeInMyCookbook(Model model,
                                               @RequestParam String keyword,
+                                              @RequestParam String cookbookuser,
                                               Principal principal) {
 
-        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(cookbookuser);
         List<RecipeDTO> recipeDTOList = cookbookService.searchInCookbook(socialMealsUserDTO, keyword);
         recipeDTOList.sort(new RecipeDTOAscComparator());
 
         model.addAttribute("ownRecipe", isItYours(principal, socialMealsUserDTO));
         model.addAttribute("socialMealsUserDTO", socialMealsUserDTO);
         model.addAttribute("recipeDTOList", recipeDTOList);
+
         return "myCookbook";
     }
 
