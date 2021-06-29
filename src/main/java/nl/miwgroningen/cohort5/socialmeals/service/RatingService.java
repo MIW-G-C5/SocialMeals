@@ -15,7 +15,7 @@ public interface RatingService {
 
     RatingDTO addNew(RatingDTO ratingDTO);
 
-    Double getAverageRatingRecipe(RecipeDTO recipeDTO);
+    String getAverageRatingRecipe(RecipeDTO recipeDTO);
 
     Rating findRatingByUserAndRecipe(SocialMealsUser socialMealsUser, Recipe recipe);
 }

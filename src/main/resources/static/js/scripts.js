@@ -7,3 +7,8 @@ $( function() {
 
 $(".confirmDelete").confirm("Are you sure?");
 
+$(function() {
+    $(".radioRating").on('change', function() {
+        $(this).parents('form').submit();
+    });
+});

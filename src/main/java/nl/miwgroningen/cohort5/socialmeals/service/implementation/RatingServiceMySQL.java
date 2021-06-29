@@ -53,15 +53,15 @@ public class RatingServiceMySQL implements RatingService {
             ratingRepository.save(oldRating);
         }
 
-
         return ratingDTO;
     }
 
     @Override
-    public Double getAverageRatingRecipe(RecipeDTO recipeDTO) {
+    public String getAverageRatingRecipe(RecipeDTO recipeDTO) {
         Recipe recipe = recipeService.getRecipeByRecipeDTO(recipeDTO);
+        double average = getAverageFromSet(recipe.getRatings());
 
-        return getAverageFromSet(recipe.getRatings());
+        return formatRating(average);
     }
 
     @Override
@@ -85,5 +85,12 @@ public class RatingServiceMySQL implements RatingService {
         }
 
         return sum / (double) ratings.size();
+    }
+
+    private String formatRating(double rating) {
+        if (rating % 1 == 0) {
+            return String.format("%d", (int) rating);
+        }
+        return String.format("%.1f", rating);
     }
 }
