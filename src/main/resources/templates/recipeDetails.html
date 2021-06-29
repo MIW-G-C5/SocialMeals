@@ -36,7 +36,24 @@
                 </div>
             </div>
 
+            <div th:unless="${averageRating} == null">
+                <p th:text="${averageRating} + ' rating!'"></p>
+            </div>
+
+            <div th:if="${loggedInUser}">
+                <form class="has-validation" th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
+                    <label for="rating">Rate!</label>
+                    <input class="form-control form-control-width" type="number" min="1" max="5" id="rating" th:field="*{forks}">
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" name="save">Save</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
+
+
 
         <div class="col-6">
             <h3>Cooking instructions</h3>

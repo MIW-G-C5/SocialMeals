@@ -3,15 +3,18 @@ package nl.miwgroningen.cohort5.socialmeals.controller;
 
 import nl.miwgroningen.cohort5.socialmeals.comparator.RecipeDTOAscComparator;
 import nl.miwgroningen.cohort5.socialmeals.comparator.RecipeDTODescComparator;
+import nl.miwgroningen.cohort5.socialmeals.dto.RatingDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.stateKeeper.SortedRecipesStateKeeper;
+import nl.miwgroningen.cohort5.socialmeals.service.RatingService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -32,13 +35,16 @@ public class RecipeReadController {
     private RecipeService recipeService;
     private SocialMealsUserDetailService socialMealsUserDetailService;
     private CookbookService cookbookService;
+    private RatingService ratingService;
 
     public RecipeReadController(RecipeService recipeService,
                                 SocialMealsUserDetailService socialMealsUserDetailService,
-                                CookbookService cookbookService) {
+                                CookbookService cookbookService,
+                                RatingService ratingService) {
         this.recipeService = recipeService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
         this.cookbookService = cookbookService;
+        this.ratingService = ratingService;
     }
 
     @ModelAttribute("sortedRecipesStateKeeper")
@@ -105,6 +111,10 @@ public class RecipeReadController {
         model.addAttribute("loggedInUser", loggedInUser);
         model.addAttribute("recipe", recipe);
         model.addAttribute("ingredientRecipes", recipeService.getIngredientRecipesByRecipeUrlId(urlId));
+
+        model.addAttribute("averageRating", ratingService.getAverageRatingRecipe(recipe));
+        model.addAttribute("rating", new RatingDTO());
+
         return "recipeDetails";
     }
 
@@ -122,5 +132,23 @@ public class RecipeReadController {
         model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
 
         return "recipeOverview";
+    }
+
+    @PostMapping("/recipes/{recipeUrlId}/rate")
+    protected String saveRating(@PathVariable("recipeUrlId") Long urlId,
+                                Principal principal,
+                                RatingDTO ratingDTO,
+                                BindingResult result) {
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
+        RecipeDTO recipeDTO = recipeService.findByUrlId(urlId);
+
+        if (!result.hasErrors()) {
+            ratingDTO.setSocialMealsUserDTO(socialMealsUserDTO);
+            ratingDTO.setRecipeDTO(recipeDTO);
+
+            ratingService.addNew(ratingDTO);
+        }
+
+        return "redirect:/recipes/" + urlId;
     }
 }

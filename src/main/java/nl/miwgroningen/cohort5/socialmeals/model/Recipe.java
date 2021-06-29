@@ -35,6 +35,9 @@ public class Recipe {
     @ManyToMany(mappedBy = "recipeLikes", cascade = CascadeType.ALL)
     Set<Cookbook> cookbookLikes;
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private Set<Rating> ratings;
+
     public Recipe(String recipeName, List<String> steps, SocialMealsUser socialMealsUser) {
         this.recipeName = recipeName;
         this.steps = steps;
@@ -44,28 +47,20 @@ public class Recipe {
     public Recipe() {
     }
 
-    public void setSteps(List<String> steps) {
-        this.steps = steps;
-    }
-
-    public List<String> getSteps() {
-        return steps;
-    }
-
-    public SocialMealsUser getSocialMealsUser() {
-        return socialMealsUser;
-    }
-
-    public void setSocialMealsUser(SocialMealsUser socialMealsUser) {
-        this.socialMealsUser = socialMealsUser;
+    public Long getRecipeId() {
+        return recipeId;
     }
 
     public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
     }
 
-    public Long getRecipeId() {
-        return recipeId;
+    public Long getUrlId() {
+        return urlId;
+    }
+
+    public void setUrlId(Long urlId) {
+        this.urlId = urlId;
     }
 
     public String getRecipeName() {
@@ -76,12 +71,28 @@ public class Recipe {
         this.recipeName = recipeName;
     }
 
+    public List<String> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<String> steps) {
+        this.steps = steps;
+    }
+
     public Set<IngredientRecipe> getIngredientRecipes() {
         return ingredientRecipes;
     }
 
-    public void setIngredientRecipes(Set<IngredientRecipe> ingredientQuantities) {
-        this.ingredientRecipes = ingredientQuantities;
+    public void setIngredientRecipes(Set<IngredientRecipe> ingredientRecipes) {
+        this.ingredientRecipes = ingredientRecipes;
+    }
+
+    public SocialMealsUser getSocialMealsUser() {
+        return socialMealsUser;
+    }
+
+    public void setSocialMealsUser(SocialMealsUser socialMealsUser) {
+        this.socialMealsUser = socialMealsUser;
     }
 
     public Set<Cookbook> getCookbookLikes() {
@@ -92,11 +103,11 @@ public class Recipe {
         this.cookbookLikes = cookbookLikes;
     }
 
-    public Long getUrlId() {
-        return urlId;
+    public Set<Rating> getRatings() {
+        return ratings;
     }
 
-    public void setUrlId(Long urlId) {
-        this.urlId = urlId;
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
     }
 }

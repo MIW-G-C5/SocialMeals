@@ -3,6 +3,7 @@ package nl.miwgroningen.cohort5.socialmeals.seeder;
 import nl.miwgroningen.cohort5.socialmeals.dto.*;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
+import nl.miwgroningen.cohort5.socialmeals.service.RatingService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,19 @@ public class Seeder {
     private IngredientService ingredientService;
     private SocialMealsUserDetailService socialMealsUserDetailService;
     private CookbookService cookbookService;
+    private RatingService ratingService;
 
     @Autowired
     public Seeder(RecipeService recipeService,
                   IngredientService ingredientService,
                   SocialMealsUserDetailService socialMealsUserDetailService,
-                  CookbookService cookbookService) {
+                  CookbookService cookbookService,
+                  RatingService ratingService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
         this.cookbookService = cookbookService;
+        this.ratingService = ratingService;
     }
 
     @EventListener
@@ -43,6 +47,7 @@ public class Seeder {
         seedRecipes();
         seedIngredientRecipes();
         seedCookbooks();
+        seedRatings();
     }
 
     private void seedUser() {
@@ -167,6 +172,11 @@ public class Seeder {
         cookbookService.addRecipeDTO(cookbookDTO, recipeDTO);
     }
 
+    private void seedRatings() {
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
+        RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
 
+        ratingService.addNew(new RatingDTO(4, recipeDTO, socialMealsUserDTO));
 
+    }
 }
