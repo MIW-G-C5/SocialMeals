@@ -120,6 +120,7 @@ public class RecipeReadController {
         }
 
         sortedRecipesStateKeeper.setSortedRecipes(sortedRecipes);
+        sortedRecipesStateKeeper.getSortedRecipes().sort(new RecipeDTOAscComparator());
         model.addAttribute("recipeList", sortedRecipesStateKeeper.getSortedRecipes());
 
         return "recipeOverview";
