@@ -113,6 +113,7 @@ public class RecipeCreateUpdateDeleteController {
             return "redirect:/MyKitchen";
         }
         refreshUpdateRecipe(recipeStateKeeper, model);
+        model.addAttribute("recipeImage", Base64.encodeBase64String(existingRecipe.getRecipeImage()));
 
         return "updateRecipeForm";
     }
@@ -266,8 +267,6 @@ public class RecipeCreateUpdateDeleteController {
     }
 
     private void refreshUpdateRecipe(RecipeDTO recipeDTO, Model model) {
-
-        model.addAttribute("recipeImage", Base64.encodeBase64String(recipeDTO.getRecipeImage()));
 
         model.addAttribute("recipeDTO", recipeDTO);
         model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
