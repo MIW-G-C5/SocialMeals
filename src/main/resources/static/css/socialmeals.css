@@ -60,12 +60,16 @@ h3 {
     margin-left: 90%;
 }
 
-.form-control-width{
+.form-control-width {
     width: 80%;
 }
 
 .form-control-height {
     margin-top: 2rem;
+}
+
+.row-control-height {
+    margin-top: 1.5rem;
 }
 
 .searchRecipe {
@@ -93,6 +97,7 @@ h3 {
     width:14em;
     padding:2em;
     box-shadow: 5px 5px 7px dimgrey;
+    text-align: left;
 
 }
 
@@ -112,11 +117,11 @@ h3 {
     display:none;
 }
 
-.star-rating > label {
-    display: inline-block;
-    font-size:1.2rem;
-    margin: 0.2rem;
-}
+/*.star-rating > label {*/
+/*    display: inline-block;*/
+/*    font-size:1.2rem;*/
+/*    margin: 0.2rem;*/
+/*}*/
 
 .star-rating input:checked ~ label, .present-star-rating input:checked ~ label {
     color: #ffca08;
@@ -126,8 +131,13 @@ h3 {
     color: #ffca08;
 }
 
-.present-star-rating > label {
-    display: inline-block;
+/*.present-star-rating > label {*/
+/*    display: inline-block;*/
+/*}*/
+
+.present-star-rating {
+    font-size: 1.2rem;
+    margin: 0.1rem;
 }
 
 .center {
@@ -136,10 +146,7 @@ h3 {
 
 .cookingInstructions {
     padding-left: 3em;
-}
-
-.addToCookbook {
-    float: right;
+    text-align: justify;
 }
 
 .stepsSpacing {
