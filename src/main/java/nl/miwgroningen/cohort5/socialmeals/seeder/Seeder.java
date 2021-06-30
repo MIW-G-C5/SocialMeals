@@ -1,7 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.seeder;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.*;
-import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RatingService;
@@ -11,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +48,7 @@ public class Seeder {
         seedUser();
         seedIngredients();
         seedRecipes();
+        seedRecipeImages();
         seedIngredientRecipes();
         seedCookbooks();
         seedRatings();
@@ -75,14 +76,15 @@ public class Seeder {
         recipeService.addNew(new RecipeDTO("Sweet potato curry", new ArrayList<>(), socialMealsUserDTO));
     }
 
-//    private void seedRecipeImages(){
-//        File babaGanoushImage = new File("C:\\Users\\britt\\Pictures\\baba.ganoush.jpg");
-//        MultipartFile babaGanoush = new MockMultipartFile("file",
-//                file.getName(), "text/plain", IOUtils.toByteArray(input));;
-//        RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
-//        recipeDTO.setRecipeImage(babaGanoush.getBytes());
-//        recipeService.updateRecipe(recipeService.findByUrlId(Long.valueOf(5002)), recipeDTO);
-//    }
+    private void seedRecipeImages(){
+
+        File babaGanoushImage = new File("src/main/resources/images/baba.ganoush.jpg");
+
+        RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
+        recipeDTO.setRecipeImage(imageToByteArray(babaGanoushImage));
+
+        recipeService.updateRecipeWithImage(recipeService.findByUrlId(Long.valueOf(5002)), recipeDTO);
+    }
 
     private List<String> babaGanoushSteps(){
         List<String> steps = new ArrayList<>();
@@ -126,12 +128,12 @@ public class Seeder {
         List<IngredientRecipeDTO> ingredientRecipeList = new ArrayList<>();
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("tomato"),
-                recipeService.findByUrlId(Long.valueOf(5001)),
+                        recipeService.findByUrlId(Long.valueOf(5001)),
                         5,
                         "units"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("eggplant"),
-                recipeService.findByUrlId(Long.valueOf(5002)),
+                        recipeService.findByUrlId(Long.valueOf(5002)),
                         6,
                         "units"));
         ingredientRecipeList.add(
@@ -189,5 +191,21 @@ public class Seeder {
 
         ratingService.addNew(new RatingDTO(4, recipeDTO, socialMealsUserDTO));
 
+    }
+
+    private byte[] imageToByteArray(File image) {
+
+        byte[] data = null;
+
+        try {
+            BufferedImage bImage = ImageIO.read(image);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "jpg", outputStream );
+            data = outputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return data;
     }
 }
