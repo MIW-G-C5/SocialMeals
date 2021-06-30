@@ -63,8 +63,12 @@ h3 {
     width: 80%;
 }
 
-.form-control-height, .row-control-height {
+.form-control-height {
     margin-top: 2rem;
+}
+
+.row-control-height {
+    margin-top: 1.5rem;
 }
 
 .searchRecipe {
@@ -112,11 +116,11 @@ h3 {
     display:none;
 }
 
-.star-rating > label {
-    display: inline-block;
-    font-size:1.2rem;
-    margin: 0.2rem;
-}
+/*.star-rating > label {*/
+/*    display: inline-block;*/
+/*    font-size:1.2rem;*/
+/*    margin: 0.2rem;*/
+/*}*/
 
 .star-rating input:checked ~ label, .present-star-rating input:checked ~ label {
     color: #ffca08;
@@ -126,8 +130,13 @@ h3 {
     color: #ffca08;
 }
 
-.present-star-rating > label {
-    display: inline-block;
+/*.present-star-rating > label {*/
+/*    display: inline-block;*/
+/*}*/
+
+.present-star-rating {
+    font-size: 1.2rem;
+    margin: 0.1rem;
 }
 
 .center {
