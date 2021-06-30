@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="NL-nl" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
 <head th:replace="fragments/general :: baseHeader(~{:: title})">
-    <title>New Recipe</title>
+    <title>New recipe</title>
 </head>
 <body>
 
 <div class="container">
 
-    <div th:replace="fragments/general :: headerPhoto"></div>
+    <div th:replace="fragments/general :: headerPhoto('New recipe')"></div>
     <div th:replace="fragments/general :: navbar"></div>
-
-    <h1>Add new recipe</h1>
-
 
     <form class="has-validation" th:action="@{/recipe/new/newRecipe}" method="post" th:object="${recipeDTO}">
     <div class="row form-control-height">
