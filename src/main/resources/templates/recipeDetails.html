@@ -25,7 +25,6 @@
                 </h2>
             </div>
 
-
             <div class="row" th:if="${loggedInUser}">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -46,25 +45,23 @@
                 <form class="has-validation" th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
                     <div class="fork-rating d-flex justify-content-right flex-row-reverse">
                         <input class="radioRating" type="radio" id="fork5" name="rating" value="5">
-                        <label class="radioRating" for="fork5" title="5 fork"><i class="fas fa-utensils"></i></label>
+                        <label class="radioRating" for="fork5" title="5 fork"><i class="fas fa-star"></i></label>
 
                         <input class="radioRating" type="radio" id="fork4" name="rating" value="4">
-                        <label class="radioRating" for="fork4" title="4 fork"><i class="fas fa-utensils"></i></label>
+                        <label class="radioRating" for="fork4" title="4 fork"><i class="fas fa-star"></i></label>
 
                         <input class="radioRating" type="radio" id="fork3" name="rating" value="3">
-                        <label class="radioRating" for="fork3" title="3 fork"><i class="fas fa-utensils"></i></label>
+                        <label class="radioRating" for="fork3" title="3 fork"><i class="fas fa-star"></i></label>
 
                         <input class="radioRating" type="radio" id="fork2" name="rating" value="2">
-                        <label class="radioRating" for="fork2" title="2 fork"><i class="fas fa-utensils"></i></label>
+                        <label class="radioRating" for="fork2" title="2 fork"><i class="fas fa-star"></i></label>
 
                         <input class="radioRating" type="radio" id="fork1" name="rating" value="1">
-                        <label class="radioRating" for="fork1" title="1 fork"><i class="fas fa-utensils"></i></label>
+                        <label class="radioRating" for="fork1" title="1 fork"><i class="fas fa-star"></i></label>
                     </div>
                 </form>
             </div>
         </div>
-
-
 
         <div class="col-6">
             <h3>Cooking instructions</h3>
