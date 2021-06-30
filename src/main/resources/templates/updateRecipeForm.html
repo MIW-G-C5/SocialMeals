@@ -24,14 +24,16 @@
         </div>
 
         <div class="col">
-            <h3>Cooking instructions</h3>
-            <ol>
-                <li th:each="step : ${recipeDTO.steps}">
-                    <a th:text="${step}"></a>
-                </li>
-            </ol>
+
+            <img class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
+
+            <form th:action="@{/recipe/update/{urlId}/updateImage(urlId = ${recipeDTO.urlId})}" method="post" enctype="multipart/form-data">
+                <label for="recipeImg">Select image:</label>
+                <input  type="file" id="recipeImg" name="multipartImage" accept="image/*">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+
         </div>
-    </div>
 
     <div class="row form-control-height">
 

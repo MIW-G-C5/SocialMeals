@@ -8,6 +8,7 @@ import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.Lob;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
@@ -115,15 +117,15 @@ public class RecipeCreateUpdateDeleteController {
         return "updateRecipeForm";
     }
 
+    @Lob
     @PostMapping(value = "/recipe/update/{urlId}/updateImage")
-    protected String updateRecipeWithImage(@PathVariable("urlId") Long urlId,
-                                      @RequestParam MultipartFile multipartImage,
-                                      BindingResult result) {
+    protected String updateRecipeWithImage(@ModelAttribute("recipeStateKeeper") RecipeDTO recipeDTO,
+                                           @PathVariable("urlId") Long urlId,
+                                           @RequestParam MultipartFile multipartImage,
+                                           BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/";
         }
-
-        RecipeDTO recipeDTO = recipeService.findByUrlId(urlId);
 
         try {
             recipeDTO.setRecipeImage(multipartImage.getBytes());
@@ -241,6 +243,7 @@ public class RecipeCreateUpdateDeleteController {
         recipeStateKeeper.setRecipeName(recipeDTO.getRecipeName());
         recipeStateKeeper.setSteps(recipeDTO.getSteps());
         recipeStateKeeper.setSocialMealsUserDTO(recipeDTO.getSocialMealsUserDTO());
+
     }
 
     private List<String> removeEmptySteps(List<String> steps) {
@@ -263,6 +266,9 @@ public class RecipeCreateUpdateDeleteController {
     }
 
     private void refreshUpdateRecipe(RecipeDTO recipeDTO, Model model) {
+
+        model.addAttribute("recipeImage", Base64.encodeBase64String(recipeDTO.getRecipeImage()));
+
         model.addAttribute("recipeDTO", recipeDTO);
         model.addAttribute("ingredientRecipeDTO", new IngredientRecipeDTO());
         model.addAttribute("presentIngredientsRecipes", recipeService.getIngredientRecipesByRecipeUrlId(recipeDTO.getUrlId()));

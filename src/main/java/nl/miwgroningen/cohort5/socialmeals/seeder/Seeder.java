@@ -1,6 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.seeder;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.*;
+import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,8 +68,16 @@ public class Seeder {
         recipeService.addNew(new RecipeDTO("Strawberry smoothie", new ArrayList<>(), socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Chickpea dahl", new ArrayList<>(), socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Sweet potato curry", new ArrayList<>(), socialMealsUserDTO));
-
     }
+
+//    private void seedRecipeImages(){
+//        File babaGanoushImage = new File("C:\\Users\\britt\\Pictures\\baba.ganoush.jpg");
+//        MultipartFile babaGanoush = new MockMultipartFile("file",
+//                file.getName(), "text/plain", IOUtils.toByteArray(input));;
+//        RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
+//        recipeDTO.setRecipeImage(babaGanoush.getBytes());
+//        recipeService.updateRecipe(recipeService.findByUrlId(Long.valueOf(5002)), recipeDTO);
+//    }
 
     private List<String> babaGanoushSteps(){
         List<String> steps = new ArrayList<>();

@@ -25,6 +25,7 @@ public class RecipeConverter {
         RecipeDTO recipeDTO = new RecipeDTO(recipe.getRecipeName(), recipe.getSteps(),
                 socialMealsUserConverter.toDTO(recipe.getSocialMealsUser()));
         recipeDTO.setUrlId(recipe.getUrlId());
+        recipeDTO.setRecipeImage(recipe.getRecipeImage());
         return recipeDTO;
     }
 
