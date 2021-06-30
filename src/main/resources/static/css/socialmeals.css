@@ -59,11 +59,11 @@ h3 {
     margin-left: 90%;
 }
 
-.form-control-width{
+.form-control-width {
     width: 80%;
 }
 
-.form-control-height {
+.form-control-height, .row-control-height {
     margin-top: 2rem;
 }
 
@@ -92,6 +92,7 @@ h3 {
     width:14em;
     padding:2em;
     box-shadow: 5px 5px 7px dimgrey;
+    text-align: left;
 
 }
 
@@ -135,10 +136,7 @@ h3 {
 
 .cookingInstructions {
     padding-left: 3em;
-}
-
-.addToCookbook {
-    float: right;
+    text-align: justify;
 }
 
 .stepsSpacing {

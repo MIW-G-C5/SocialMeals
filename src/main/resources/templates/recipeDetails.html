@@ -11,13 +11,13 @@
     <div th:replace="fragments/general :: headerPhoto(${recipe.recipeName})"></div>
     <div th:replace="fragments/general :: navbar"></div>
 
-    <div class="row form-control-height">
-        <div class="col-3 center">
-            <div>
+    <div class="row form-control-height no-gutters">
+        <div class="col-3">
+            <div class="row justify-content-center">
                 <img th:unless="${recipeImage == null}" class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
             </div>
 
-            <div>
+            <div class="row justify-content-center">
                 <h2>made by
                     <a th:href="@{/cookbook/myCookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}"
                        th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
@@ -26,43 +26,40 @@
                 </h2>
             </div>
 
-            <br>
-            <div>
-                <ul class="shoppingListPostIT listWithoutStyle">
-                    <h3>Shopping list</h3>
-                    <li th:each="ingredientRecipe : ${ingredientRecipes}">
-                        <a th:text=" ${ingredientRecipe.ingredientDTO.ingredientName} + ' (' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType} +') ' "></a>
-                    </li>
-                </ul>
-            </div>
-            <div class="row justify-content-md-center">
+            <div class="row justify-content-center">
                 <div th:unless="${numberRatings} == 0">
                     <form id="ratingradio">
                         <div th:replace="fragments/rating :: starRatings"></div>
                     </form>
                 </div>
             </div>
-            <div class="row" th:if="${loggedInUser}">
-                <span th:if="${averageRating} == null">be the first to rate this recipe:</span>
+
+            <div class="row justify-content-center row-control-height">
+                <div th:if="${loggedInUser}">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Add to Cookbook
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div th:each="cookbook : ${cookbookList}">
+                                <a class="dropdown-item" th:href="@{/cookbook/add/{urlId}/{recipeUrlId}(urlId = ${cookbook.urlId}, recipeUrlId = ${recipe.urlId})}" th:text="${cookbook.cookbookName}"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center row-control-height" th:if="${loggedInUser}">
+                <span th:if="${averageRating} == null">Be the first to rate this recipe:</span>
+                <span th:unless="${averageRating} == null">How do you rate this recipe?</span>
+
                 <form th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
                     <div th:replace="fragments/forms :: ratingForm"></div>
                 </form>
             </div>
         </div>
 
-        <div class="col-9 cookingInstructions">
-            <div class="addToCookbook" th:if="${loggedInUser}">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Add to Cookbook
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <div th:each="cookbook : ${cookbookList}">
-                            <a class="dropdown-item" th:href="@{/cookbook/add/{urlId}/{recipeUrlId}(urlId = ${cookbook.urlId}, recipeUrlId = ${recipe.urlId})}" th:text="${cookbook.cookbookName}"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-6 cookingInstructions">
 
             <h3>Cooking instructions</h3>
             <ol>
@@ -70,6 +67,17 @@
                     <span th:text="${step}"></span>
                 </li>
             </ol>
+        </div>
+
+        <div class="col-3">
+            <div align="right">
+                <ul class="shoppingListPostIT listWithoutStyle">
+                    <h3>Shopping list</h3>
+                    <li th:each="ingredientRecipe : ${ingredientRecipes}">
+                        <a th:text=" ${ingredientRecipe.ingredientDTO.ingredientName} + ' (' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType} +') ' "></a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
     </div>
