@@ -29,6 +29,7 @@ public class SocialMealsSecurityConfiguration extends WebSecurityConfigurerAdapt
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/images/**").permitAll()
                 .antMatchers("/css/**", "/js/**").permitAll()
                 .antMatchers("/", "/recipes", "/recipes/*").permitAll()
                 .antMatchers("/user/new", "/MyKitchen").permitAll()
