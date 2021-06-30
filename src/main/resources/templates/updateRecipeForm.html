@@ -12,29 +12,43 @@
 
     <div class="row form-control-height">
 
-        <div class="col-8">
+        <div class="col-3"></div>
 
-            <form class="has-validation" th:action="@{/recipe/update/updateSteps}" method="post" th:object="${recipeDTO}">
+        <div class="col-7">
+
+            <h3>Update steps</h3>
+
+            <form class="has-validation" th:action="@{/recipe/update/updateSteps}" method="post"
+                  th:object="${recipeDTO}">
 
                 <div th:replace="fragments/forms :: recipeForm"></div>
             </form>
         </div>
 
-        <div class="col">
+    </div>
 
+    <div class="row">
+
+        <div class="col-4"></div>
+        <div class="col-7">
+            <h3>Update image</h3>
             <img class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
 
-            <form th:action="@{/recipe/update/{urlId}/updateImage(urlId = ${recipeDTO.urlId})}" method="post" enctype="multipart/form-data">
-                <label for="recipeImg">Select image:</label>
-                <input  type="file" id="recipeImg" name="multipartImage" accept="image/*">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
+            <form th:action="@{/recipe/update/{urlId}/updateImage(urlId = ${recipeDTO.urlId})}" method="post"
+                  enctype="multipart/form-data">
+                <input type="file" name="multipartImage" accept="image/*">
+                <div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
 
+            </form>
         </div>
+
+    </div>
 
     <div class="row form-control-height">
 
-        <div class="col-8">
+        <div class="col-7">
             <h3>Add ingredients</h3>
             <form class="has-validation"
                   th:action="@{/recipe/update/{urlId}/addingredient(urlId=${recipeDTO.urlId})}" method="post"
@@ -42,7 +56,8 @@
 
                 <div class="form-group">
                     <label for="ingredientAuto">Ingredient</label>
-                    <input class="form-control form-control-width" name="ingredientName" id="ingredientAuto" required pattern=".*\S+.*" title="This field is required">
+                    <input class="form-control form-control-width" name="ingredientName" id="ingredientAuto" required
+                           pattern=".*\S+.*" title="This field is required">
                     <input type="hidden" id="urlId" th:value="${recipeDTO.urlId}">
                 </div>
 
@@ -50,12 +65,14 @@
 
                     <div class="form-group col-4">
                         <label for="quantity">Quantity</label>
-                        <input class="form-control form-control-width" type="number" min="0.1" step="0.1" id="quantity" th:field="*{quantity}">
+                        <input class="form-control form-control-width" type="number" min="0.1" step="0.1" id="quantity"
+                               th:field="*{quantity}">
                     </div>
 
                     <div class="form-group col-7">
                         <label for="quantitytype">Units</label>
-                        <input class="form-control form-control-width" type="text" id="quantitytype" th:field="*{quantityType}">
+                        <input class="form-control form-control-width" type="text" id="quantitytype"
+                               th:field="*{quantityType}">
                     </div>
                 </div>
 
@@ -65,7 +82,7 @@
             </form>
         </div>
 
-        <div class="col">
+        <div class="col-4">
             <h3>Shopping list</h3>
 
             <ul class="listWithoutStyle">
@@ -85,8 +102,9 @@
 
                             <a class="confirmDelete btn btn-primary"
                                th:href="@{/recipe/delete/{urlId}/{ingredientName}
-                            (urlId=${ingredientRecipe.recipeDTO.urlId},
-                                ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i class="fas fa-trash"></i>
+                                    (urlId=${ingredientRecipe.recipeDTO.urlId},
+                                        ingredientName=${ingredientRecipe.ingredientDTO.ingredientName})}"><i
+                                    class="fas fa-trash"></i>
                             </a>
                         </div>
 
@@ -97,6 +115,7 @@
         </div>
 
     </div>
+
 
 </div>
 
