@@ -3,13 +3,13 @@
 <head th:replace="fragments/general :: baseHeader(~{:: title})">
     <title>Browse recipes</title>
 </head>
+
 <body>
 
 <div class="container">
 
     <div th:replace="fragments/general :: headerPhoto"></div>
     <div th:replace="fragments/general :: navbar"></div>
-    <h1>Browse all recipes</h1>
 
     <form class="searchRecipe" th:action="@{/recipes/search}">
         <input type="text" class="form-control" name="keyword"/>
@@ -37,9 +37,9 @@
             <td><a class="text-decoration-none" th:href="@{/recipes/{urlId}(urlId=${recipe.urlId})}" th:text="${recipe.recipeName}"></a></td>
         </tr>
     </table>
-
-
 </div>
+
+<div th:replace="fragments/general :: footer"></div>
 
 <div th:replace="fragments/general :: bottomScripts"></div>
 </body>
