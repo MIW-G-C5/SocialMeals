@@ -90,6 +90,15 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
+    public void updateRecipeWithImage(RecipeDTO oldRecipeDTO, RecipeDTO updatedRecipeDTO) {
+
+        Recipe oldRecipe = getRecipeByRecipeDTO(oldRecipeDTO);
+        Recipe newRecipe = recipeConverter.fromDTOWithImage(oldRecipe, updatedRecipeDTO);
+
+        recipeRepository.save(newRecipe);
+    }
+
+    @Override
     public RecipeDTO deleteRecipe(RecipeDTO recipeDTO) {
         Recipe recipe = getRecipeByRecipeDTO(recipeDTO);
 

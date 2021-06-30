@@ -26,6 +26,9 @@ public class Recipe {
     @Column(length = 5000)
     private List<String> steps = new ArrayList<>();
 
+    @Lob
+    private byte[] recipeImage;
+
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<IngredientRecipe> ingredientRecipes;
 
@@ -77,6 +80,14 @@ public class Recipe {
 
     public void setSteps(List<String> steps) {
         this.steps = steps;
+    }
+
+    public byte[] getRecipeImage() {
+        return recipeImage;
+    }
+
+    public void setRecipeImage(byte[] recipeImage) {
+        this.recipeImage = recipeImage;
     }
 
     public Set<IngredientRecipe> getIngredientRecipes() {

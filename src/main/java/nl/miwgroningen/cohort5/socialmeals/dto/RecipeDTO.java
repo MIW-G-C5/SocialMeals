@@ -1,6 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
 
+import javax.persistence.Lob;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -16,6 +17,7 @@ public class RecipeDTO {
     private Long urlId;
     private String recipeName;
     private List<String> steps;
+    private byte[] recipeImage;
     private SocialMealsUserDTO socialMealsUserDTO;
 
     public RecipeDTO(String recipeName, List<String> steps, SocialMealsUserDTO socialMealsUserDTO) {
@@ -26,6 +28,16 @@ public class RecipeDTO {
 
     public RecipeDTO() {
         this.steps = new ArrayList<>();
+    }
+
+    public byte[] getRecipeImage() {
+        return recipeImage;
+
+
+    }
+
+    public void setRecipeImage(byte[] recipeImage) {
+        this.recipeImage = recipeImage;
     }
 
     public SocialMealsUserDTO getSocialMealsUserDTO() {

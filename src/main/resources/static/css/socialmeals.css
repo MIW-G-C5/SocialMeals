@@ -121,3 +121,25 @@ h3 {
     text-align: center;
     font-size: 1.6rem;
 }
+
+.center {
+    align-items: center;
+}
+
+.cookingInstructions {
+    padding-left: 3em;
+}
+
+.addToCookbook {
+    float: right;
+}
+
+.stepsSpacing {
+    padding: 0.5em;
+}
+
+.recipeImage {
+    height: 250px;
+    width: 250px;
+    object-fit: cover;
+}
