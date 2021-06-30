@@ -11,9 +11,9 @@
 </head>
 <body>
 
-<div class="img-container" th:fragment="headerPhoto">
+<div class="img-container" th:fragment="headerPhoto(headerTitle)">
     <img class="img" src="https://www.pulsemaster.us/wp-content/uploads/2014/10/potato-header.jpg"/>
-    <div class="img-text">Browse recipes</div>
+    <div class="img-text" th:text="${headerTitle}"></div>
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm p-3 mb-5 bg-white rounded" th:fragment="navbar">
