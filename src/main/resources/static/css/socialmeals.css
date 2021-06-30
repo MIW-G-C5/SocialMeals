@@ -13,17 +13,8 @@ body {
 
 .img-container {
     overflow: hidden;
-    height: 100px;
+    height: 200px;
     position: relative;
-}
-
-.img-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 50px;
-    font-weight: 100;
 }
 
 .img {
@@ -31,7 +22,17 @@ body {
     width: 100%;
     height: auto;
     position: absolute;
-    bottom: -50px;
+    bottom: 0;
+}
+
+.img-text {
+    position: absolute;
+    color: white;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    font-weight: bold;
 }
 
 h2 {
