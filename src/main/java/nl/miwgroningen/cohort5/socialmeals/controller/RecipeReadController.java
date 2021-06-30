@@ -10,6 +10,7 @@ import nl.miwgroningen.cohort5.socialmeals.dto.stateKeeper.SortedRecipesStateKee
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.CookbookService;
 import nl.miwgroningen.cohort5.socialmeals.service.implementation.SocialMealsUserDetailService;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -102,9 +103,11 @@ public class RecipeReadController {
             model.addAttribute("cookbookList", cookbookDTOList);
         }
 
+        model.addAttribute("recipeImage", Base64.encodeBase64String(recipe.getRecipeImage()));
         model.addAttribute("loggedInUser", loggedInUser);
         model.addAttribute("recipe", recipe);
         model.addAttribute("ingredientRecipes", recipeService.getIngredientRecipesByRecipeUrlId(urlId));
+
 
         return "recipeDetails";
     }
