@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="NL-nl" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
+<head th:replace="fragments/general :: baseHeader(~{:: title})">
+    <title></title>
+</head>
+<body>
+
+<div class="container">
+
+    <div th:replace="fragments/general :: headerPhoto"></div>
+    <div th:replace="fragments/general :: navbar"></div>
+
+    <div th:fragment="starRatings">
+        <div class="present-star-rating d-flex justify-content-right flex-row-reverse">
+            <span th:if="${numberRatings} == 1" th:text="' (' + ${numberRatings} + ' review)'"></span>
+            <span th:if="${numberRatings > 1}" th:text="' (' + ${numberRatings} + ' reviews)'"></span>
+
+            <input class="radioRating" type="radio" id="stars5" value="5" name="stars">
+            <label class="radioRating" for="stars5" title="5 star"><i class="fas fa-star"></i></label>
+
+            <input class="radioRating" type="radio" id="stars4" value="4" name="stars">
+            <label class="radioRating" for="stars4" title="4 star"><i class="fas fa-star"></i></label>
+
+            <input class="radioRating" type="radio" id="stars3" value="3" name="stars">
+            <label class="radioRating" for="stars3" title="3 star"><i class="fas fa-star"></i></label>
+
+            <input class="radioRating" type="radio" id="stars2" value="2" name="stars">
+            <label class="radioRating" for="stars2" title="2 star"><i class="fas fa-star"></i></label>
+
+            <input class="radioRating" type="radio" id="stars1" value="1" name="stars">
+            <label class="radioRating" for="stars1" title="1 star"><i class="fas fa-star"></i></label>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/general :: footer"></div>
+
+<div th:replace="fragments/general :: bottomScripts"></div>
+</body>
+</html>

@@ -2,8 +2,9 @@ package nl.miwgroningen.cohort5.socialmeals.service.dtoconverter;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ class IngredientConverterTest {
         IngredientDTO testIngredientDTO = testObj.toDTO(testIngredient);
 
         //assert
-        assertThat("testIngredient", is(testIngredientDTO.getIngredientName()));
+        assertThat("testIngredient").isEqualTo(testIngredientDTO.getIngredientName());
     }
 
     @Test
@@ -38,7 +39,7 @@ class IngredientConverterTest {
 
         //assert
         for (int i = 0; i < testListObjDTO.size(); i++) {
-            assertThat(testIngredientList.get(i).getIngredientName(), is(testListObjDTO.get(i).getIngredientName()));
+            assertThat(testIngredientList.get(i).getIngredientName()).isEqualTo(testListObjDTO.get(i).getIngredientName());
         }
     }
 
@@ -52,6 +53,6 @@ class IngredientConverterTest {
         Ingredient testIngredient = ingredientConverter.fromDTO(testIngredientDTO);
 
         //assert
-        assertThat("testIngredientName", is(testIngredient.getIngredientName()));
+        assertThat("testIngredientName").isEqualTo(testIngredient.getIngredientName());
     }
 }

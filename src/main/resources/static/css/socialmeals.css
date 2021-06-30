@@ -107,7 +107,7 @@ h3 {
     font-size: 1.2rem;
 }
 
-.star-rating > input {
+.star-rating > input, .present-star-rating > input {
     display:none;
 }
 
@@ -117,12 +117,16 @@ h3 {
     margin: 0.2rem;
 }
 
-.star-rating input:checked ~ label {
+.star-rating input:checked ~ label, .present-star-rating input:checked ~ label {
     color: #ffca08;
 }
 
 .star-rating input:hover ~ label  {
     color: #ffca08;
+}
+
+.present-star-rating > label {
+    display: inline-block;
 }
 
 .center {

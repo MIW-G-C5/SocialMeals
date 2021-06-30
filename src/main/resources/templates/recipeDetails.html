@@ -35,16 +35,16 @@
                     </li>
                 </ul>
             </div>
-            <div class="row">
+            <div class="row justify-content-md-center">
                 <div th:unless="${numberRatings} == 0">
-                    <p th:if="${numberRatings} == 1" th:text="${averageRating} + ' / 5 (' + ${numberRatings} + ' rating)'"></p>
-                    <p th:if="${numberRatings > 1}" th:text="${averageRating} + ' / 5 (' + ${numberRatings} + ' ratings)'"></p>
+                    <form id="ratingradio">
+                        <div th:replace="fragments/rating :: starRatings"></div>
+                    </form>
                 </div>
-
             </div>
             <div class="row" th:if="${loggedInUser}">
-                <p th:if="${averageRating} == null" >be the first to rate this recipe:</p>
-                <form id="ratingradio" class="has-validation" th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
+                <span th:if="${averageRating} == null">be the first to rate this recipe:</span>
+                <form th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
                     <div th:replace="fragments/forms :: ratingForm"></div>
                 </form>
             </div>
@@ -78,5 +78,8 @@
 <div th:replace="fragments/general :: footer"></div>
 
 <div th:replace="fragments/general :: bottomScripts"></div>
+<script th:inline="javascript">
+    document.forms['ratingradio'].elements['stars'].value = parseInt([[${averageRating}]])
+</script>
 </body>
 </html>
