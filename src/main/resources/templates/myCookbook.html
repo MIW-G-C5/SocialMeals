@@ -10,8 +10,6 @@
     <div th:replace="fragments/general :: headerPhoto(${socialMealsUserDTO.username} + '\'s cookbook')"></div>
     <div th:replace="fragments/general :: navbar"></div>
 
-    <h1><span th:text="${socialMealsUserDTO.username} + '\'s cookbook'"></span></h1>
-
     <form class="searchRecipe" th:action="@{/cookbook/recipe/search}">
         <input type="text" class="form-control" name="keyword"/>
         <input type="hidden" th:value="${socialMealsUserDTO.username}" name="cookbookuser">

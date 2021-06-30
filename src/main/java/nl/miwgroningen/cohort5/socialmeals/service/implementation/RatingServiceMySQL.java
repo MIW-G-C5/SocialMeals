@@ -68,10 +68,7 @@ public class RatingServiceMySQL implements RatingService {
     public Rating findRatingByUserAndRecipe(SocialMealsUser socialMealsUser, Recipe recipe) {
         Optional<Rating> rating = ratingRepository.findRatingBySocialMealsUserAndRecipe(socialMealsUser, recipe);
 
-        if (rating.isPresent()) {
-            return rating.get();
-        }
-        return null;
+        return rating.orElse(null);
     }
 
     private Double getAverageFromSet(Set<Rating> ratings) {

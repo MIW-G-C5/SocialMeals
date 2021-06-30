@@ -11,9 +11,6 @@
     <div th:replace="fragments/general :: headerPhoto(${recipe.recipeName})"></div>
     <div th:replace="fragments/general :: navbar"></div>
 
-    <h1><span th:text="${recipe.recipeName}"></span></h1>
-
-
     <div class="row form-control-height">
         <div class="col-3 center">
             <div>
@@ -42,7 +39,7 @@
                 <p class="rating-average" th:unless="${averageRating} == null" th:text="${averageRating} + ' / 5'"></p>
             </div>
             <div class="row" th:if="${loggedInUser}">
-                <form class="has-validation" th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
+                <form id="ratingradio" class="has-validation" th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
                     <div class="fork-rating d-flex justify-content-right flex-row-reverse">
                         <input class="radioRating" type="radio" id="fork5" name="rating" value="5">
                         <label class="radioRating" for="fork5" title="5 fork"><i class="fas fa-star"></i></label>
