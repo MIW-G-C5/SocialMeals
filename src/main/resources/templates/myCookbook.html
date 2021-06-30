@@ -7,7 +7,7 @@
 
 <div class="container">
 
-    <div th:replace="fragments/general :: headerPhoto(${socialMealsUserDTO.username} + '\'s cookbook')"></div>
+    <div th:replace="fragments/general :: headerPhoto(${socialMealsUserDTO.username} + '\'s recipes')"></div>
     <div th:replace="fragments/general :: navbar"></div>
 
     <form class="searchRecipe" th:action="@{/cookbook/recipe/search}">

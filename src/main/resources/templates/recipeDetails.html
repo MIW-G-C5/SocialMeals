@@ -14,7 +14,7 @@
     <div class="row form-control-height">
         <div class="col-3 center">
             <div>
-                <img class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
+                <img th:unless="${recipeImage == null}" class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
             </div>
 
             <div>
