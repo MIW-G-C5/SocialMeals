@@ -12,6 +12,6 @@ import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
 public class RatingConverter {
 
     public Rating fromDTO(RatingDTO ratingDTO, Recipe recipe, SocialMealsUser socialMealsUser) {
-        return new Rating(ratingDTO.getForks(), recipe, socialMealsUser);
+        return new Rating(ratingDTO.getStars(), recipe, socialMealsUser);
     }
 }

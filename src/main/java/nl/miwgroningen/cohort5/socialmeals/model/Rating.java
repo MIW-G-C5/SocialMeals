@@ -14,7 +14,7 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ratingId;
 
-    private int forks;
+    private int stars;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recipe_id")
@@ -23,8 +23,8 @@ public class Rating {
     @ManyToOne
     private SocialMealsUser socialMealsUser;
 
-    public Rating(int forks, Recipe recipe, SocialMealsUser socialMealsUser) {
-        this.forks = forks;
+    public Rating(int stars, Recipe recipe, SocialMealsUser socialMealsUser) {
+        this.stars = stars;
         this.recipe = recipe;
         this.socialMealsUser = socialMealsUser;
     }
@@ -56,11 +56,11 @@ public class Rating {
         this.socialMealsUser = socialMealsUser;
     }
 
-    public int getForks() {
-        return forks;
+    public int getStars() {
+        return stars;
     }
 
-    public void setForks(int forks) {
-        this.forks = forks;
+    public void setStars(int forks) {
+        this.stars = forks;
     }
 }

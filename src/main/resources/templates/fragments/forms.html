@@ -57,6 +57,25 @@
         </div>
     </div>
 
+    <div th:fragment="ratingForm">
+        <div class="star-rating d-flex justify-content-right flex-row-reverse">
+            <input class="radioRating" type="radio" id="star5" name="rating" value="5">
+            <label class="radioRating" for="star5" title="5 star"><i class="fas fa-star"></i></label>
+
+            <input class="radioRating" type="radio" id="star4" name="rating" value="4">
+            <label class="radioRating" for="star4" title="4 star"><i class="fas fa-star"></i></label>
+
+            <input class="radioRating" type="radio" id="star3" name="rating" value="3">
+            <label class="radioRating" for="star3" title="3 star"><i class="fas fa-star"></i></label>
+
+            <input class="radioRating" type="radio" id="star2" name="rating" value="2">
+            <label class="radioRating" for="star2" title="2 star"><i class="fas fa-star"></i></label>
+
+            <input class="radioRating" type="radio" id="star1" name="rating" value="1">
+            <label class="radioRating" for="star1" title="1 star"><i class="fas fa-star"></i></label>
+        </div>
+    </div>
+
 </div>
 
 <div th:replace="fragments/general :: footer"></div>

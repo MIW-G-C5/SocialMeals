@@ -39,26 +39,16 @@
                 </ul>
             </div>
             <div class="row">
-                <p class="rating-average" th:unless="${averageRating} == null" th:text="${averageRating} + ' / 5'"></p>
+                <div th:unless="${numberRatings} == 0">
+                    <p th:if="${numberRatings} == 1" th:text="${averageRating} + ' / 5 (' + ${numberRatings} + ' rating)'"></p>
+                    <p th:if="${numberRatings > 1}" th:text="${averageRating} + ' / 5 (' + ${numberRatings} + ' ratings)'"></p>
+                </div>
+
             </div>
             <div class="row" th:if="${loggedInUser}">
+                <p th:if="${averageRating} == null" >be the first to rate this recipe:</p>
                 <form class="has-validation" th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
-                    <div class="fork-rating d-flex justify-content-right flex-row-reverse">
-                        <input class="radioRating" type="radio" id="fork5" name="rating" value="5">
-                        <label class="radioRating" for="fork5" title="5 fork"><i class="fas fa-star"></i></label>
-
-                        <input class="radioRating" type="radio" id="fork4" name="rating" value="4">
-                        <label class="radioRating" for="fork4" title="4 fork"><i class="fas fa-star"></i></label>
-
-                        <input class="radioRating" type="radio" id="fork3" name="rating" value="3">
-                        <label class="radioRating" for="fork3" title="3 fork"><i class="fas fa-star"></i></label>
-
-                        <input class="radioRating" type="radio" id="fork2" name="rating" value="2">
-                        <label class="radioRating" for="fork2" title="2 fork"><i class="fas fa-star"></i></label>
-
-                        <input class="radioRating" type="radio" id="fork1" name="rating" value="1">
-                        <label class="radioRating" for="fork1" title="1 fork"><i class="fas fa-star"></i></label>
-                    </div>
+                    <div th:replace="fragments/forms :: ratingForm"></div>
                 </form>
             </div>
         </div>

@@ -7,12 +7,12 @@ package nl.miwgroningen.cohort5.socialmeals.dto;
  */
 public class RatingDTO {
 
-    private int forks;
+    private int stars;
     private RecipeDTO recipeDTO;
     private SocialMealsUserDTO socialMealsUserDTO;
 
-    public RatingDTO(int forks, RecipeDTO recipeDTO, SocialMealsUserDTO socialMealsUserDTO) {
-        this.forks = forks;
+    public RatingDTO(int stars, RecipeDTO recipeDTO, SocialMealsUserDTO socialMealsUserDTO) {
+        this.stars = stars;
         this.recipeDTO = recipeDTO;
         this.socialMealsUserDTO = socialMealsUserDTO;
     }
@@ -20,12 +20,12 @@ public class RatingDTO {
     public RatingDTO() {
     }
 
-    public int getForks() {
-        return forks;
+    public int getStars() {
+        return stars;
     }
 
-    public void setForks(int forks) {
-        this.forks = forks;
+    public void setStars(int stars) {
+        this.stars = stars;
     }
 
     public RecipeDTO getRecipeDTO() {

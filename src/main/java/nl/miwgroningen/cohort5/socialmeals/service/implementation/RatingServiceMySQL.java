@@ -49,7 +49,7 @@ public class RatingServiceMySQL implements RatingService {
         if (oldRating == null) {
             ratingRepository.save(rating);
         } else {
-            oldRating.setForks(ratingDTO.getForks());
+            oldRating.setStars(ratingDTO.getStars());
             ratingRepository.save(oldRating);
         }
 
@@ -59,9 +59,19 @@ public class RatingServiceMySQL implements RatingService {
     @Override
     public String getAverageRatingRecipe(RecipeDTO recipeDTO) {
         Recipe recipe = recipeService.getRecipeByRecipeDTO(recipeDTO);
-        double average = getAverageFromSet(recipe.getRatings());
+        Double average = getAverageFromSet(recipe.getRatings());
 
+        if (average == null) {
+            return null;
+        }
         return formatRating(average);
+    }
+
+    @Override
+    public Integer getNumberOfRatingsRecipe(RecipeDTO recipeDTO) {
+        Recipe recipe = recipeService.getRecipeByRecipeDTO(recipeDTO);
+
+        return recipe.getRatings().size();
     }
 
     @Override
@@ -81,7 +91,7 @@ public class RatingServiceMySQL implements RatingService {
 
         int sum = 0;
         for (Rating rating : ratings) {
-            sum += rating.getForks();
+            sum += rating.getStars();
         }
 
         return sum / (double) ratings.size();

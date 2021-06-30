@@ -105,28 +105,22 @@ h3 {
     font-size: 1.2rem;
 }
 
-.fork-rating > input {
+.star-rating > input {
     display:none;
 }
 
-.fork-rating > label {
+.star-rating > label {
     display: inline-block;
-    font-size:1.4rem;
+    font-size:1.2rem;
     margin: 0.2rem;
 }
 
-.fork-rating input:checked ~ label {
+.star-rating input:checked ~ label {
     color: #ffca08;
 }
 
-.fork-rating input:hover ~ label  {
+.star-rating input:hover ~ label  {
     color: #ffca08;
-}
-
-.rating-average {
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 1.6rem;
 }
 
 .center {

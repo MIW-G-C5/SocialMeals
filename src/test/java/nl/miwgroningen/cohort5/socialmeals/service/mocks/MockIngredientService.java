@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
+ *
+ *     Mocks the IngredientService for testing.
  */
 public class MockIngredientService implements IngredientService {
 

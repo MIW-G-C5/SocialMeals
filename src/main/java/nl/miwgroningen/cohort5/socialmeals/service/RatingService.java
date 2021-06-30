@@ -2,7 +2,6 @@ package nl.miwgroningen.cohort5.socialmeals.service;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.RatingDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
-import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Rating;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
@@ -17,5 +16,9 @@ public interface RatingService {
 
     String getAverageRatingRecipe(RecipeDTO recipeDTO);
 
+    Integer getNumberOfRatingsRecipe(RecipeDTO recipeDTO);
+
     Rating findRatingByUserAndRecipe(SocialMealsUser socialMealsUser, Recipe recipe);
+
+
 }
