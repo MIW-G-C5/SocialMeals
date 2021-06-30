@@ -11,7 +11,10 @@
 </head>
 <body>
 
-<div class="header-photo" th:fragment="headerPhoto"></div>
+<div class="img-container" th:fragment="headerPhoto">
+    <img class="img" src="https://www.pulsemaster.us/wp-content/uploads/2014/10/potato-header.jpg"/>
+    <div class="img-text">Browse recipes</div>
+</div>
 
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm p-3 mb-5 bg-white rounded" th:fragment="navbar">
 
@@ -42,6 +45,12 @@
     </ul>
   </div>
 </nav>
+
+<div th:fragment="footer">
+  <footer class="page-footer font-small blue pt-4">
+    <div class="footer-copyright text-center py-3">© 2021 Copyright: CodeChefs</div>
+  </footer>
+</div>
 
 <div th:fragment="bottomScripts">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
