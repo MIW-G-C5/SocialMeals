@@ -13,16 +13,15 @@ body {
 
 .img-container {
     overflow: hidden;
-    height: 130px;
+    height: 150px;
     position: relative;
 }
 
 .img {
     display: block;
-    width: 90%;
+    width: 100%;
     height: auto;
     position: absolute;
-    margin-left: 5%;
     bottom: -15px;
 }
 
