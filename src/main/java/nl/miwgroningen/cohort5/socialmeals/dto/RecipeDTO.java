@@ -32,8 +32,6 @@ public class RecipeDTO {
 
     public byte[] getRecipeImage() {
         return recipeImage;
-
-
     }
 
     public void setRecipeImage(byte[] recipeImage) {
