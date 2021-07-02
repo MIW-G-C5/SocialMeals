@@ -13,21 +13,25 @@
             <div class="form-group">
                 <label for="name">Name</label>
                 <div class="row row-no-margin">
-                    <input type="text" class="form-control form-control-width col-9" id="name" th:field="*{recipeName}" required>
+                    <input type="text" class="form-control form-control-width col-9" id="name" th:field="*{recipeName}"
+                           required>
                 </div>
 
                 <input type="hidden" th:value="${recipeDTO.urlId}">
 
             </div>
 
-            <div  class = "form-group" th:each="step, iter : ${recipeDTO.steps}">
+            <div class="form-group" th:each="step, iter : ${recipeDTO.steps}">
                 <input type="hidden" th:value="${iter.index}" name="stepIndex"/>
 
                 <span th:text="'Step ' + ${iter.index + 1 }"></span>
                 <div class="row row-no-margin">
-                    <textarea type="text" class="form-control form-control-width col-9" th:field="*{steps[__${iter.index}__]}" id="step1" rows="3"></textarea>
+                    <textarea type="text" class="form-control form-control-width col-9"
+                              th:field="*{steps[__${iter.index}__]}" id="step1" rows="3"></textarea>
                     <div class="d-flex align-items-end">
-                        <a th:unless="${iter.size == 1}" th:href="@{/recipe/deleteStep/{iterIndex}(iterIndex = ${iter.index})}" type="submit" class="btn btn-primary"> <i class="fas fa-trash"></i> </a>
+                        <a th:unless="${iter.size == 1}"
+                           th:href="@{/recipe/deleteStep/{iterIndex}(iterIndex = ${iter.index})}" type="submit"
+                           class="btn btn-primary"> <i class="fas fa-trash"></i> </a>
                     </div>
                 </div>
 
@@ -48,7 +52,8 @@
     <div th:fragment="cookbookForm">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control form-control-width" th:field="*{cookbookName}" required pattern=".*\S+.*" title="This field is required">
+            <input type="text" class="form-control form-control-width" th:field="*{cookbookName}" required
+                   pattern=".*\S+.*" title="This field is required">
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary" name="save">Save</button>

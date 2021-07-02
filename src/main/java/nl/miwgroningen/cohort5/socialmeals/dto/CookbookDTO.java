@@ -27,7 +27,7 @@ public class CookbookDTO {
         this.recipes = recipes;
     }
 
-    public CookbookDTO(){
+    public CookbookDTO() {
         this.recipes = new ArrayList<>();
     }
 

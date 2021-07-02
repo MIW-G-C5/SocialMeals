@@ -82,7 +82,7 @@ public class Seeder {
         recipeService.addNew(new RecipeDTO("Sweet potato curry", new ArrayList<>(), socialMealsUserDTO));
     }
 
-    private void seedRecipeImages(){
+    private void seedRecipeImages() {
 
         File babaGanoushImage = new File("src/main/resources/images/baba.ganoush.jpg");
 
@@ -92,7 +92,7 @@ public class Seeder {
         recipeService.updateRecipeWithImage(recipeService.findByUrlId(Long.valueOf(5002)), recipeDTO);
     }
 
-    private List<String> babaGanoushSteps(){
+    private List<String> babaGanoushSteps() {
         List<String> steps = new ArrayList<>();
 
         steps.add("Preheat the oven to 230 degrees Celcius. Line a baking sheet with parchment paper. " +
@@ -231,7 +231,7 @@ public class Seeder {
         try {
             BufferedImage bImage = ImageIO.read(image);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(bImage, "jpg", outputStream );
+            ImageIO.write(bImage, "jpg", outputStream);
             data = outputStream.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();

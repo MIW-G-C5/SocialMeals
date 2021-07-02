@@ -3,7 +3,7 @@ package nl.miwgroningen.cohort5.socialmeals.dto;
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
  *
- *     Describes the properties of the data transfer object of a Rating.
+ * Describes the properties of the data transfer object of a Rating.
  */
 public class RatingDTO {
 

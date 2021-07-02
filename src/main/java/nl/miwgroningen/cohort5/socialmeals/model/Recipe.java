@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
  *
- *     describes the details of a Recipe
+ * describes the details of a Recipe
  */
 @Entity
 public class Recipe {

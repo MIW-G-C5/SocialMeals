@@ -29,7 +29,7 @@ public class IngredientRecipeConverter {
         recipeConverter = new RecipeConverter();
     }
 
-    public IngredientRecipe fromDTO(IngredientRecipeDTO ingredientRecipeDTO, Recipe recipe){
+    public IngredientRecipe fromDTO(IngredientRecipeDTO ingredientRecipeDTO, Recipe recipe) {
 
         Ingredient ingredient = ingredientService.getIngredientByIngredientDTO(ingredientRecipeDTO.getIngredientDTO());
 
@@ -45,7 +45,7 @@ public class IngredientRecipeConverter {
         );
     }
 
-    public IngredientRecipeDTO toDTO(IngredientRecipe ingredientRecipe){
+    public IngredientRecipeDTO toDTO(IngredientRecipe ingredientRecipe) {
 
         return new IngredientRecipeDTO(
                 ingredientConverter.toDTO(ingredientRecipe.getIngredient()),
@@ -55,8 +55,8 @@ public class IngredientRecipeConverter {
 
     }
 
-    public List<IngredientRecipeDTO> toListDTO(List<IngredientRecipe> ingredientRecipeList){
-       List<IngredientRecipeDTO> ingredientRecipeDTOList = new ArrayList<>();
+    public List<IngredientRecipeDTO> toListDTO(List<IngredientRecipe> ingredientRecipeList) {
+        List<IngredientRecipeDTO> ingredientRecipeDTOList = new ArrayList<>();
 
         for (IngredientRecipe ingredientRecipe : ingredientRecipeList) {
             ingredientRecipeDTOList.add(toDTO(ingredientRecipe));

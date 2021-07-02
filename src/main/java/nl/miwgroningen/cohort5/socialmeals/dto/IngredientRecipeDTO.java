@@ -3,7 +3,7 @@ package nl.miwgroningen.cohort5.socialmeals.dto;
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
  *
- *  Describes the details of a IngredientRecipeDTO
+ * Describes the details of a IngredientRecipeDTO
  */
 public class IngredientRecipeDTO {
 
@@ -13,7 +13,7 @@ public class IngredientRecipeDTO {
     private String quantityType;
 
     public IngredientRecipeDTO(IngredientDTO ingredientDTO, RecipeDTO recipeDTO,
-                                    double quantity, String quantityType) {
+                               double quantity, String quantityType) {
         this.ingredientDTO = ingredientDTO;
         this.recipeDTO = recipeDTO;
         this.quantity = quantity;
@@ -29,7 +29,6 @@ public class IngredientRecipeDTO {
         }
         return String.valueOf(quantity);
     }
-
 
 
     public IngredientDTO getIngredientDTO() {

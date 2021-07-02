@@ -5,19 +5,19 @@
 
 <div class="container">
 
-  <div th:replace="fragments/general :: headerPhoto('New Cookbook')"></div>
-  <div th:replace="fragments/general :: navbar"></div>
+    <div th:replace="fragments/general :: headerPhoto('New Cookbook')"></div>
+    <div th:replace="fragments/general :: navbar"></div>
 
-  <form class="has-validation" th:action="@{/cookbook/update}" method="post" th:object="${cookbookDTO}">
-    <div class="row form-control-height">
-      <div class="col-8">
-        <div class="form-group">
-          <input type="hidden" th:field="*{urlId}">
+    <form class="has-validation" th:action="@{/cookbook/update}" method="post" th:object="${cookbookDTO}">
+        <div class="row form-control-height">
+            <div class="col-8">
+                <div class="form-group">
+                    <input type="hidden" th:field="*{urlId}">
+                </div>
+                <div th:replace="fragments/forms :: cookbookForm"></div>
+            </div>
         </div>
-        <div th:replace="fragments/forms :: cookbookForm"></div>
-      </div>
-    </div>
-  </form>
+    </form>
 
 
 </div>

@@ -54,7 +54,7 @@ public class RecipeConverter {
         return recipe;
     }
 
-    public Recipe fromDTOWithImage(Recipe recipe, RecipeDTO recipeDTO)  {
+    public Recipe fromDTOWithImage(Recipe recipe, RecipeDTO recipeDTO) {
         recipe.setRecipeImage(recipeDTO.getRecipeImage());
         return recipe;
     }

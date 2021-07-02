@@ -33,11 +33,11 @@ public class CookbookConverter {
         return new CookbookDTO(cookbook.getUrlId(), cookbook.getCookbookName(), user, recipeDTOs);
     }
 
-    public List<CookbookDTO> toListDTO(List<Cookbook> cookbookList){
+    public List<CookbookDTO> toListDTO(List<Cookbook> cookbookList) {
 
         List<CookbookDTO> cookbookDTOs = new ArrayList<>();
 
-        for (Cookbook cookbook : cookbookList){
+        for (Cookbook cookbook : cookbookList) {
             cookbookDTOs.add(toDTO(cookbook));
         }
 

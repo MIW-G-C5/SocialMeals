@@ -17,7 +17,10 @@
                 <ul class="shoppingListPostIT listWithoutStyle">
                     <h3>Shopping list</h3>
                     <li th:each="ingredientRecipe : ${ingredientRecipes}">
-                        <a th:text=" ${ingredientRecipe.ingredientDTO.ingredientName} + ' (' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType} +') ' "></a>
+                        <a th:text=" ${ingredientRecipe.ingredientDTO.ingredientName} +
+                        ' (' + ${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType} +') ' ">
+
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -36,7 +39,7 @@
         <div class="col-3 d-flex flex-row-reverse">
             <div class="width-match-content">
                 <div th:if="${recipeImage == null}" class="defaultRecipeImage">
-                    <img  class="defaultImage" src="/images/favicon.png">
+                    <img class="defaultImage" src="/images/favicon.png">
                 </div>
 
                 <div th:unless="${recipeImage == null}">
@@ -55,12 +58,16 @@
                 <div class="row justify-content-center row-control-height">
                     <div th:if="${loggedInUser}">
                         <div class="dropdown">
-                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Add to Cookbook
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <div th:each="cookbook : ${cookbookList}">
-                                    <a class="dropdown-item" th:href="@{/cookbook/add/{urlId}/{recipeUrlId}(urlId = ${cookbook.urlId}, recipeUrlId = ${recipe.urlId})}" th:text="${cookbook.cookbookName}"></a>
+                                    <a class="dropdown-item"
+                                       th:href="@{/cookbook/add/{urlId}/{recipeUrlId}
+                                       (urlId = ${cookbook.urlId}, recipeUrlId = ${recipe.urlId})}"
+                                       th:text="${cookbook.cookbookName}"></a>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +87,8 @@
                     <span th:unless="${recipe.averageRating} == null">How do you rate this recipe?</span>
                 </div>
                 <div class="row justify-content-center" th:if="${loggedInUser}">
-                    <form th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
+                    <form th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post"
+                          th:object="${rating}">
                         <div th:replace="fragments/forms :: ratingForm"></div>
                     </form>
                 </div>

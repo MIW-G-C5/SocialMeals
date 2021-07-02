@@ -14,7 +14,8 @@
 
             <div class="recipeImage">
                 <img th:if="${recipeImage == null}" class="defaultImage" src="/images/favicon.png">
-                <img th:unless="${recipeImage == null}" class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
+                <img th:unless="${recipeImage == null}" class="recipeImage"
+                     th:src="*{'data:image/png;base64,' + recipeImage}">
             </div>
 
 
@@ -46,7 +47,9 @@
                         </div>
 
                         <div class="col-6">
-                            <span th:text="${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}"></span>
+                            <span th:text="${ingredientRecipe.getQuantityAsString() + ' ' + ingredientRecipe.quantityType}">
+
+                            </span>
                         </div>
 
                         <div class="col-1">

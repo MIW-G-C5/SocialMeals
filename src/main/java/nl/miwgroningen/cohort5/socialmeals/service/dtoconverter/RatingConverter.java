@@ -7,7 +7,7 @@ import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
- * Converts RatingDTO's to Ratings and vice versa.
+ * Converts RatingDTO's to Ratings.
  */
 public class RatingConverter {
 

@@ -5,7 +5,7 @@ import javax.persistence.*;
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
  *
- *     describes the properties of a rating
+ * describes the properties of a rating
  */
 @Entity
 public class Rating {

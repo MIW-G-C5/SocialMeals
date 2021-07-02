@@ -47,7 +47,7 @@ public class RecipeReadController {
     }
 
     @ModelAttribute("sortedRecipesStateKeeper")
-    public SortedRecipesStateKeeper sortedRecipeStateKeeper(){
+    public SortedRecipesStateKeeper sortedRecipeStateKeeper() {
         return new SortedRecipesStateKeeper();
     }
 
@@ -68,7 +68,7 @@ public class RecipeReadController {
     @GetMapping("/recipes/asc")
     protected String sortAscRecipes(
             @SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
-            Model model){
+            Model model) {
 
         sortedRecipesStateKeeper.getSortedRecipes().sort(new RecipeDTOAscComparator());
 
@@ -80,7 +80,7 @@ public class RecipeReadController {
     @GetMapping("/recipes/desc")
     protected String sortDescRecipes(
             @SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
-            Model model){
+            Model model) {
 
         sortedRecipesStateKeeper.getSortedRecipes().sort(new RecipeDTODescComparator());
 
@@ -114,8 +114,10 @@ public class RecipeReadController {
     }
 
     @GetMapping(value = "/recipes/search")
-    protected String searchRecipe(@SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
-                                  Model model, @RequestParam String keyword) {
+    protected String searchRecipe(
+            @SessionAttribute("sortedRecipesStateKeeper") SortedRecipesStateKeeper sortedRecipesStateKeeper,
+            Model model,
+            @RequestParam String keyword) {
         List<Long> searchResults = recipeService.search(keyword);
         List<RecipeDTO> sortedRecipes = new ArrayList<>();
 

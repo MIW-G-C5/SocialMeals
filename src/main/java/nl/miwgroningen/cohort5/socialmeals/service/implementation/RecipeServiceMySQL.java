@@ -138,11 +138,11 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public void deleteIngredientFromRecipe(IngredientRecipe ingredientRecipe){
+    public void deleteIngredientFromRecipe(IngredientRecipe ingredientRecipe) {
         ingredientRecipeRepository.delete(ingredientRecipe);
     }
 
-    public IngredientRecipe getIngredientRecipeByNameAndUrlId(String ingredientName, Long urlId){
+    public IngredientRecipe getIngredientRecipeByNameAndUrlId(String ingredientName, Long urlId) {
 
         Optional <Recipe> recipe = recipeRepository.findByUrlId(urlId);
         if (recipe.isEmpty()) {
@@ -230,7 +230,7 @@ public class RecipeServiceMySQL implements RecipeService {
         return ingredients;
     }
 
-    private long findNextRecipeId(){
+    private long findNextRecipeId() {
         Long maxId = recipeRepository.getMaxUrlId();
         if (maxId == null) {
             maxId = DEFAULT_URL_ID;

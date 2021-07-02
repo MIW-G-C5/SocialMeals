@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * Britt van Mourik
  *
- *  Collects and stores Ingredients in the MySQL Database
+ * Collects and stores Ingredients in the MySQL Database
  */
 
 @Service
@@ -50,7 +50,7 @@ public class IngredientServiceMySQL implements IngredientService {
         Optional<Ingredient> ingredient = ingredientRepository.findByIngredientName(ingredientName);
         IngredientDTO ingredientDTO = null;
 
-        if (ingredient.isPresent()){
+        if (ingredient.isPresent()) {
             ingredientDTO = ingredientConverter.toDTO(ingredient.get());
         }
 

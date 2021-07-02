@@ -9,11 +9,11 @@
     <div th:replace="fragments/general :: navbar"></div>
 
     <form class="has-validation" th:action="@{/recipe/new/newRecipe}" method="post" th:object="${recipeDTO}">
-    <div class="row form-control-height">
-        <div class="col-8">
-            <div th:replace="fragments/forms :: recipeForm"></div>
+        <div class="row form-control-height">
+            <div class="col-8">
+                <div th:replace="fragments/forms :: recipeForm"></div>
+            </div>
         </div>
-    </div>
     </form>
 </div>
 

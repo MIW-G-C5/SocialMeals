@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
  *
- *     controls the view of a new or update recipe.
+ * controls the view of a new or update recipe.
  */
 
 @Controller
@@ -101,7 +101,7 @@ public class RecipeCreateUpdateDeleteController {
                                       Model model,
                                       Principal principal) {
 
-        RecipeDTO existingRecipe =  recipeService.findByUrlId(urlId);
+        RecipeDTO existingRecipe = recipeService.findByUrlId(urlId);
         setRecipeKeeperValuesWithRecipeDTOValues(recipeStateKeeper, existingRecipe);
 
         if (recipeUserDoesNotMatchCurrentUser(principal, recipeStateKeeper)) {
@@ -169,7 +169,7 @@ public class RecipeCreateUpdateDeleteController {
     @GetMapping(value = "/recipe/deleteStep/{iterIndex}")
     protected String deleteStepRecipe(@PathVariable("iterIndex") int iterIndex,
                                       @SessionAttribute("recipeStateKeeper") RecipeDTO recipeStateKeeper,
-                                      Model model){
+                                      Model model) {
 
         recipeStateKeeper.getSteps().remove(iterIndex);
         RecipeDTO existingRecipe = recipeService.findByUrlId(recipeStateKeeper.getUrlId());
@@ -220,10 +220,10 @@ public class RecipeCreateUpdateDeleteController {
         return "redirect:/recipe/update/" + urlId;
     }
 
-    @RequestMapping(value="/recipe/update/ingredientAutocomplete")
+    @RequestMapping(value = "/recipe/update/ingredientAutocomplete")
     @ResponseBody
-    public List<String> ingredientAutocomplete(@RequestParam(value="term") String keyword,
-                                               @RequestParam(value="urlId") Long urlId) {
+    public List<String> ingredientAutocomplete(@RequestParam(value = "term") String keyword,
+                                               @RequestParam(value = "urlId") Long urlId) {
         List<String> searchIngredients = ingredientService.search(keyword);
         List<String> remainingIngredients = recipeService.getRemainingIngredientsByUrlId(urlId)
                 .stream().map(IngredientDTO::getIngredientName).collect(Collectors.toList());
