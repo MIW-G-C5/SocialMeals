@@ -151,3 +151,13 @@ h3 {
 .width-match-content {
     width: fit-content;
 }
+.defaultImage {
+    height: 100px;
+    width: auto;
+    margin: 15%;
+
+}
+
+.defaultRecipeImage {
+    margin: 25%;
+}
