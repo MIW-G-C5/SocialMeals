@@ -4,10 +4,7 @@ package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
-import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
-import nl.miwgroningen.cohort5.socialmeals.model.Rating;
-import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
-import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
+import nl.miwgroningen.cohort5.socialmeals.model.*;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
@@ -148,18 +145,17 @@ public class RecipeServiceMySQL implements RecipeService {
     public IngredientRecipe getIngredientRecipeByNameAndUrlId(String ingredientName, Long urlId){
 
         Optional <Recipe> recipe = recipeRepository.findByUrlId(urlId);
-
-        if(recipe.isPresent()){
-            List<IngredientRecipe> ingredientRecipes = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
-            for (IngredientRecipe ingredientRecipe : ingredientRecipes) {
-
-                if( ingredientRecipe.getIngredient().getIngredientName().equals(ingredientName)){
-                    return ingredientRecipe;
-                }
-            }
+        if (recipe.isEmpty()) {
+            return null;
         }
 
-        return null;
+        List<IngredientRecipe> ingredientRecipes = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
+        IngredientRecipe ingredientRecipe = ingredientRecipes.stream()
+                .filter(x -> ingredientName.equals(x.getIngredient().getIngredientName()))
+                .findAny()
+                .orElse(null);
+
+        return ingredientRecipe;
     }
 
     @Override

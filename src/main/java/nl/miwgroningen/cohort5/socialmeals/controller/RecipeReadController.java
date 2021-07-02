@@ -101,11 +101,7 @@ public class RecipeReadController {
         }
 
         boolean loggedInUser = principal != null;
-        if (loggedInUser) {
-            SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
-            List<CookbookDTO> cookbookDTOList = cookbookService.getCookbooksByUser(socialMealsUserDTO);
-            model.addAttribute("cookbookList", cookbookDTOList);
-        }
+        addCookbooksToModel(loggedInUser, principal, model);
 
         model.addAttribute("recipeImage", Base64.encodeBase64String(recipe.getRecipeImage()));
         model.addAttribute("loggedInUser", loggedInUser);
@@ -148,5 +144,13 @@ public class RecipeReadController {
         }
 
         return "redirect:/recipes/" + urlId;
+    }
+
+    private void addCookbooksToModel(boolean loggedInUser, Principal principal, Model model) {
+        if (loggedInUser) {
+            SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
+            List<CookbookDTO> cookbookDTOList = cookbookService.getCookbooksByUser(socialMealsUserDTO);
+            model.addAttribute("cookbookList", cookbookDTOList);
+        }
     }
 }

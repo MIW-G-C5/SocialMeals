@@ -90,12 +90,7 @@ public class RecipeCreateUpdateDeleteController {
 
         setRecipeSocialMealsUser(recipeDTO, principal.getName());
         recipeDTO.setSteps(removeEmptySteps(recipeDTO.getSteps()));
-
-        try {
-            recipeService.addNew(recipeDTO);
-        } catch (DataIntegrityViolationException error) {
-            return createRecipeFormWithNotificationRecipeExists(model, recipeDTO);
-        }
+        recipeService.addNew(recipeDTO);
 
         return "redirect:/recipe/update/" + recipeDTO.getUrlId();
     }
@@ -166,12 +161,7 @@ public class RecipeCreateUpdateDeleteController {
 
         recipeDTO.setSteps(removeEmptySteps(recipeDTO.getSteps()));
         RecipeDTO oldRecipe = recipeService.findByUrlId(recipeStateKeeper.getUrlId());
-
-        try {
-            recipeService.updateRecipe(oldRecipe, recipeDTO);
-        } catch (DataIntegrityViolationException error) {
-            return createRecipeUpdateFormWithNotificationRecipeExists(model, recipeDTO, recipeDTO.getUrlId());
-        }
+        recipeService.updateRecipe(oldRecipe, recipeDTO);
 
         return "redirect:/recipe/update/" + recipeStateKeeper.getUrlId();
     }
@@ -249,21 +239,6 @@ public class RecipeCreateUpdateDeleteController {
 
     private List<String> removeEmptySteps(List<String> steps) {
         return steps.stream().filter(i -> !i.isEmpty()).collect(Collectors.toList());
-    }
-
-    private String createRecipeFormWithNotificationRecipeExists(Model model, RecipeDTO recipeDTO) {
-        model.addAttribute("recipeDTO", new RecipeDTO());
-        model.addAttribute("existingRecipe", recipeDTO);
-        return "recipeForm";
-    }
-
-    private String createRecipeUpdateFormWithNotificationRecipeExists(Model model, RecipeDTO duplicateRecipeDTO, Long urlId) {
-        model.addAttribute("existingRecipe", duplicateRecipeDTO);
-
-        RecipeDTO recipeDTO = recipeService.findByUrlId(urlId);
-        refreshUpdateRecipe(recipeDTO, model);
-
-        return "updateRecipeForm";
     }
 
     private void refreshUpdateRecipe(RecipeDTO recipeDTO, Model model) {

@@ -69,11 +69,7 @@ public class CookbookController {
         if (result.hasErrors()) {
             return "redirect:/MyKitchen";
         }
-
-        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
-        if (socialMealsUserDTO != null) {
-            cookbookDTO.setSocialMealsUser(socialMealsUserDTO);
-        }
+        setCookbookWithSocialMealsUser(cookbookDTO, principal);
 
         cookbookService.addNew(cookbookDTO);
 
@@ -191,6 +187,10 @@ public class CookbookController {
         return principal.getName().equals(socialMealsUserDTO.getUsername());
     }
 
-
-
+    private void setCookbookWithSocialMealsUser(CookbookDTO cookbookDTO, Principal principal) {
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername(principal.getName());
+        if (socialMealsUserDTO != null) {
+            cookbookDTO.setSocialMealsUser(socialMealsUserDTO);
+        }
+    }
 }
