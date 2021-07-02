@@ -147,3 +147,14 @@ h3 {
     width: 250px;
     object-fit: cover;
 }
+
+.defaultImage {
+    height: 100px;
+    width: auto;
+    margin: 15%;
+
+}
+
+.defaultRecipeImage {
+    margin: 25%;
+}

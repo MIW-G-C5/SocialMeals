@@ -34,8 +34,13 @@
         </div>
 
         <div class="col-3">
-            <div align="right">
-                <img th:unless="${recipeImage == null}" class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
+
+            <div th:if="${recipeImage == null}" class="defaultRecipeImage">
+                <img  class="defaultImage" src="/images/favicon.png">
+            </div>
+
+            <div th:unless="${recipeImage == null}" align="right">
+                <img class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
             </div>
 
             <div class="row justify-content-center">
