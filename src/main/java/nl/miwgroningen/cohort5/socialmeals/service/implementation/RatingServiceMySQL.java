@@ -57,47 +57,9 @@ public class RatingServiceMySQL implements RatingService {
     }
 
     @Override
-    public String getAverageRatingRecipe(RecipeDTO recipeDTO) {
-        Recipe recipe = recipeService.getRecipeByRecipeDTO(recipeDTO);
-        Double average = getAverageFromSet(recipe.getRatings());
-
-        if (average == null) {
-            return null;
-        }
-        return formatRating(average);
-    }
-
-    @Override
-    public Integer getNumberOfRatingsRecipe(RecipeDTO recipeDTO) {
-        Recipe recipe = recipeService.getRecipeByRecipeDTO(recipeDTO);
-
-        return recipe.getRatings().size();
-    }
-
-    @Override
     public Rating findRatingByUserAndRecipe(SocialMealsUser socialMealsUser, Recipe recipe) {
         Optional<Rating> rating = ratingRepository.findRatingBySocialMealsUserAndRecipe(socialMealsUser, recipe);
 
         return rating.orElse(null);
-    }
-
-    private Double getAverageFromSet(Set<Rating> ratings) {
-        if (ratings.isEmpty()) {
-            return null;
-        }
-
-        int sum = 0;
-        for (Rating rating : ratings) {
-            sum += rating.getStars();
-        }
-
-        return sum / (double) ratings.size();
-    }
-
-    private String formatRating(double rating) {
-        if (rating % 1 == 0) {
-            return String.format("%d", (int) rating);
-        }
-        return String.format("%.1f", rating);
     }
 }

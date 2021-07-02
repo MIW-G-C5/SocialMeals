@@ -19,6 +19,8 @@ public class RecipeDTO {
     private List<String> steps;
     private byte[] recipeImage;
     private SocialMealsUserDTO socialMealsUserDTO;
+    private String averageRating;
+    private int numberOfRatings;
 
     public RecipeDTO(String recipeName, List<String> steps, SocialMealsUserDTO socialMealsUserDTO) {
         this.recipeName = recipeName;
@@ -32,8 +34,6 @@ public class RecipeDTO {
 
     public byte[] getRecipeImage() {
         return recipeImage;
-
-
     }
 
     public void setRecipeImage(byte[] recipeImage) {
@@ -70,5 +70,21 @@ public class RecipeDTO {
 
     public void setUrlId(Long urlId) {
         this.urlId = urlId;
+    }
+
+    public String getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(String averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public int getNumberOfRatings() {
+        return numberOfRatings;
+    }
+
+    public void setNumberOfRatings(int numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
     }
 }

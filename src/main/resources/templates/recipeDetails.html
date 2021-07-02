@@ -63,16 +63,16 @@
             </div>
 
             <div class="row justify-content-center row-control-height">
-                <div th:unless="${numberRatings} == 0">
-                    <form id="ratingradio">
+                <div>
+                    <form id="presentRating">
                         <div th:replace="fragments/rating :: starRatings"></div>
                     </form>
                 </div>
             </div>
 
             <div class="row justify-content-center " th:if="${loggedInUser}">
-                <span th:if="${averageRating} == null">Be the first to rate this recipe:</span>
-                <span th:unless="${averageRating} == null">How do you rate this recipe?</span>
+                <span th:if="${recipe.averageRating} == null">Be the first to rate this recipe:</span>
+                <span th:unless="${recipe.averageRating} == null">How do you rate this recipe?</span>
             </div>
             <div class="row justify-content-center" th:if="${loggedInUser}">
                 <form th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
@@ -87,7 +87,7 @@
 
 <div th:replace="fragments/general :: bottomScripts"></div>
 <script th:inline="javascript">
-    document.forms['ratingradio'].elements['stars'].value = parseInt([[${averageRating}]])
+    document.forms['presentRating'].elements['stars'].value = parseInt([[${recipe.averageRating}]])
 </script>
 </body>
 </html>
