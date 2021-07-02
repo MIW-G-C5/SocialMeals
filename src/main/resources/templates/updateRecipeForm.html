@@ -15,7 +15,7 @@
 
             <form th:action="@{/recipe/update/{urlId}/updateImage(urlId = ${recipeDTO.urlId})}" method="post"
                   enctype="multipart/form-data">
-                <input type="file" name="multipartImage" accept="image/*">
+                <input type="file" class="uploadImg" name="multipartImage" accept="image/*">
                 <div>
                     <button type="submit" class="btn btn-primary">Upload image</button>
                 </div>
@@ -95,7 +95,7 @@
                 </div>
             </form>
         </div>
-</div>
+    </div>
 
 
     <div class="row form-control-height">

@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Britt van Mourik
- *
+ * <p>
  * Controls the view of MyKitchen and Cookbook
  */
 
@@ -70,7 +70,6 @@ public class MyKitchenController {
         SocialMealsUserDTO currentUser = socialMealsUserDetailService.getUserByUsername(principal.getName());
         return !currentUser.equals(recipeDTO.getSocialMealsUserDTO());
     }
-
 
 
 }

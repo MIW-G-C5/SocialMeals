@@ -219,12 +219,8 @@ public class RecipeServiceMySQL implements RecipeService {
 
     private Integer getAverageRatingRecipe(RecipeDTO recipeDTO) {
         Recipe recipe = getRecipeByRecipeDTO(recipeDTO);
-        Double average = getAverageFromSet(recipe.getRatings());
-
-        if (average == null) {
-            return 0;
-        }
-        return (int) Math.round(average);
+        double averageRating = recipe.getRatings().stream().mapToDouble(Rating::getStars).average().orElse(Double.NaN);
+        return (int) Math.round(averageRating);
     }
 
     private Integer getNumberOfRatingsRecipe(RecipeDTO recipeDTO) {
@@ -255,18 +251,5 @@ public class RecipeServiceMySQL implements RecipeService {
 
         recipeDTO.setRecipeName(recipeName);
         return recipeDTO;
-    }
-
-    private Double getAverageFromSet(Set<Rating> ratings) {
-        if (ratings.isEmpty()) {
-            return null;
-        }
-
-        int sum = 0;
-        for (Rating rating : ratings) {
-            sum += rating.getStars();
-        }
-
-        return sum / (double) ratings.size();
     }
 }
