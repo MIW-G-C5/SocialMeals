@@ -57,7 +57,7 @@ public class Seeder {
     private void seedUser() {
         if (socialMealsUserDetailService.getAll().size() == 0) {
             socialMealsUserDetailService.addSocialMealsUser("admin", "admin");
-            socialMealsUserDetailService.addSocialMealsUser("dummieChef", "123");
+            socialMealsUserDetailService.addSocialMealsUser("Joop", "123");
         }
     }
 
@@ -66,7 +66,7 @@ public class Seeder {
         List<String> steps = new ArrayList<>(babaGanoushSteps());
         List<String> steps2 = new ArrayList<>(List.of("Fry garlic", "and onion", "add everything and put in oven"));
 
-        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("Joop");
 
         recipeService.addNew(new RecipeDTO("Lasagna", steps2, socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Baba ganoush", steps, socialMealsUserDTO));
@@ -172,7 +172,7 @@ public class Seeder {
     }
 
     private void seedCookbooks() {
-        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("Joop");
 
         cookbookService.addNew(new CookbookDTO("Favorieten", socialMealsUserDTO, new ArrayList<>()));
         cookbookService.addNew(new CookbookDTO("Zomergerechten", socialMealsUserDTO, new ArrayList<>()));
@@ -186,7 +186,7 @@ public class Seeder {
     }
 
     private void seedRatings() {
-        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("dummieChef");
+        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("Joop");
         RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
         RecipeDTO recipeDTO2 = recipeService.findByUrlId(Long.valueOf(5003));
         RecipeDTO recipeDTO3 = recipeService.findByUrlId(Long.valueOf(5004));
