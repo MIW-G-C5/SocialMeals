@@ -38,7 +38,7 @@ public class Recipe {
     @ManyToMany(mappedBy = "recipeLikes", cascade = CascadeType.ALL)
     Set<Cookbook> cookbookLikes;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Rating> ratings;
 
     public Recipe(String recipeName, List<String> steps, SocialMealsUser socialMealsUser) {

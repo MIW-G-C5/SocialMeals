@@ -6,12 +6,14 @@ import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.IngredientRecipe;
+import nl.miwgroningen.cohort5.socialmeals.model.Rating;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
 import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
+import nl.miwgroningen.cohort5.socialmeals.service.RatingService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientRecipeConverter;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.RecipeConverter;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author A.H. van Zessen
@@ -36,8 +39,8 @@ public class RecipeServiceMySQL implements RecipeService {
     private final IngredientRecipeRepository ingredientRecipeRepository;
     private final SocialMealsUserRepository socialMealsUserRepository;
 
-    private IngredientService ingredientService;
-    private SocialMealsUserDetailService socialMealsUserDetailService;
+    private final IngredientService ingredientService;
+    private final SocialMealsUserDetailService socialMealsUserDetailService;
 
     private RecipeConverter recipeConverter;
     private IngredientRecipeConverter ingredientRecipeConverter;
@@ -53,7 +56,6 @@ public class RecipeServiceMySQL implements RecipeService {
         this.ingredientRecipeRepository = ingredientRecipeRepository;
         this.socialMealsUserRepository = socialMealsUserRepository;
 
-
         this.ingredientService = ingredientService;
         this.socialMealsUserDetailService = socialMealsUserDetailService;
 
@@ -65,7 +67,13 @@ public class RecipeServiceMySQL implements RecipeService {
     @Override
     public List<RecipeDTO> getAll() {
         List<Recipe> recipeList = recipeRepository.findAll();
-        return recipeConverter.toListDTO(recipeList);
+        List<RecipeDTO> recipeDTOList = recipeConverter.toListDTO(recipeList);
+
+        for (RecipeDTO recipeDTO : recipeDTOList) {
+            recipeDTO.setAverageRating(getAverageRatingRecipe(recipeDTO));
+            recipeDTO.setNumberOfRatings(getNumberOfRatingsRecipe(recipeDTO));
+        }
+        return recipeDTOList;
     }
 
     @Override
@@ -114,7 +122,12 @@ public class RecipeServiceMySQL implements RecipeService {
         if (recipe.isEmpty()) {
             return null;
         }
-        return recipeConverter.toDTO(recipe.get());
+        RecipeDTO recipeDTO = recipeConverter.toDTO(recipe.get());
+
+        recipeDTO.setAverageRating(getAverageRatingRecipe(recipeDTO));
+        recipeDTO.setNumberOfRatings(getNumberOfRatingsRecipe(recipeDTO));
+
+        return recipeDTO;
     }
 
     @Override
@@ -204,6 +217,22 @@ public class RecipeServiceMySQL implements RecipeService {
         return recipeRepository.search(keyword);
     }
 
+    private Integer getAverageRatingRecipe(RecipeDTO recipeDTO) {
+        Recipe recipe = getRecipeByRecipeDTO(recipeDTO);
+        Double average = getAverageFromSet(recipe.getRatings());
+
+        if (average == null) {
+            return 0;
+        }
+        return (int) Math.round(average);
+    }
+
+    private Integer getNumberOfRatingsRecipe(RecipeDTO recipeDTO) {
+        Recipe recipe = getRecipeByRecipeDTO(recipeDTO);
+
+        return recipe.getRatings().size();
+    }
+
     private List<IngredientDTO> getIngredientsByIngredientRecipes(List<IngredientRecipeDTO> ingredientRecipes) {
         List<IngredientDTO> ingredients = new ArrayList<>();
         for (IngredientRecipeDTO ingredientRecipeDTO : ingredientRecipes) {
@@ -228,4 +257,16 @@ public class RecipeServiceMySQL implements RecipeService {
         return recipeDTO;
     }
 
+    private Double getAverageFromSet(Set<Rating> ratings) {
+        if (ratings.isEmpty()) {
+            return null;
+        }
+
+        int sum = 0;
+        for (Rating rating : ratings) {
+            sum += rating.getStars();
+        }
+
+        return sum / (double) ratings.size();
+    }
 }

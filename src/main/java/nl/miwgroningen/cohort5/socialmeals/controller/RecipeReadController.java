@@ -114,8 +114,6 @@ public class RecipeReadController {
         model.addAttribute("recipe", recipe);
         model.addAttribute("ingredientRecipes", recipeService.getIngredientRecipesByRecipeUrlId(urlId));
 
-        model.addAttribute("averageRating", ratingService.getAverageRatingRecipe(recipe));
-        model.addAttribute("numberRatings", ratingService.getNumberOfRatingsRecipe(recipe));
         model.addAttribute("rating", new RatingDTO());
 
         return "recipeDetails";

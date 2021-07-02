@@ -188,8 +188,16 @@ public class Seeder {
     private void seedRatings() {
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("Joop");
         RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
+        RecipeDTO recipeDTO2 = recipeService.findByUrlId(Long.valueOf(5003));
+        RecipeDTO recipeDTO3 = recipeService.findByUrlId(Long.valueOf(5004));
+
 
         ratingService.addNew(new RatingDTO(4, recipeDTO, socialMealsUserDTO));
+        ratingService.addNew(new RatingDTO(3, recipeDTO2, socialMealsUserDTO));
+        ratingService.addNew(new RatingDTO(2, recipeDTO3, socialMealsUserDTO));
+
+
+
 
     }
 
