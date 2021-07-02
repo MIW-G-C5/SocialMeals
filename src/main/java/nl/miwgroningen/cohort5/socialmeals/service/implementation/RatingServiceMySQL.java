@@ -1,7 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.RatingDTO;
-import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Rating;
 import nl.miwgroningen.cohort5.socialmeals.model.Recipe;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
@@ -12,7 +11,6 @@ import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.RatingConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -27,7 +25,7 @@ public class RatingServiceMySQL implements RatingService {
     private final RecipeService recipeService;
     private final SocialMealsUserDetailService socialMealsUserDetailService;
 
-    private RatingConverter ratingConverter;
+    private final RatingConverter ratingConverter;
 
 
     public RatingServiceMySQL(RatingRepository ratingRepository, RecipeService recipeService, SocialMealsUserDetailService socialMealsUserDetailService) {
@@ -56,8 +54,7 @@ public class RatingServiceMySQL implements RatingService {
         return ratingDTO;
     }
 
-    @Override
-    public Rating findRatingByUserAndRecipe(SocialMealsUser socialMealsUser, Recipe recipe) {
+    private Rating findRatingByUserAndRecipe(SocialMealsUser socialMealsUser, Recipe recipe) {
         Optional<Rating> rating = ratingRepository.findRatingBySocialMealsUserAndRecipe(socialMealsUser, recipe);
 
         return rating.orElse(null);

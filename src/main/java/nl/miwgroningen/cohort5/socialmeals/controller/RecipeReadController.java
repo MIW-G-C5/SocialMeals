@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
@@ -33,10 +31,10 @@ import java.util.List;
 @SessionAttributes("sortedRecipesStateKeeper")
 public class RecipeReadController {
 
-    private RecipeService recipeService;
-    private SocialMealsUserDetailService socialMealsUserDetailService;
-    private CookbookService cookbookService;
-    private RatingService ratingService;
+    private final RecipeService recipeService;
+    private final SocialMealsUserDetailService socialMealsUserDetailService;
+    private final CookbookService cookbookService;
+    private final RatingService ratingService;
 
     public RecipeReadController(RecipeService recipeService,
                                 SocialMealsUserDetailService socialMealsUserDetailService,

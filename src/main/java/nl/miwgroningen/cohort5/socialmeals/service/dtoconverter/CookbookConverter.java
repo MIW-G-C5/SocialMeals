@@ -17,8 +17,8 @@ import java.util.List;
 
 public class CookbookConverter {
 
-    private SocialMealsUserConverter socialMealsUserConverter;
-    private RecipeConverter recipeConverter;
+    private final SocialMealsUserConverter socialMealsUserConverter;
+    private final RecipeConverter recipeConverter;
 
     public CookbookConverter() {
         this.socialMealsUserConverter = new SocialMealsUserConverter();

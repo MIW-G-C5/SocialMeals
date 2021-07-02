@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,9 +23,9 @@ import java.util.List;
 @Controller
 public class CookbookController {
 
-    private CookbookService cookbookService;
-    private SocialMealsUserDetailService socialMealsUserDetailService;
-    private RecipeService recipeService;
+    private final CookbookService cookbookService;
+    private final SocialMealsUserDetailService socialMealsUserDetailService;
+    private final RecipeService recipeService;
 
     public CookbookController(CookbookService cookbookService,
                               SocialMealsUserDetailService socialMealsUserDetailService, RecipeService recipeService) {

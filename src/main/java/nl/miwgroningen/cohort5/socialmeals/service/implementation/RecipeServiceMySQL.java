@@ -1,7 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.service.implementation;
 
 
-import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientRecipeDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
@@ -13,7 +12,6 @@ import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRecipeRepository
 import nl.miwgroningen.cohort5.socialmeals.repository.RecipeRepository;
 import nl.miwgroningen.cohort5.socialmeals.repository.SocialMealsUserRepository;
 import nl.miwgroningen.cohort5.socialmeals.service.IngredientService;
-import nl.miwgroningen.cohort5.socialmeals.service.RatingService;
 import nl.miwgroningen.cohort5.socialmeals.service.RecipeService;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.IngredientRecipeConverter;
 import nl.miwgroningen.cohort5.socialmeals.service.dtoconverter.RecipeConverter;
@@ -23,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author A.H. van Zessen
@@ -42,8 +39,8 @@ public class RecipeServiceMySQL implements RecipeService {
     private final IngredientService ingredientService;
     private final SocialMealsUserDetailService socialMealsUserDetailService;
 
-    private RecipeConverter recipeConverter;
-    private IngredientRecipeConverter ingredientRecipeConverter;
+    private final RecipeConverter recipeConverter;
+    private final IngredientRecipeConverter ingredientRecipeConverter;
 
     @Autowired
     public RecipeServiceMySQL(RecipeRepository recipeRepository,
@@ -245,11 +242,10 @@ public class RecipeServiceMySQL implements RecipeService {
         return ++maxId;
     }
 
-    private RecipeDTO formatRecipeName(RecipeDTO recipeDTO) {
+    private void formatRecipeName(RecipeDTO recipeDTO) {
         String recipeName = recipeDTO.getRecipeName().trim();
         recipeName = recipeName.substring(0, 1).toUpperCase() + recipeName.substring(1);
 
         recipeDTO.setRecipeName(recipeName);
-        return recipeDTO;
     }
 }

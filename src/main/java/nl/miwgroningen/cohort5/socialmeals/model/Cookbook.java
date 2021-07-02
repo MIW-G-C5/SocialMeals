@@ -1,7 +1,5 @@
 package nl.miwgroningen.cohort5.socialmeals.model;
 
-import org.springframework.data.repository.cdi.Eager;
-
 import javax.persistence.*;
 import java.util.Set;
 

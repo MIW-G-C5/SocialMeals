@@ -32,9 +32,9 @@ import java.util.stream.Collectors;
 @SessionAttributes("recipeStateKeeper")
 public class RecipeCreateUpdateDeleteController {
 
-    private RecipeService recipeService;
-    private IngredientService ingredientService;
-    private SocialMealsUserDetailService socialMealsUserDetailService;
+    private final RecipeService recipeService;
+    private final IngredientService ingredientService;
+    private final SocialMealsUserDetailService socialMealsUserDetailService;
 
     public RecipeCreateUpdateDeleteController(RecipeService recipeService,
                                               IngredientService ingredientService,
@@ -109,7 +109,7 @@ public class RecipeCreateUpdateDeleteController {
         RecipeDTO existingRecipe =  recipeService.findByUrlId(urlId);
         setRecipeKeeperValuesWithRecipeDTOValues(recipeStateKeeper, existingRecipe);
 
-        if (recipeStateKeeper == null || recipeUserDoesNotMatchCurrentUser(principal, recipeStateKeeper)) {
+        if (recipeUserDoesNotMatchCurrentUser(principal, recipeStateKeeper)) {
             return "redirect:/MyKitchen";
         }
         refreshUpdateRecipe(recipeStateKeeper, model);

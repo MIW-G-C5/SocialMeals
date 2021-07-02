@@ -2,11 +2,9 @@ package nl.miwgroningen.cohort5.socialmeals.service.dtoconverter;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.model.Ingredient;
-import nl.miwgroningen.cohort5.socialmeals.repository.IngredientRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Britt van Mourik

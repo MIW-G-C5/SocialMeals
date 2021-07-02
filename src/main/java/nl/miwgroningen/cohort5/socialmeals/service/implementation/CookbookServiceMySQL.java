@@ -29,10 +29,10 @@ public class CookbookServiceMySQL implements CookbookService {
 
     private final CookbookRepository cookbookRepository;
 
-    private SocialMealsUserDetailService socialMealsUserDetailService;
-    private RecipeService recipeService;
+    private final SocialMealsUserDetailService socialMealsUserDetailService;
+    private final RecipeService recipeService;
 
-    private CookbookConverter cookbookConverter;
+    private final CookbookConverter cookbookConverter;
 
     @Autowired
     public CookbookServiceMySQL(CookbookRepository cookbookRepository,
@@ -91,9 +91,7 @@ public class CookbookServiceMySQL implements CookbookService {
     @Override
     public CookbookDTO deleteCookbook(CookbookDTO cookbookDTO) {
         Optional<Cookbook> optionalCookbook = cookbookRepository.findByUrlId(cookbookDTO.getUrlId());
-        if (optionalCookbook.isPresent()) {
-            cookbookRepository.delete(optionalCookbook.get());
-        }
+        optionalCookbook.ifPresent(cookbookRepository::delete);
         return cookbookDTO;
     }
 
@@ -171,12 +169,11 @@ public class CookbookServiceMySQL implements CookbookService {
         return ++maxId;
     }
 
-    private CookbookDTO formatCookbookName(CookbookDTO cookbookDTO) {
+    private void formatCookbookName(CookbookDTO cookbookDTO) {
         String cookbookName = cookbookDTO.getCookbookName().trim();
         cookbookName = cookbookName.substring(0, 1).toUpperCase() + cookbookName.substring(1);
 
         cookbookDTO.setCookbookName(cookbookName);
-        return cookbookDTO;
     }
 
 }

@@ -1,7 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Britt van Mourik

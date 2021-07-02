@@ -22,9 +22,9 @@ import java.util.List;
 @Controller
 public class MyKitchenController {
 
-    private SocialMealsUserDetailService socialMealsUserDetailService;
-    private RecipeService recipeService;
-    private CookbookService cookbookService;
+    private final SocialMealsUserDetailService socialMealsUserDetailService;
+    private final RecipeService recipeService;
+    private final CookbookService cookbookService;
 
     public MyKitchenController(SocialMealsUserDetailService socialMealsUserDetailService,
                                RecipeService recipeService,

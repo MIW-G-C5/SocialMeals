@@ -5,7 +5,7 @@
 
 <div class="container">
 
-  <div th:replace="fragments/general :: headerPhoto('New cookbook')"></div>
+  <div th:replace="fragments/general :: headerPhoto('New Cookbook')"></div>
   <div th:replace="fragments/general :: navbar"></div>
 
   <form class="has-validation" th:action="@{/cookbook/update}" method="post" th:object="${cookbookDTO}">

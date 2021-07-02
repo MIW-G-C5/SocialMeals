@@ -1,9 +1,7 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
 
-import javax.persistence.Lob;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**

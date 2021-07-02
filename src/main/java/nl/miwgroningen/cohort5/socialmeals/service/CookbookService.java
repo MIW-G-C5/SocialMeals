@@ -1,7 +1,6 @@
 package nl.miwgroningen.cohort5.socialmeals.service;
 
 import nl.miwgroningen.cohort5.socialmeals.dto.CookbookDTO;
-import nl.miwgroningen.cohort5.socialmeals.dto.IngredientDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.SocialMealsUserDTO;
 import nl.miwgroningen.cohort5.socialmeals.dto.RecipeDTO;
 

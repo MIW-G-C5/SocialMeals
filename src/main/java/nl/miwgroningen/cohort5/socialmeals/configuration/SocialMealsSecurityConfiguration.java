@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SocialMealsSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    SocialMealsUserDetailService socialMealsUserDetailsService;
+    final SocialMealsUserDetailService socialMealsUserDetailsService;
 
     public SocialMealsSecurityConfiguration(SocialMealsUserDetailService socialMealsUserDetailsService) {
         this.socialMealsUserDetailsService = socialMealsUserDetailsService;

@@ -17,10 +17,10 @@ import java.util.List;
 
 public class IngredientRecipeConverter {
 
-    private IngredientService ingredientService;
+    private final IngredientService ingredientService;
 
-    private RecipeConverter recipeConverter;
-    private IngredientConverter ingredientConverter;
+    private final RecipeConverter recipeConverter;
+    private final IngredientConverter ingredientConverter;
 
     public IngredientRecipeConverter(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
@@ -37,14 +37,12 @@ public class IngredientRecipeConverter {
             return null;
         }
 
-        IngredientRecipe ingredientRecipe = new IngredientRecipe(
+        return new IngredientRecipe(
                 ingredient,
                 recipe,
                 ingredientRecipeDTO.getQuantity(),
                 ingredientRecipeDTO.getQuantityType()
         );
-
-        return ingredientRecipe;
     }
 
     public IngredientRecipeDTO toDTO(IngredientRecipe ingredientRecipe){

@@ -3,7 +3,6 @@ package nl.miwgroningen.cohort5.socialmeals.repository;
 import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 /**

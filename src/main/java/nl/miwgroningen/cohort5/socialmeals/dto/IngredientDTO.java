@@ -1,7 +1,5 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
-import java.util.Objects;
-
 /**
  * Britt van Mourik
  *

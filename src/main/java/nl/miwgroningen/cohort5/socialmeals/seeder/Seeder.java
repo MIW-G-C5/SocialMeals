@@ -24,11 +24,11 @@ import java.util.List;
 @Component
 public class Seeder {
 
-    private RecipeService recipeService;
-    private IngredientService ingredientService;
-    private SocialMealsUserDetailService socialMealsUserDetailService;
-    private CookbookService cookbookService;
-    private RatingService ratingService;
+    private final RecipeService recipeService;
+    private final IngredientService ingredientService;
+    private final SocialMealsUserDetailService socialMealsUserDetailService;
+    private final CookbookService cookbookService;
+    private final RatingService ratingService;
 
     @Autowired
     public Seeder(RecipeService recipeService,

@@ -22,7 +22,7 @@ public class IngredientServiceMySQL implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
 
-    private IngredientConverter ingredientConverter;
+    private final IngredientConverter ingredientConverter;
 
     @Autowired
     public IngredientServiceMySQL(IngredientRepository ingredientRepository) {
@@ -69,11 +69,10 @@ public class IngredientServiceMySQL implements IngredientService {
         return ingredientRepository.search(keyword);
     }
 
-    private IngredientDTO formatIngredientName(IngredientDTO ingredientDTO) {
+    private void formatIngredientName(IngredientDTO ingredientDTO) {
         String ingredientName = ingredientDTO.getIngredientName().trim();
         ingredientName = ingredientName.substring(0, 1).toUpperCase() + ingredientName.substring(1);
 
         ingredientDTO.setIngredientName(ingredientName);
-        return ingredientDTO;
     }
 }

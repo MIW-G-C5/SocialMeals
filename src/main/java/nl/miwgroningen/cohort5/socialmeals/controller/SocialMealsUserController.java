@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class SocialMealsUserController {
 
-    private SocialMealsUserDetailService socialMealsUserDetailService;
+    private final SocialMealsUserDetailService socialMealsUserDetailService;
 
     public SocialMealsUserController(SocialMealsUserDetailService socialMealsUserDetailService) {
         this.socialMealsUserDetailService = socialMealsUserDetailService;

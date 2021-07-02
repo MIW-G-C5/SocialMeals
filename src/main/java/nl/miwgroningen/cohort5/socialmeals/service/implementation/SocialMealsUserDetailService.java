@@ -22,8 +22,8 @@ import java.util.Optional;
 @Service
 public class SocialMealsUserDetailService implements UserDetailsService {
 
-    private SocialMealsUserRepository socialMealsUserRepository;
-    private SocialMealsUserConverter socialMealsUserConverter;
+    private final SocialMealsUserRepository socialMealsUserRepository;
+    private final SocialMealsUserConverter socialMealsUserConverter;
 
     public SocialMealsUserDetailService(SocialMealsUserRepository socialMealsUserRepository) {
         this.socialMealsUserRepository = socialMealsUserRepository;

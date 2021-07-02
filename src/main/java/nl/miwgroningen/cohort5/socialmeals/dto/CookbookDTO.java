@@ -1,7 +1,5 @@
 package nl.miwgroningen.cohort5.socialmeals.dto;
 
-import nl.miwgroningen.cohort5.socialmeals.model.SocialMealsUser;
-
 
 import java.util.ArrayList;
 import java.util.List;
