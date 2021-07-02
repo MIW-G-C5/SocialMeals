@@ -13,22 +13,23 @@ body {
 
 .img-container {
     overflow: hidden;
-    height: 200px;
+    height: 130px;
     position: relative;
 }
 
 .img {
     display: block;
-    width: 100%;
+    width: 90%;
     height: auto;
     position: absolute;
-    bottom: 0;
+    margin-left: 5%;
+    bottom: -15px;
 }
 
 .img-text {
     position: absolute;
     color: white;
-    top: 30%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 50px;
