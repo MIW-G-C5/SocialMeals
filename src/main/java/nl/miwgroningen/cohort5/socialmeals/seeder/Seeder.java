@@ -58,6 +58,12 @@ public class Seeder {
         if (socialMealsUserDetailService.getAll().size() == 0) {
             socialMealsUserDetailService.addSocialMealsUser("admin", "admin");
             socialMealsUserDetailService.addSocialMealsUser("Joop", "123");
+            socialMealsUserDetailService.addSocialMealsUser("Harry", "123");
+            socialMealsUserDetailService.addSocialMealsUser("Sara", "123");
+            socialMealsUserDetailService.addSocialMealsUser("Douwe", "123");
+            socialMealsUserDetailService.addSocialMealsUser("Arlette", "123");
+            socialMealsUserDetailService.addSocialMealsUser("Daphne", "123");
+            socialMealsUserDetailService.addSocialMealsUser("Victor", "123");
         }
     }
 
@@ -186,19 +192,36 @@ public class Seeder {
     }
 
     private void seedRatings() {
-        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("Joop");
+        SocialMealsUserDTO joop = socialMealsUserDetailService.getUserByUsername("Joop");
+        SocialMealsUserDTO harry = socialMealsUserDetailService.getUserByUsername("Harry");
+        SocialMealsUserDTO sara = socialMealsUserDetailService.getUserByUsername("Sara");
+        SocialMealsUserDTO douwe = socialMealsUserDetailService.getUserByUsername("Douwe");
+        SocialMealsUserDTO arlette = socialMealsUserDetailService.getUserByUsername("Arlette");
+        SocialMealsUserDTO daphne = socialMealsUserDetailService.getUserByUsername("Daphne");
+        SocialMealsUserDTO victor = socialMealsUserDetailService.getUserByUsername("Victor");
+
         RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
         RecipeDTO recipeDTO2 = recipeService.findByUrlId(Long.valueOf(5003));
         RecipeDTO recipeDTO3 = recipeService.findByUrlId(Long.valueOf(5004));
 
+        ratingService.addNew(new RatingDTO(4, recipeDTO, joop));
+        ratingService.addNew(new RatingDTO(3, recipeDTO, harry));
+        ratingService.addNew(new RatingDTO(2, recipeDTO, sara));
+        ratingService.addNew(new RatingDTO(5, recipeDTO, douwe));
+        ratingService.addNew(new RatingDTO(5, recipeDTO, arlette));
+        ratingService.addNew(new RatingDTO(4, recipeDTO, daphne));
+        ratingService.addNew(new RatingDTO(5, recipeDTO, victor));
 
-        ratingService.addNew(new RatingDTO(4, recipeDTO, socialMealsUserDTO));
-        ratingService.addNew(new RatingDTO(3, recipeDTO2, socialMealsUserDTO));
-        ratingService.addNew(new RatingDTO(2, recipeDTO3, socialMealsUserDTO));
+        ratingService.addNew(new RatingDTO(3, recipeDTO2, joop));
+        ratingService.addNew(new RatingDTO(2, recipeDTO2, harry));
+        ratingService.addNew(new RatingDTO(1, recipeDTO2, sara));
+        ratingService.addNew(new RatingDTO(4, recipeDTO2, douwe));
+        ratingService.addNew(new RatingDTO(3, recipeDTO2, daphne));
 
 
-
-
+        ratingService.addNew(new RatingDTO(4, recipeDTO3, joop));
+        ratingService.addNew(new RatingDTO(3, recipeDTO3, harry));
+        ratingService.addNew(new RatingDTO(5, recipeDTO3, sara));
     }
 
     private byte[] imageToByteArray(File image) {

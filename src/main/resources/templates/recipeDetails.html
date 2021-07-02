@@ -33,52 +33,59 @@
             </ol>
         </div>
 
-        <div class="col-3">
-            <div align="right">
-                <img th:unless="${recipeImage == null}" class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
-            </div>
+        <div class="col-3 d-flex flex-row-reverse">
+            <div class="width-match-content">
+                <div th:if="${recipeImage == null}" class="defaultRecipeImage">
+                    <img  class="defaultImage" src="/images/favicon.png">
+                </div>
 
-            <div class="row justify-content-center">
-                <h2>made by
-                    <a th:href="@{/cookbook/myCookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}"
-                       th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
-                    <span th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
-                    <br>
-                </h2>
-            </div>
+                <div th:unless="${recipeImage == null}">
+                    <img class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
+                </div>
 
-            <div class="row justify-content-center row-control-height">
-                <div th:if="${loggedInUser}">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Add to Cookbook
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <div th:each="cookbook : ${cookbookList}">
-                                <a class="dropdown-item" th:href="@{/cookbook/add/{urlId}/{recipeUrlId}(urlId = ${cookbook.urlId}, recipeUrlId = ${recipe.urlId})}" th:text="${cookbook.cookbookName}"></a>
+                <div class="row justify-content-center">
+                    <h2>made by
+                        <a th:href="@{/cookbook/myCookbook/{username}(username = ${recipe.socialMealsUserDTO.username})}"
+                           th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAuthenticated()"></a>
+                        <span th:text="${recipe.socialMealsUserDTO.username}" sec:authorize="isAnonymous()"></span>
+                        <br>
+                    </h2>
+                </div>
+
+                <div class="row justify-content-center row-control-height">
+                    <div th:if="${loggedInUser}">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Add to Cookbook
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <div th:each="cookbook : ${cookbookList}">
+                                    <a class="dropdown-item" th:href="@{/cookbook/add/{urlId}/{recipeUrlId}(urlId = ${cookbook.urlId}, recipeUrlId = ${recipe.urlId})}" th:text="${cookbook.cookbookName}"></a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row justify-content-center row-control-height">
-                <div>
-                    <form id="presentRating">
-                        <div th:replace="fragments/rating :: starRatings"></div>
+                <div class="row justify-content-center row-control-height">
+                    <div>
+                        <form id="presentRating">
+                            <div th:replace="fragments/rating :: starRatings"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center " th:if="${loggedInUser}">
+                    <span th:if="${recipe.averageRating} == null">Be the first to rate this recipe:</span>
+                    <span th:unless="${recipe.averageRating} == null">How do you rate this recipe?</span>
+                </div>
+                <div class="row justify-content-center" th:if="${loggedInUser}">
+                    <form th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
+                        <div th:replace="fragments/forms :: ratingForm"></div>
                     </form>
                 </div>
             </div>
 
-            <div class="row justify-content-center " th:if="${loggedInUser}">
-                <span th:if="${recipe.averageRating} == null">Be the first to rate this recipe:</span>
-                <span th:unless="${recipe.averageRating} == null">How do you rate this recipe?</span>
-            </div>
-            <div class="row justify-content-center" th:if="${loggedInUser}">
-                <form th:action="@{/recipes/{recipeUrlId}/rate(recipeUrlId = ${recipe.urlId})}" method="post" th:object="${rating}">
-                    <div th:replace="fragments/forms :: ratingForm"></div>
-                </form>
-            </div>
         </div>
     </div>
 </div>

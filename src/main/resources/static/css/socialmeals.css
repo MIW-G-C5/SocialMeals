@@ -13,7 +13,7 @@ body {
 
 .img-container {
     overflow: hidden;
-    height: 200px;
+    height: 150px;
     position: relative;
 }
 
@@ -22,13 +22,13 @@ body {
     width: 100%;
     height: auto;
     position: absolute;
-    bottom: 0;
+    bottom: -15px;
 }
 
 .img-text {
     position: absolute;
     color: white;
-    top: 30%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 50px;
@@ -52,7 +52,7 @@ h3 {
 }
 
 .navbar a:hover {
-    background-color: papayawhip;
+    background-color: #e6f3f8;
 }
 
 .searchResults {
@@ -75,10 +75,6 @@ h3 {
     display: grid;
     grid-gap: 1rem;
     grid-template-columns: minmax(25%, 75%) auto;
-}
-
-.button-width {
-    width: 100%;
 }
 
 .listWithoutStyle{
@@ -129,10 +125,6 @@ h3 {
     margin: 0.1rem;
 }
 
-.center {
-    align-items: center;
-}
-
 .cookingInstructions {
     padding-left: 3em;
     text-align: justify;
@@ -146,4 +138,18 @@ h3 {
     height: 250px;
     width: 250px;
     object-fit: cover;
+}
+
+.width-match-content {
+    width: fit-content;
+}
+.defaultImage {
+    height: 100px;
+    width: auto;
+    margin: 15%;
+
+}
+
+.defaultRecipeImage {
+    margin: 25%;
 }

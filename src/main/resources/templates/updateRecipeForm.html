@@ -11,7 +11,12 @@
     <div class="row">
 
         <div class="col-7">
-            <img class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
+
+            <div class="recipeImage">
+                <img th:if="${recipeImage == null}" class="defaultImage" src="/images/favicon.png">
+                <img th:unless="${recipeImage == null}" class="recipeImage" th:src="*{'data:image/png;base64,' + recipeImage}">
+            </div>
+
 
             <form th:action="@{/recipe/update/{urlId}/updateImage(urlId = ${recipeDTO.urlId})}" method="post"
                   enctype="multipart/form-data">
