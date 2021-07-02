@@ -17,10 +17,9 @@ import java.util.concurrent.TimeUnit;
 public class SocialMealsSpringConfiguration implements WebMvcConfigurer {
 
     @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/static/**").addResourceLocations("/resources/static")
-                .setCacheControl(CacheControl.maxAge(1, TimeUnit.DAYS)
-                .noTransform()
-                .mustRevalidate());
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**/images/*.png")
+                .addResourceLocations("classpath:/static/")
+                .setCacheControl(CacheControl.maxAge(2, TimeUnit.DAYS));
     }
 }
