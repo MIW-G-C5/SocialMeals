@@ -10,9 +10,9 @@
 
     <div th:fragment="starRatings">
         <div class="present-star-rating d-flex justify-content-right flex-row-reverse">
-            <span th:if="${recipe.numberOfRatings} == 0" th:text="' (' + ${recipe.numberOfRatings} + ' reviews)'"></span>
-            <span th:if="${recipe.numberOfRatings} == 1" th:text="' (' + ${recipe.numberOfRatings} + ' review)'"></span>
-            <span th:if="${recipe.numberOfRatings} > 1" th:text="' (' + ${recipe.numberOfRatings} + ' reviews)'"></span>
+            <span th:if="${recipe.numberOfRatings} == 0" th:text="'&nbsp(' + ${recipe.numberOfRatings} + ' reviews)'"></span>
+            <span th:if="${recipe.numberOfRatings} == 1" th:text="'&nbsp(' + ${recipe.numberOfRatings} + ' review)'"></span>
+            <span th:if="${recipe.numberOfRatings} > 1" th:text="'&nbsp(' + ${recipe.numberOfRatings} + ' reviews)'"></span>
 
             <input class="radioRating" type="radio" id="stars5" value="5" name="stars">
             <label class="radioRating" for="stars5" title="5 star"><i class="fas fa-star"></i></label>

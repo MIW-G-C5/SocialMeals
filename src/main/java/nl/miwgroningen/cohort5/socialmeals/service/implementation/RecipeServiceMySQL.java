@@ -217,14 +217,14 @@ public class RecipeServiceMySQL implements RecipeService {
         return recipeRepository.search(keyword);
     }
 
-    private String getAverageRatingRecipe(RecipeDTO recipeDTO) {
+    private Integer getAverageRatingRecipe(RecipeDTO recipeDTO) {
         Recipe recipe = getRecipeByRecipeDTO(recipeDTO);
         Double average = getAverageFromSet(recipe.getRatings());
 
         if (average == null) {
-            return formatRating(0);
+            return 0;
         }
-        return formatRating(average);
+        return (int) Math.round(average);
     }
 
     private Integer getNumberOfRatingsRecipe(RecipeDTO recipeDTO) {
@@ -269,12 +269,4 @@ public class RecipeServiceMySQL implements RecipeService {
 
         return sum / (double) ratings.size();
     }
-
-    private String formatRating(double rating) {
-        if (rating % 1 == 0) {
-            return String.format("%d", (int) rating);
-        }
-        return String.format("%.1f", rating);
-    }
-
 }

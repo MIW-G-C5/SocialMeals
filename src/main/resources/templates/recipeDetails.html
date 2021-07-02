@@ -87,7 +87,7 @@
 
 <div th:replace="fragments/general :: bottomScripts"></div>
 <script th:inline="javascript">
-    document.forms['presentRating'].elements['stars'].value = parseInt([[${recipe.averageRating}]])
+    document.forms['presentRating'].elements['stars'].value = [[${recipe.averageRating}]]
 </script>
 </body>
 </html>
