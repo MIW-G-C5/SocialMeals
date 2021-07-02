@@ -10,6 +10,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tests for IngredientConverter
+ */
+
 class IngredientConverterTest {
 
     @Test
@@ -39,7 +43,8 @@ class IngredientConverterTest {
 
         //assert
         for (int i = 0; i < testListObjDTO.size(); i++) {
-            assertThat(testIngredientList.get(i).getIngredientName()).isEqualTo(testListObjDTO.get(i).getIngredientName());
+            assertThat(testIngredientList.get(i).getIngredientName())
+                    .isEqualTo(testListObjDTO.get(i).getIngredientName());
         }
     }
 

@@ -77,26 +77,25 @@ h3 {
     grid-template-columns: minmax(25%, 75%) auto;
 }
 
-.listWithoutStyle{
+.listWithoutStyle {
     list-style-type: none;
 }
 
-.updateShoppingList{
+.updateShoppingList {
     margin-left: -10%;
     padding: 1%;
 }
 
-.shoppingListPostIT{
-    background:#ffc;
+.shoppingListPostIT {
+    background: #ffc;
     height: auto;
-    width:14em;
-    padding:2em;
+    width: 14em;
+    padding: 2em;
     box-shadow: 5px 5px 7px dimgrey;
     text-align: left;
-
 }
 
-.row-no-margin{
+.row-no-margin {
     margin-left: 0px;
 }
 
@@ -109,14 +108,14 @@ h3 {
 }
 
 .star-rating > input, .present-star-rating > input {
-    display:none;
+    display: none;
 }
 
 .star-rating input:checked ~ label, .present-star-rating input:checked ~ label {
     color: #ffca08;
 }
 
-.star-rating input:hover ~ label  {
+.star-rating input:hover ~ label {
     color: #ffca08;
 }
 
@@ -143,6 +142,7 @@ h3 {
 .width-match-content {
     width: fit-content;
 }
+
 .defaultImage {
     height: 100px;
     width: auto;

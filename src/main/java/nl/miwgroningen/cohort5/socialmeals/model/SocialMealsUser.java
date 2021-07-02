@@ -12,6 +12,7 @@ import java.util.Set;
 
 /**
  * @author Wessel van Dommelen <w.r.van.dommelen@st.hanze.nl>
+ * describes the details of a SocialMealsUser
  */
 
 @Entity

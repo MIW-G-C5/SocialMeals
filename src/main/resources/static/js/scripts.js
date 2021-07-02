@@ -16,7 +16,7 @@ $(function () {
 $(function () {
     $(".uploadImg").on('change', function () {
         if (this.files[0].size > 1048576
-    ) {
+        ) {
             alert("Image file is too big! (Max = 1MB)")
             this.value = null;
         }

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Britt van Mourik
  *
- * Converts Ingredients to IngredientDTO's
+ * Converts Ingredients to IngredientDTO's and vice versa
  */
 
 public class IngredientConverter {

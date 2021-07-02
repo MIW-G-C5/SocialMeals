@@ -141,19 +141,19 @@ public class RecipeServiceMySQL implements RecipeService {
     }
 
     @Override
-    public void deleteIngredientFromRecipe(IngredientRecipe ingredientRecipe){
+    public void deleteIngredientFromRecipe(IngredientRecipe ingredientRecipe) {
         ingredientRecipeRepository.delete(ingredientRecipe);
     }
 
-    public IngredientRecipe getIngredientRecipeByNameAndUrlId(String ingredientName, Long urlId){
+    public IngredientRecipe getIngredientRecipeByNameAndUrlId(String ingredientName, Long urlId) {
 
-        Optional <Recipe> recipe = recipeRepository.findByUrlId(urlId);
+        Optional<Recipe> recipe = recipeRepository.findByUrlId(urlId);
 
-        if(recipe.isPresent()){
+        if (recipe.isPresent()) {
             List<IngredientRecipe> ingredientRecipes = ingredientRecipeRepository.findIngredientRecipeByRecipe(recipe.get());
             for (IngredientRecipe ingredientRecipe : ingredientRecipes) {
 
-                if( ingredientRecipe.getIngredient().getIngredientName().equals(ingredientName)){
+                if (ingredientRecipe.getIngredient().getIngredientName().equals(ingredientName)) {
                     return ingredientRecipe;
                 }
             }
@@ -234,7 +234,7 @@ public class RecipeServiceMySQL implements RecipeService {
         return ingredients;
     }
 
-    private long findNextRecipeId(){
+    private long findNextRecipeId() {
         Long maxId = recipeRepository.getMaxUrlId();
         if (maxId == null) {
             maxId = DEFAULT_URL_ID;
