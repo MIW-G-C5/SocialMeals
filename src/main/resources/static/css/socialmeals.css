@@ -77,10 +77,6 @@ h3 {
     grid-template-columns: minmax(25%, 75%) auto;
 }
 
-.button-width {
-    width: 100%;
-}
-
 .listWithoutStyle{
     list-style-type: none;
 }
@@ -127,10 +123,6 @@ h3 {
 .present-star-rating {
     font-size: 1.2rem;
     margin: 0.1rem;
-}
-
-.center {
-    align-items: center;
 }
 
 .cookingInstructions {
