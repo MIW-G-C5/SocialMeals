@@ -149,6 +149,9 @@ h3 {
     object-fit: cover;
 }
 
+.width-match-content {
+    width: fit-content;
+}
 .defaultImage {
     height: 100px;
     width: auto;
