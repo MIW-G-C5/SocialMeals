@@ -49,7 +49,8 @@ public class Seeder {
         seedIngredients();
         seedRecipes();
         seedRecipeImages();
-        seedIngredientRecipes();
+        seedIngredientRecipesBabaGanoush();
+        seedIngredientRecipesGyoza();
         seedCookbooks();
         seedRatings();
     }
@@ -73,24 +74,33 @@ public class Seeder {
         List<String> steps2 = new ArrayList<>(List.of("Fry garlic", "and onion", "add everything and put in oven"));
         List<String> steps3 = new ArrayList<>(gyozaSteps());
 
-        SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("Joop");
-        SocialMealsUserDTO socialMealsUserDTO2 = socialMealsUserDetailService.getUserByUsername("Victor");
+        SocialMealsUserDTO joop = socialMealsUserDetailService.getUserByUsername("Joop");
+        SocialMealsUserDTO victor = socialMealsUserDetailService.getUserByUsername("Victor");
+        SocialMealsUserDTO sara = socialMealsUserDetailService.getUserByUsername("Sara");
 
-        recipeService.addNew(new RecipeDTO("Lasagna", steps2, socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Baba ganoush", steps, socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Poké Bowl", new ArrayList<>(), socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Strawberry smoothie", new ArrayList<>(), socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Chickpea dahl", new ArrayList<>(), socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Sweet potato curry", new ArrayList<>(), socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Cheese pizza", new ArrayList<>(), socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Mac and cheese", new ArrayList<>(), socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Lasagna", steps2, joop));
+        recipeService.addNew(new RecipeDTO("Baba Ganoush", steps, joop));
+        recipeService.addNew(new RecipeDTO("Poké Bowl", new ArrayList<>(), joop));
+        recipeService.addNew(new RecipeDTO("Cheese Pizza", new ArrayList<>(), joop));
+        recipeService.addNew(new RecipeDTO("Mac And Cheese", new ArrayList<>(), joop));
+        recipeService.addNew(new RecipeDTO("Strawberry Smoothie", new ArrayList<>(), joop));
+        recipeService.addNew(new RecipeDTO("Chickpea Dahl", new ArrayList<>(), joop));
+        recipeService.addNew(new RecipeDTO("Sweet Potato Curry", new ArrayList<>(), joop));
 
-        recipeService.addNew(new RecipeDTO("Vegan Gyoza", steps3, socialMealsUserDTO2));
-        recipeService.addNew(new RecipeDTO("Vegan Pokébowl", new ArrayList<>(), socialMealsUserDTO2));
-        recipeService.addNew(new RecipeDTO("Korean Veggie Pancake", new ArrayList<>(), socialMealsUserDTO2));
-        recipeService.addNew(new RecipeDTO("Vegan Peanutbutter Bananabread", new ArrayList<>(), socialMealsUserDTO2));
-        recipeService.addNew(new RecipeDTO("Vegan Coucous", new ArrayList<>(), socialMealsUserDTO2));
-        recipeService.addNew(new RecipeDTO("Vegan Pizza With Tofu", new ArrayList<>(), socialMealsUserDTO2));
+
+        recipeService.addNew(new RecipeDTO("Vegan Gyoza", steps3, victor));
+        recipeService.addNew(new RecipeDTO("Vegan Pokébowl", new ArrayList<>(), victor));
+        recipeService.addNew(new RecipeDTO("Korean Veggie Pancake", new ArrayList<>(), victor));
+        recipeService.addNew(new RecipeDTO("Vegan Peanutbutter Bananabread", new ArrayList<>(), victor));
+        recipeService.addNew(new RecipeDTO("Vegan Coucous", new ArrayList<>(), victor));
+        recipeService.addNew(new RecipeDTO("Vegan Pizza With Tofu", new ArrayList<>(), victor));
+
+        recipeService.addNew(new RecipeDTO("Croque-Monsieur", new ArrayList<>(), sara));
+        recipeService.addNew(new RecipeDTO("Daging Bali", new ArrayList<>(), sara));
+        recipeService.addNew(new RecipeDTO("Beef Stew", new ArrayList<>(), sara));
+        recipeService.addNew(new RecipeDTO("Rack of Lamb", new ArrayList<>(), sara));
+        recipeService.addNew(new RecipeDTO("Sweet Pea Fish Pie", new ArrayList<>(), sara));
+        recipeService.addNew(new RecipeDTO("Cheese Fondue", new ArrayList<>(), sara));
 
     }
 
@@ -99,14 +109,14 @@ public class Seeder {
         File babaGanoushImage = new File("src/main/resources/images/baba.ganoush.jpg");
         File gyozaImage = new File("src/main/resources/images/gyoza.jpeg");
 
-        RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
-        RecipeDTO recipeDTO2 = recipeService.findByUrlId(Long.valueOf(5009));
+        RecipeDTO babaGanoush = recipeService.findByUrlId(Long.valueOf(5002));
+        RecipeDTO gyoza = recipeService.findByUrlId(Long.valueOf(5009));
 
-        recipeDTO.setRecipeImage(imageToByteArray(babaGanoushImage));
-        recipeDTO2.setRecipeImage(imageToByteArray(gyozaImage));
+        babaGanoush.setRecipeImage(imageToByteArray(babaGanoushImage));
+        gyoza.setRecipeImage(imageToByteArray(gyozaImage));
 
-        recipeService.updateRecipeWithImage(recipeService.findByUrlId(Long.valueOf(5002)), recipeDTO);
-        recipeService.updateRecipeWithImage(recipeService.findByUrlId(Long.valueOf(5009)), recipeDTO2);
+        recipeService.updateRecipeWithImage(recipeService.findByUrlId(Long.valueOf(5002)), babaGanoush);
+        recipeService.updateRecipeWithImage(recipeService.findByUrlId(Long.valueOf(5009)), gyoza);
     }
 
     private List<String> babaGanoushSteps() {
@@ -161,45 +171,62 @@ public class Seeder {
         ingredientService.addNew(new IngredientDTO("Cumin"));
         ingredientService.addNew(new IngredientDTO("Parsley"));
         ingredientService.addNew(new IngredientDTO("Smoked paprika"));
+        ingredientService.addNew(new IngredientDTO("Flour"));
+        ingredientService.addNew(new IngredientDTO("Eggs"));
+        ingredientService.addNew(new IngredientDTO("Milk"));
+        ingredientService.addNew(new IngredientDTO("Dates"));
+        ingredientService.addNew(new IngredientDTO("Mushrooms"));
+        ingredientService.addNew(new IngredientDTO("Green Beans"));
+        ingredientService.addNew(new IngredientDTO("Broccoli"));
+        ingredientService.addNew(new IngredientDTO("Carrots"));
+
+        ingredientService.addNew(new IngredientDTO("Tofu"));
+        ingredientService.addNew(new IngredientDTO("gyoza wraps"));
+        ingredientService.addNew(new IngredientDTO("kimchi"));
+        ingredientService.addNew(new IngredientDTO("sesame seeds"));
+        ingredientService.addNew(new IngredientDTO("sesame oil"));
+        ingredientService.addNew(new IngredientDTO("ginger"));
+        ingredientService.addNew(new IngredientDTO("spring onions"));
+        ingredientService.addNew(new IngredientDTO("chilli powder"));
     }
 
-    private void seedIngredientRecipes() {
+    private void seedIngredientRecipesBabaGanoush() {
         List<IngredientRecipeDTO> ingredientRecipeList = new ArrayList<>();
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("tomato"),
                         recipeService.findByUrlId(Long.valueOf(5001)),
                         5,
-                        "units"));
+                        "pcs"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("eggplant"),
                         recipeService.findByUrlId(Long.valueOf(5002)),
                         6,
-                        "units"));
+                        "pcs"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("Olive oil"),
                         recipeService.findByUrlId(Long.valueOf(5002)),
                         3,
-                        "tablespoons"));
+                        "tbs"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("Parsley"),
                         recipeService.findByUrlId(Long.valueOf(5002)),
                         2,
-                        "teaspoons"));
+                        "ts"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("Smoked paprika"),
                         recipeService.findByUrlId(Long.valueOf(5002)),
                         1,
-                        "teaspoon"));
+                        "ts"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("tahini"),
                         recipeService.findByUrlId(Long.valueOf(5002)),
                         2,
-                        "tablespoons"));
+                        "tbs"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("cumin"),
                         recipeService.findByUrlId(Long.valueOf(5002)),
                         10,
-                        "grams"));
+                        "g"));
         ingredientRecipeList.add(
                 new IngredientRecipeDTO(ingredientService.findByIngredientName("lemon"),
                         recipeService.findByUrlId(Long.valueOf(5002)),
@@ -210,18 +237,86 @@ public class Seeder {
 
     }
 
+    private void seedIngredientRecipesGyoza() {
+        List<IngredientRecipeDTO> ingredientRecipeList = new ArrayList<>();
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("gyoza wraps"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        10,
+                        "pcs"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("tofu"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        200,
+                        "g"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("kimchi"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        120,
+                        "g"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("garlic"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        2,
+                        "cloves"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("ginger"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        10,
+                        "g"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("sesame oil"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        1,
+                        "tbs"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("sesame seeds"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        1,
+                        "tbs"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("spring onions"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        2,
+                        "pcs"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("flour"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        1,
+                        "tbs"));
+        ingredientRecipeList.add(
+                new IngredientRecipeDTO(ingredientService.findByIngredientName("chilli powder"),
+                        recipeService.findByUrlId(Long.valueOf(5009)),
+                        0.2,
+                        "ts"));
+
+        recipeService.addIngredientsToRecipe(ingredientRecipeList);
+    }
+
     private void seedCookbooks() {
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("Joop");
 
-        cookbookService.addNew(new CookbookDTO("Favorieten", socialMealsUserDTO, new ArrayList<>()));
-        cookbookService.addNew(new CookbookDTO("Zomergerechten", socialMealsUserDTO, new ArrayList<>()));
-        cookbookService.addNew(new CookbookDTO("Wintergerechten", socialMealsUserDTO, new ArrayList<>()));
+        cookbookService.addNew(new CookbookDTO("Breakfast Ideas", socialMealsUserDTO, new ArrayList<>()));
+        cookbookService.addNew(new CookbookDTO("Summer Recipes", socialMealsUserDTO, new ArrayList<>()));
+        cookbookService.addNew(new CookbookDTO("Mexican Dishes", socialMealsUserDTO, new ArrayList<>()));
 
-
-        CookbookDTO cookbookDTO = new CookbookDTO("Libanees", socialMealsUserDTO, new ArrayList<>());
+        CookbookDTO cookbookDTO = new CookbookDTO("Libanese Recipes", socialMealsUserDTO, new ArrayList<>());
         cookbookService.addNew(cookbookDTO);
         RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5001));
         cookbookService.addRecipeDTO(cookbookDTO, recipeDTO);
+
+        CookbookDTO cheeseRecipes = new CookbookDTO("Cheesy Recipes", socialMealsUserDTO, new ArrayList<>());
+        cookbookService.addNew(cheeseRecipes);
+
+        RecipeDTO macAndCheese = recipeService.findByUrlId(Long.valueOf(5005));
+        RecipeDTO croqueMonsieur = recipeService.findByUrlId(Long.valueOf(5015));
+        RecipeDTO cheesePizza = recipeService.findByUrlId(Long.valueOf(5004));
+        RecipeDTO cheeseFondue = recipeService.findByUrlId(Long.valueOf(5020));
+
+        cookbookService.addRecipeDTO(cheeseRecipes, macAndCheese);
+        cookbookService.addRecipeDTO(cheeseRecipes, croqueMonsieur);
+        cookbookService.addRecipeDTO(cheeseRecipes, cheesePizza);
+        cookbookService.addRecipeDTO(cheeseRecipes, cheeseFondue);
     }
 
     private void seedRatings() {
@@ -236,6 +331,7 @@ public class Seeder {
         RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
         RecipeDTO recipeDTO2 = recipeService.findByUrlId(Long.valueOf(5003));
         RecipeDTO recipeDTO3 = recipeService.findByUrlId(Long.valueOf(5004));
+        RecipeDTO recipeDTO4 = recipeService.findByUrlId(Long.valueOf(5009));
 
         ratingService.addNew(new RatingDTO(4, recipeDTO, joop));
         ratingService.addNew(new RatingDTO(3, recipeDTO, harry));
@@ -255,6 +351,8 @@ public class Seeder {
         ratingService.addNew(new RatingDTO(4, recipeDTO3, joop));
         ratingService.addNew(new RatingDTO(3, recipeDTO3, harry));
         ratingService.addNew(new RatingDTO(5, recipeDTO3, sara));
+
+        ratingService.addNew(new RatingDTO(3, recipeDTO4, harry));
     }
 
     private byte[] imageToByteArray(File image) {
