@@ -71,8 +71,10 @@ public class Seeder {
 
         List<String> steps = new ArrayList<>(babaGanoushSteps());
         List<String> steps2 = new ArrayList<>(List.of("Fry garlic", "and onion", "add everything and put in oven"));
+        List<String> steps3 = new ArrayList<>(gyozaSteps());
 
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("Joop");
+        SocialMealsUserDTO socialMealsUserDTO2 = socialMealsUserDetailService.getUserByUsername("Victor");
 
         recipeService.addNew(new RecipeDTO("Lasagna", steps2, socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Baba ganoush", steps, socialMealsUserDTO));
@@ -80,16 +82,31 @@ public class Seeder {
         recipeService.addNew(new RecipeDTO("Strawberry smoothie", new ArrayList<>(), socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Chickpea dahl", new ArrayList<>(), socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Sweet potato curry", new ArrayList<>(), socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Cheese pizza", new ArrayList<>(), socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Mac and cheese", new ArrayList<>(), socialMealsUserDTO));
+
+        recipeService.addNew(new RecipeDTO("Vegan Gyoza", steps3, socialMealsUserDTO2));
+        recipeService.addNew(new RecipeDTO("Vegan Pokébowl", new ArrayList<>(), socialMealsUserDTO2));
+        recipeService.addNew(new RecipeDTO("Korean Veggie Pancake", new ArrayList<>(), socialMealsUserDTO2));
+        recipeService.addNew(new RecipeDTO("Vegan Peanutbutter Bananabread", new ArrayList<>(), socialMealsUserDTO2));
+        recipeService.addNew(new RecipeDTO("Vegan Coucous", new ArrayList<>(), socialMealsUserDTO2));
+        recipeService.addNew(new RecipeDTO("Vegan Pizza With Tofu", new ArrayList<>(), socialMealsUserDTO2));
+
     }
 
     private void seedRecipeImages() {
 
         File babaGanoushImage = new File("src/main/resources/images/baba.ganoush.jpg");
+        File gyozaImage = new File("src/main/resources/images/gyoza.jpeg");
 
         RecipeDTO recipeDTO = recipeService.findByUrlId(Long.valueOf(5002));
+        RecipeDTO recipeDTO2 = recipeService.findByUrlId(Long.valueOf(5009));
+
         recipeDTO.setRecipeImage(imageToByteArray(babaGanoushImage));
+        recipeDTO2.setRecipeImage(imageToByteArray(gyozaImage));
 
         recipeService.updateRecipeWithImage(recipeService.findByUrlId(Long.valueOf(5002)), recipeDTO);
+        recipeService.updateRecipeWithImage(recipeService.findByUrlId(Long.valueOf(5009)), recipeDTO2);
     }
 
     private List<String> babaGanoushSteps() {
@@ -113,6 +130,22 @@ public class Seeder {
 
         return steps;
     }
+
+    private List<String> gyozaSteps() {
+        List<String> steps = new ArrayList<>();
+
+        steps.add("Combine everything except the spring onions, flour, salt and chilli pwoder in a bowl and mix well.");
+        steps.add("Stir-fry the mixture in a frying pan over a mediumhigh heat.");
+        steps.add("The mixture should be dry after about 10 minutes. Turn off the heat and mix in the spring onion and flour");
+        steps.add("leave to cool and break the tofu into little crumbs.");
+        steps.add("Take a wrapper and place a small amount of filling at the center. " +
+                "Fold the wrapper in half and start making a pleat once every 1/4 part of the wrapper." +
+                "Continue until sealed.");
+        steps.add("Cook the gyoza until golden brown, for about 3 minutes.");
+
+        return steps;
+    }
+
 
     private void seedIngredients() {
         ingredientService.addNew(new IngredientDTO("Tomato"));
