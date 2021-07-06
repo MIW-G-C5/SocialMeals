@@ -73,13 +73,20 @@ public class Seeder {
         List<String> steps2 = new ArrayList<>(List.of("Fry garlic", "and onion", "add everything and put in oven"));
 
         SocialMealsUserDTO socialMealsUserDTO = socialMealsUserDetailService.getUserByUsername("Joop");
+        SocialMealsUserDTO sara = socialMealsUserDetailService.getUserByUsername("Sara");
 
         recipeService.addNew(new RecipeDTO("Lasagna", steps2, socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Baba ganoush", steps, socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Baba Ganoush", steps, socialMealsUserDTO));
         recipeService.addNew(new RecipeDTO("Poké Bowl", new ArrayList<>(), socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Strawberry smoothie", new ArrayList<>(), socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Chickpea dahl", new ArrayList<>(), socialMealsUserDTO));
-        recipeService.addNew(new RecipeDTO("Sweet potato curry", new ArrayList<>(), socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Strawberry Smoothie", new ArrayList<>(), socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Chickpea Dahl", new ArrayList<>(), socialMealsUserDTO));
+        recipeService.addNew(new RecipeDTO("Sweet Potato Curry", new ArrayList<>(), socialMealsUserDTO));
+
+        recipeService.addNew(new RecipeDTO("Croque-Monsieur", new ArrayList<>(), sara));
+        recipeService.addNew(new RecipeDTO("Daging Bali", new ArrayList<>(), sara));
+        recipeService.addNew(new RecipeDTO("Beef Stew", new ArrayList<>(), sara));
+        recipeService.addNew(new RecipeDTO("Rack of Lamb", new ArrayList<>(), sara));
+        recipeService.addNew(new RecipeDTO("Sweet Pea Fish Pie", new ArrayList<>(), sara));
     }
 
     private void seedRecipeImages() {
@@ -128,6 +135,14 @@ public class Seeder {
         ingredientService.addNew(new IngredientDTO("Cumin"));
         ingredientService.addNew(new IngredientDTO("Parsley"));
         ingredientService.addNew(new IngredientDTO("Smoked paprika"));
+        ingredientService.addNew(new IngredientDTO("Flour"));
+        ingredientService.addNew(new IngredientDTO("Eggs"));
+        ingredientService.addNew(new IngredientDTO("Milk"));
+        ingredientService.addNew(new IngredientDTO("Dates"));
+        ingredientService.addNew(new IngredientDTO("Mushrooms"));
+        ingredientService.addNew(new IngredientDTO("Green Beans"));
+        ingredientService.addNew(new IngredientDTO("Broccoli"));
+        ingredientService.addNew(new IngredientDTO("Carrots"));
     }
 
     private void seedIngredientRecipes() {
